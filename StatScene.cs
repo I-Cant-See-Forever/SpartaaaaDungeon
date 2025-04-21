@@ -13,19 +13,28 @@
 
         public override void Start()
         {
-            PlayerData data = GameManager.Instance.PlayerData;
+            float BonusAtk = 0;
+            float BonusDef = 0;
+
+            for (int i = 0; i<GameManager.Instance.InventoryItems.Count; i++)
+            {
+                BonusAtk += GameManager.Instance.InventoryItems[i].ItemData.StatData.Attack;
+                BonusDef += GameManager.Instance.InventoryItems[i].ItemData.StatData.Defense;
+            }
+
+            PlayerData playerdata = GameManager.Instance.PlayerData;
 
             Console.WriteLine("상태 보기");
             Console.WriteLine("캐릭터의 정보가 표시됩니다.");
             Console.WriteLine();
-            Console.WriteLine($"Lv. {data.Level:D2}");
-            Console.WriteLine($"{data.Name} ( {data.ClassType} )");
+            Console.WriteLine($"Lv. {playerdata.Level:D2}");
+            Console.WriteLine($"{playerdata.Name} ( {playerdata.ClassType} )");
             Console.WriteLine();
-            Console.WriteLine($"공격력 : {data.Stat.Attack}");
-            Console.WriteLine($"방어력 : {data.Stat.Defense}");
-            Console.WriteLine($"체  력 : {data.Stat.CurrentHealth}");
+            Console.WriteLine(BonusAtk == 0 ? $"공격력 : {playerdata.Stat.Attack}" : $"공격력 : {playerdata.Stat.Attack} (+{BonusAtk})");
+            Console.WriteLine(BonusDef == 0 ? $"방어력 : {playerdata.Stat.Defense} " : $"방어력 : {playerdata.Stat.Defense} (+{BonusDef})");
+            Console.WriteLine($"체  력 : {playerdata.Stat.CurrentHealth}");
 
-            Console.WriteLine($"Gold : {data.Gold} G");
+            Console.WriteLine($"Gold : {playerdata.Gold} G");
             Console.WriteLine();
             Console.WriteLine("0. 나가기");
             Console.WriteLine();
