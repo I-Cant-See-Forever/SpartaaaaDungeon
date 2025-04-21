@@ -17,8 +17,6 @@ namespace SprtaaaaDungeon
             {
                 new TemplateScene(this)
             };
-
-            ChangeScene<TemplateScene>();
         }
 
         public void UpdateScene() => currentScene.Update();
