@@ -10,8 +10,11 @@ namespace SprtaaaaDungeon
     {
         public TemplateScene(SceneController controller) : base(controller) { }
 
+        int x;
+
         public override void Start()
         {
+        
         }
 
         public override void End()
@@ -20,8 +23,6 @@ namespace SprtaaaaDungeon
 
         public override void Update()
         {
-
-
         }
     }
 }

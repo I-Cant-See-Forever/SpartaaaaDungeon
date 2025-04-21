@@ -17,15 +17,18 @@ namespace SprtaaaaDungeon
             {
                 new TemplateScene(this)
             };
+
+            ChangeScene<TemplateScene>();
         }
 
         public void UpdateScene() => currentScene.Update();
 
-        public void ChangeScene<T>() where T : Scene
+
+        public void ChangeScene<T>() where T : Scene 
         {
             foreach (var item in sceneContainer)
             {
-                if (item is T changedScene)
+                if (item is T changedScene) 
                 {
                     currentScene?.End();
 
