@@ -11,9 +11,8 @@
 
             SceneController sceneController = new SceneController();
 
-            sceneController.ChangeScene<TemplateScene>();
+            sceneController.ChangeScene<TemplateScene>(); //GameStartTemplate
 
-            ShopTemplate shopTemplate = new ShopTemplate();
 
             while (true)
             {
