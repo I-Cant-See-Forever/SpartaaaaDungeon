@@ -23,6 +23,7 @@ public class GameManager
     public void StartGame(bool isNewGame)
     {
         if (isNewGame) NewGame();
+
     }
 
 
@@ -39,5 +40,4 @@ public class GameManager
         ShopItems = new();
         InventoryItems = new();
     }
-
 }

@@ -12,9 +12,10 @@ namespace SprtaaaaDungeon
         public int Count { get; set; }
         public bool IsSoldOut { get; set; }
 
-        public ShopItemData(ItemData itemData, bool isSoldOut)
+        public ShopItemData(ItemData itemData, int count, bool isSoldOut)
         {
             ItemData = itemData;
+            Count = count;
             IsSoldOut = isSoldOut;
         }
     }
