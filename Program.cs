@@ -1,4 +1,6 @@
-﻿namespace SprtaaaaDungeon
+﻿using SprtaaaaDungeon.Dungeon.DungeonScenes;
+
+namespace SprtaaaaDungeon
 {
     internal class Program
     {
@@ -11,7 +13,8 @@
 
             SceneController sceneController = new SceneController();
 
-            sceneController.ChangeScene<TemplateScene>(); //GameStartTemplate
+            //sceneController.ChangeScene<TemplateScene>(); //GameStartTemplate
+            sceneController.ChangeScene<DungeonStartScene>(); 
 
 
             while (true)
