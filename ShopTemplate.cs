@@ -8,21 +8,28 @@ namespace SprtaaaaDungeon
 {
     public class ShopTemplate
     {
-        Dictionary<GameEnum.ItemType, List<ItemData>> testItemDict = new();
+        List<ShopItemData> shopItems;
 
-        public void Init()
+        Dictionary<GameEnum.ItemType, List<ShopItemData>> shopItemDict = new(); //카테고리 상점아이템
+
+        public ShopTemplate() //초기 1회 실행
         {
-            foreach (var item in GameManager.Instance.GameItems)
+            shopItems = GameManager.Instance.ShopItems;
+
+            //저장된, 혹은 초기화된 상점아이템 불러오고 순회
+
+            foreach (var shopItem in shopItems) 
             {
-                if(testItemDict.ContainsKey(item.Type))
+                GameEnum.ItemType type = shopItem.ItemData.Type;
+
+                if (shopItemDict.ContainsKey(type))
                 {
-                    testItemDict[item.Type].Add(item);
+                    shopItemDict[type].Add(shopItem);
                 }
                 else
                 {
-                    testItemDict.Add(item.Type, new List<ItemData>());
-
-                    testItemDict[item.Type].Add(item);
+                    shopItemDict.Add(type, new List<ShopItemData>()); // 새 카테고리에 리스트생성
+                    shopItemDict[type].Add(shopItem);
                 }
             }
         }

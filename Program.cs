@@ -13,6 +13,8 @@
 
             sceneController.ChangeScene<TemplateScene>();
 
+            ShopTemplate shopTemplate = new ShopTemplate();
+
             while (true)
             {
                 sceneController.UpdateScene();

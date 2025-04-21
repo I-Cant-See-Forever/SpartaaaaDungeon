@@ -26,6 +26,8 @@ public class GameManager
 
     }
 
+    public ItemData GetItemData(string findName) => GameItems.FirstOrDefault(item => item.Name == findName);
+
 
     void NewGame()
     {
@@ -37,7 +39,11 @@ public class GameManager
             new("테스트무기",GameEnum.ItemType.Weapon , 100, new(1,1,1,1))
         };
 
-        ShopItems = new();
         InventoryItems = new();
+
+        ShopItems = new()
+        {
+            new(GetItemData("테스트무기"), 1)
+        };
     }
 }

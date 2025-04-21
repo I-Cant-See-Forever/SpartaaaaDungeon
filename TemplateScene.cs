@@ -10,8 +10,6 @@ namespace SprtaaaaDungeon
     {
         public TemplateScene(SceneController controller) : base(controller) { }
 
-        int x;
-
         public override void Start()
         {
         
