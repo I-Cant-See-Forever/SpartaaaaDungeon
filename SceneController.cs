@@ -24,7 +24,7 @@ namespace SprtaaaaDungeon
             {
                 new TemplateScene(this),
                 new DungeonStartScene(this, dungeonController,dungeonPlayer),
-                new DungeonBattleScene(this, dungeonController, dungeonPlayer)
+                new DungeonBattleScene(this, dungeonController, dungeonPlayer),
                 new TownScene(this),
                 new StatScene(this)
             };

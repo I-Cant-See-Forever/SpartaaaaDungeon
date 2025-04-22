@@ -9,7 +9,7 @@ namespace SprtaaaaDungeon
     class GoblinWizard : DungeonData
     {
 
-        public GoblinWizard(int levelup) : base(name: "고블린마법사", level: 0 + levelup, attack: 20 + (levelup * 2), health: 20 + (levelup * 5))
+        public GoblinWizard(int levelup) : base(name: "고블린마법사", level: 0 + levelup, attack: 20 + (levelup* 2), health: 20 + (levelup * 5))
         {
 
         }
