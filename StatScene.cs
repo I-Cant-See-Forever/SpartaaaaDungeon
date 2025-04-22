@@ -43,7 +43,7 @@
                 ConsoleKeyInfo Keyinput = Console.ReadKey(true);
                 if (Keyinput.Key == ConsoleKey.Escape)
                 {
-                    controller.ChangeScene<NameScene>();
+                    controller.ChangeScene<TownScene>();
                 }
             }
             

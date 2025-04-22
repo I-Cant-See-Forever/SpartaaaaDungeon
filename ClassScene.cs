@@ -53,7 +53,7 @@ namespace SprtaaaaDungeon
                         break;
                     case ConsoleKey.Enter:
                         GameManager.Instance.PlayerData.ClassType = classTypes[currentIndex];
-                        controller.ChangeScene<StatScene>();
+                        controller.ChangeScene<TownScene>();
                         break;
                 }
             }
