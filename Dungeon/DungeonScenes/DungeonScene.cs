@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SprtaaaaDungeon.Dungeon.DungeonScenes
+namespace SprtaaaaDungeon
 {
     public abstract class DungeonScene : Scene
     {

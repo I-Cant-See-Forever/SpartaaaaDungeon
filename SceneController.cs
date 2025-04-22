@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SprtaaaaDungeon.Dungeon.DungeonScenes;
 
 namespace SprtaaaaDungeon
 {
@@ -16,8 +15,7 @@ namespace SprtaaaaDungeon
         {
             sceneContainer = new Scene[]
             {
-                new TemplateScene(this),
-                new DungeonStartScene(this),
+                new TemplateScene(this)              
             };
         }
 

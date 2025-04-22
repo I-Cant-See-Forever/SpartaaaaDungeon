@@ -13,8 +13,8 @@ namespace SprtaaaaDungeon
 
             SceneController sceneController = new SceneController();
 
-            //sceneController.ChangeScene<TemplateScene>(); //GameStartTemplate
-            sceneController.ChangeScene<DungeonStartScene>(); 
+            sceneController.ChangeScene<TemplateScene>(); //GameStartTemplate
+            
 
 
             while (true)

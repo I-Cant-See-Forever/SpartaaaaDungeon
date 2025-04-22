@@ -5,9 +5,9 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SprtaaaaDungeon.Dungeon.DungeonData
+namespace SprtaaaaDungeon
 {
-    class DungeonPlayerMaker
+    class DungeonPlayer
     {
         private PlayerData dungeonPlayer;
         private PlayerData originalPlayer;
@@ -20,7 +20,7 @@ namespace SprtaaaaDungeon.Dungeon.DungeonData
            private set { dungeonPlayer = value; }
         }
 
-        public DungeonPlayerMaker(PlayerData player)
+        public DungeonPlayer(PlayerData player)
         {
             originalPlayer = player;
           

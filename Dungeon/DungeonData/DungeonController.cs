@@ -5,20 +5,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SprtaaaaDungeon.Dungeon.DungeonData
+namespace SprtaaaaDungeon
 {
-    public class MonsterMaker
+    public class DungeonController
     {
-        private MonsterData monster;
-        public List<MonsterData> monsterLists { get; set; }
-        public List<MonsterData> dungeonMosters { get; set; }
+        private DungeonData monster;
+        public List<DungeonData> monsterLists { get; set; }
+        public List<DungeonData> dungeonMosters { get; set; }
 
         public void MakeMonsterLists()
         {
             
             Random randomlevel = new Random();
             
-            monsterLists = new List<MonsterData>()
+            monsterLists = new List<DungeonData>()
             {
                 new Banddit(randomlevel.Next(1, 10)),
                 new Banddit(randomlevel.Next(10, 20)),

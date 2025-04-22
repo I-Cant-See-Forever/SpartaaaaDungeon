@@ -4,16 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SprtaaaaDungeon.Dungeon.DungeonData
+namespace SprtaaaaDungeon
 {
-    public class MonsterData
+    public class DungeonData
     {
         public string Name { get; set; }
         public int Level { get; set; }   
         public float Attack { get; set; }
         public float Health { get; set; }
 
-        public MonsterData(string name,int level, float attack, float health)
+        public DungeonData(string name,int level, float attack, float health)
         {
             Name = name;        
             Level = level;
@@ -21,7 +21,7 @@ namespace SprtaaaaDungeon.Dungeon.DungeonData
             Health = health;
         }
 
-        public MonsterData()
+        public DungeonData()
         {
 
         }

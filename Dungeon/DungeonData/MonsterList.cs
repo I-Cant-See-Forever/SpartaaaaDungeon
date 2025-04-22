@@ -1,13 +1,12 @@
-﻿using SprtaaaaDungeon.Dungeon.DungeonData;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SprtaaaaDungeon.Dungeon.DungeonData
+namespace SprtaaaaDungeon
 {
-    class GoblinWizard : MonsterData
+    class GoblinWizard : DungeonData
     {
         public string Name { get; set; }
         public int Level { get; set; }
@@ -23,7 +22,7 @@ namespace SprtaaaaDungeon.Dungeon.DungeonData
         }
     }
 
-    class Dragon : MonsterData
+    class Dragon : DungeonData
     {
         public string Name { get; set; }
         public int Level { get; set; }
@@ -38,7 +37,7 @@ namespace SprtaaaaDungeon.Dungeon.DungeonData
             Health = 20 + (levelup * 5);
         }
     }
-    class Golem : MonsterData
+    class Golem : DungeonData
     {
         public string Name { get; set; }
         public int Level { get; set; }
@@ -53,7 +52,7 @@ namespace SprtaaaaDungeon.Dungeon.DungeonData
             Health = 20 + (levelup * 5);
         }
     }
-    class Banddit : MonsterData
+    class Banddit : DungeonData
     {
         public string Name { get; set; }
         public int Level { get; set; }
@@ -68,7 +67,7 @@ namespace SprtaaaaDungeon.Dungeon.DungeonData
             Health = 20 + (levelup * 5);
         }
     }
-    class Rich : MonsterData
+    class Rich : DungeonData
     {
         public string Name { get; set; }
         public int Level { get; set; }
@@ -83,7 +82,7 @@ namespace SprtaaaaDungeon.Dungeon.DungeonData
             Health = 20 + (levelup * 5);
         }
     }
-    class Vampire : MonsterData
+    class Vampire : DungeonData
     {
         public string Name { get; set; }
         public int Level { get; set; }
@@ -98,7 +97,7 @@ namespace SprtaaaaDungeon.Dungeon.DungeonData
             Health = 20 + (levelup * 5);
         }
     }
-    class WareWolf : MonsterData
+    class WareWolf : DungeonData
     {
         public string Name { get; set; }
         public int Level { get; set; }
@@ -113,7 +112,7 @@ namespace SprtaaaaDungeon.Dungeon.DungeonData
             Health = 20 + (levelup * 5);
         }
     }
-    class Zombie : MonsterData
+    class Zombie : DungeonData
     {
         public string Name { get; set; }
         public int Level { get; set; }
@@ -128,7 +127,7 @@ namespace SprtaaaaDungeon.Dungeon.DungeonData
             Health = 20 + (levelup * 5);
         }
     }
-    class SkeletonArchor : MonsterData
+    class SkeletonArchor : DungeonData
     {
         public string Name { get; set; }
         public int Level { get; set; }
@@ -143,7 +142,7 @@ namespace SprtaaaaDungeon.Dungeon.DungeonData
             Health = 20 + (levelup * 5);
         }
     }
-    class SkeletonWarrior : MonsterData
+    class SkeletonWarrior : DungeonData
     {
         public string Name { get; set; }
         public int Level { get; set; }
