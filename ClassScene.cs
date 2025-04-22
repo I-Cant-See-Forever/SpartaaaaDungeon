@@ -27,6 +27,17 @@ namespace SprtaaaaDungeon
                 GameEnum.ClassType.Archer
             };
             Draw(currentIndex);
+
+            int leftLength = 20;
+            int rightLength = Console.WindowWidth - 2 - leftLength; ;
+
+            DrawString($"《x0,y0》┏━《l{leftLength + 1}》─《l{rightLength - 4}》─《》━┓");
+            for (int y = 1; y < Console.WindowHeight - 1; y++)
+            {
+                DrawString($"《x0,y{y}》│《x{leftLength + 3}》《x{Console.WindowWidth - 2}》│");
+            }
+
+            DrawString($"《x0,y{Console.WindowHeight - 1}》┗━《l{leftLength + 1}》─《l{rightLength - 4}》─《》━┛");
         }
 
         public override void Update()

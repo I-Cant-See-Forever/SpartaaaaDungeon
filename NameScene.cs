@@ -23,7 +23,7 @@ namespace SprtaaaaDungeon
 
             for (int y = 1; y < Console.WindowHeight - 1; y++)
             {
-                DrawString($"《x0,y{y}》│《x{leftLength + 3}》《x{Console.WindowWidth - 1}》│");
+                DrawString($"《x0,y{y}》│《x{leftLength + 3}》《x{Console.WindowWidth - 2}》│");
             }
 
             DrawString($"《x0,y{Console.WindowHeight - 1}》┗━《l{leftLength + 1}》─《l{rightLength - 4}》─《》━┛");
@@ -32,8 +32,8 @@ namespace SprtaaaaDungeon
 
         public override void Update()
         {
-            DrawString("《x5,y5,tGray》이름을 입력해주세요.");
-            DrawString("《x5,y6,tGray》이름: 《tDarkCyan》");
+            DrawString($"《x{(Console.WindowWidth)/3},y{(Console.WindowHeight) / 3},tGray》이름을 입력해주세요.");
+            DrawString($"《x{(Console.WindowWidth)/3},y{(Console.WindowHeight) / 3 + 1},tGray》이름: 《tDarkCyan》");
             string? input = Console.ReadLine();
             if (!string.IsNullOrEmpty(input))
             {
