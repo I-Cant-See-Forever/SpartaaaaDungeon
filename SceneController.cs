@@ -16,9 +16,7 @@ namespace SprtaaaaDungeon
             sceneContainer = new Scene[]
             {
                 new TemplateScene(this),
-                new NameScene(this),
-                new ClassScene(this),
-                new StatScene(this)
+                new TownScene(this)
             };
         }
 
