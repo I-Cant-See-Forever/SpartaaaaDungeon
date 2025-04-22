@@ -1,17 +1,21 @@
 ﻿using SprtaaaaDungeon;
 using System;
+using System.Globalization;
+using System.Net.NetworkInformation;
 
 public class ShopScene : Scene
 {
 	private Shop shop;
+    private PlayerData playerData;
     public ShopScene(SceneController controller) : base(controller)
     {
-        shop = new();
-
+        shop = new(); //this.shop = new Shop();
     }
 
     public override void Start() //시작될때 1번
     {
+        playerData = GameManager.Instance.PlayerData;
+
         shop.currentType = GameEnum.ItemType.Weapon;
 
         DrawCategoryItems();
@@ -33,8 +37,10 @@ public class ShopScene : Scene
         }
         else if(input == "1")
         {
+            
             Console.Write(shop.ShopItemDict[shop.currentType][int.Parse(input) -1].ItemData.Name);
             Console.WriteLine("이 구매되었습니다.");
+            Console.WriteLine($"보유 골드 : {playerData.Gold}");
         }
     }
 
@@ -57,14 +63,4 @@ public class ShopScene : Scene
             }
         }
     }
-
-    public void posShopText()
-	{
-      
-
-
-    }
-
-
-   
 }

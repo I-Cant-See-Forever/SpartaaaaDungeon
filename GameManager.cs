@@ -36,20 +36,20 @@ public class GameManager
 
         GameItems = new()
         {
-            new("테스트무기0",GameEnum.ItemType.Weapon , 100, new(1,1,1,1)),
-            new("테스트무기1",GameEnum.ItemType.Weapon , 100, new(1,1,1,1)),
-            new("테스트방어구0",GameEnum.ItemType.Armor , 100, new(1,1,1,1)),
-            new("테스트방어구1",GameEnum.ItemType.Armor , 100, new(1,1,1,1))
+            new("테스트무기0",GameEnum.ItemType.Weapon , 100, new(1,1,1,1))//,
+            //new("테스트무기1",GameEnum.ItemType.Weapon , 100, new(1,1,1,1)),
+            //new("테스트방어구0",GameEnum.ItemType.Armor , 100, new(1,1,1,1)),
+            //new("테스트방어구1",GameEnum.ItemType.Armor , 100, new(1,1,1,1))
         };
 
         InventoryItems = new();
 
         ShopItems = new()
         {
-            new(GetItemData("테스트무기0"), 1),
-            new(GetItemData("테스트무기1"), 1),
-            new(GetItemData("테스트방어구0"), 1),
-            new(GetItemData("테스트방어구1"), 1)
+            new(GetItemData("테스트무기0"), 1)//,
+            //new(GetItemData("테스트무기1"), 1),
+            //new(GetItemData("테스트방어구0"), 1),
+            //new(GetItemData("테스트방어구1"), 1)
         };
     }
 }

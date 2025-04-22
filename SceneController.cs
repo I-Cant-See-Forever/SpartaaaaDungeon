@@ -11,7 +11,7 @@ namespace SprtaaaaDungeon
         Scene currentScene;
         Scene[] sceneContainer;
 
-        public SceneController()
+        public SceneController()  //바꿀 칸
         {
             sceneContainer = new Scene[]
             {
