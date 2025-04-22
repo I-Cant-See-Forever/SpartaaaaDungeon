@@ -8,7 +8,11 @@ namespace SprtaaaaDungeon
 {
     public abstract class DungeonScene : Scene
     {
-        public DungeonScene(SceneController controller) : base(controller) { }
+     
+        public DungeonScene(SceneController controller) : base(controller)
+        {
+       
+        }
 
 
 
@@ -18,7 +22,7 @@ namespace SprtaaaaDungeon
         }
         public override void Update()
         {
-
+            
         }
         public override void End()
         {
@@ -26,7 +30,7 @@ namespace SprtaaaaDungeon
         }
 
         public abstract void show();
-        public abstract DungeonScene HandleInput(string input);
+        public abstract DungeonScene HandleInput(int input);
      
     }
 }

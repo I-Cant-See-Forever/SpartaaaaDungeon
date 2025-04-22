@@ -7,14 +7,22 @@ using System.Threading.Tasks;
 
 namespace SprtaaaaDungeon
 {
-    class DungeonPlayer
+    public class DungeonPlayer
     {
         private PlayerData dungeonPlayer;
         private PlayerData originalPlayer;
-     
         private StatData dungeonStatData;
 
-        public PlayerData DungeonPlayer
+        public string Name { get; set; }
+        public float MaxHealth { get; set; }
+        public float CurrentHealth { get; set; }
+        public float Attack { get; set; }
+        public float Defense { get; set; }
+        public GameEnum.ClassType ClassType { get; set; }
+        public int Level { get; set; }
+        public float Gold { get; set; }
+
+        public PlayerData DungeonPlayerClone
         {
             get { return dungeonPlayer; }
            private set { dungeonPlayer = value; }
@@ -22,9 +30,7 @@ namespace SprtaaaaDungeon
 
         public DungeonPlayer(PlayerData player)
         {
-            originalPlayer = player;
-          
-            SetDungeonPlayer();
+            originalPlayer = player;           
         }
 
         public void SetDungeonPlayer()

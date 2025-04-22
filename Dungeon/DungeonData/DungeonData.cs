@@ -8,7 +8,7 @@ namespace SprtaaaaDungeon
 {
     public class DungeonData
     {
-        public string Name { get; set; }
+        public virtual string Name { get; set; }
         public int Level { get; set; }   
         public float Attack { get; set; }
         public float Health { get; set; }

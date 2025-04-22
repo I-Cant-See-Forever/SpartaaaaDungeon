@@ -8,153 +8,87 @@ namespace SprtaaaaDungeon
 {
     class GoblinWizard : DungeonData
     {
-        public string Name { get; set; }
-        public int Level { get; set; }
-        public float Attack { get; set; }
-        public float Health { get; set; }
 
-        public GoblinWizard(int levelup)
+        public GoblinWizard(int levelup) : base(name: "고블린마법사", level: 0 + levelup, attack: 20 + (levelup * 2), health: 20 + (levelup * 5))
         {
-            Name = "고블린마법사";
-            Level = 1 + levelup;
-            Attack = 20 + (levelup * 2);
-            Health = 20 + (levelup * 5);
+
         }
     }
 
     class Dragon : DungeonData
     {
-        public string Name { get; set; }
-        public int Level { get; set; }
-        public float Attack { get; set; }
-        public float Health { get; set; }
 
-        public Dragon(int levelup)
+        public Dragon(int levelup) : base(name: "용", level: 0 + levelup, attack: 20 + (levelup * 2), health: 20 + (levelup * 5))
         {
-            Name = "용";
-            Level = 1 + levelup;
-            Attack = 20 + (levelup * 2);
-            Health = 20 + (levelup * 5);
+
         }
     }
     class Golem : DungeonData
     {
-        public string Name { get; set; }
-        public int Level { get; set; }
-        public float Attack { get; set; }
-        public float Health { get; set; }
 
-        public Golem(int levelup)
+        public Golem(int levelup) : base ( name : "골렘", level : 0 + levelup, attack : 20 + (levelup * 2), health: 20 + (levelup * 5) )
         {
-            Name = "골렘";
-            Level = 1 + levelup;
-            Attack = 20 + (levelup * 2);
-            Health = 20 + (levelup * 5);
+
         }
     }
     class Banddit : DungeonData
     {
-        public string Name { get; set; }
-        public int Level { get; set; }
-        public float Attack { get; set; }
-        public float Health { get; set; }
+  
 
-        public Banddit(int levelup)
+        public Banddit(int levelup) : base(name: "도적", level: 0 + levelup, attack: 20 + (levelup * 2), health: 20 + (levelup * 5))
         {
-            Name = "도적";
-            Level = 1 + levelup;
-            Attack = 20 + (levelup * 2);
-            Health = 20 + (levelup * 5);
+
         }
     }
     class Rich : DungeonData
     {
-        public string Name { get; set; }
-        public int Level { get; set; }
-        public float Attack { get; set; }
-        public float Health { get; set; }
 
-        public Rich(int levelup)
+        public Rich(int levelup) : base(name: "리치", level: 0 + levelup, attack: 20 + (levelup * 2), health: 20 + (levelup * 5))
         {
-            Name = "리치";
-            Level = 1 + levelup;
-            Attack = 20 + (levelup * 2);
-            Health = 20 + (levelup * 5);
+
         }
     }
     class Vampire : DungeonData
     {
-        public string Name { get; set; }
-        public int Level { get; set; }
-        public float Attack { get; set; }
-        public float Health { get; set; }
 
-        public Vampire(int levelup)
+
+        public Vampire(int levelup) : base(name: "뱀파이어", level: 0 + levelup, attack: 20 + (levelup * 2), health: 20 + (levelup * 5))
         {
-            Name = "뱀파이어";
-            Level = 1 + levelup;
-            Attack = 20 + (levelup * 2);
-            Health = 20 + (levelup * 5);
+
         }
     }
     class WareWolf : DungeonData
     {
-        public string Name { get; set; }
-        public int Level { get; set; }
-        public float Attack { get; set; }
-        public float Health { get; set; }
 
-        public WareWolf(int levelup)
+        public WareWolf(int levelup) : base(name: "늑대인간", level: 0 + levelup, attack: 20 + (levelup * 2), health: 20 + (levelup * 5))
         {
-            Name = "늑대인간";
-            Level = 1 + levelup;
-            Attack = 20 + (levelup * 2);
-            Health = 20 + (levelup * 5);
+
         }
     }
     class Zombie : DungeonData
     {
-        public string Name { get; set; }
-        public int Level { get; set; }
-        public float Attack { get; set; }
-        public float Health { get; set; }
 
-        public Zombie(int levelup)
+
+        public Zombie(int levelup) : base(name: "좀비", level: 0 + levelup, attack: 20 + (levelup * 2), health: 20 + (levelup * 5))
         {
-            Name = "좀비";
-            Level = 1 + levelup;
-            Attack = 20 + (levelup * 2);
-            Health = 20 + (levelup * 5);
+
         }
     }
     class SkeletonArchor : DungeonData
     {
-        public string Name { get; set; }
-        public int Level { get; set; }
-        public float Attack { get; set; }
-        public float Health { get; set; }
-
-        public SkeletonArchor(int levelup)
+  
+        public SkeletonArchor(int levelup) : base(name: "해골궁수", level: 0 + levelup, attack: 20 + (levelup * 2), health: 20 + (levelup * 5))
         {
-            Name = "해골궁수";
-            Level = 1 + levelup;
-            Attack = 20 + (levelup * 2);
-            Health = 20 + (levelup * 5);
+
         }
     }
     class SkeletonWarrior : DungeonData
     {
-        public string Name { get; set; }
-        public int Level { get; set; }
-        public float Attack { get; set; }
-        public float Health { get; set; }
+ 
 
-        public SkeletonWarrior(int levelup)
+        public SkeletonWarrior(int levelup) : base(name: "해골전사", level: 0 + levelup, attack: 20 + (levelup * 2), health: 20 + (levelup * 5))
         {
-            Name = "해골전사";
-            Level = 1 + levelup;
-            Attack = 20 + (levelup * 2);
-            Health = 20 + (levelup * 5);
+
         }
     }
 

@@ -1,4 +1,4 @@
-﻿using SprtaaaaDungeon.Dungeon.DungeonScenes;
+﻿
 
 namespace SprtaaaaDungeon
 {
@@ -13,7 +13,8 @@ namespace SprtaaaaDungeon
             Console.CursorVisible = false;
             SceneController sceneController = new SceneController();
 
-            //test
+            sceneController.ChangeScene<DungeonStartScene>(); //GameStartTemplate
+
 
 
             while (true)
