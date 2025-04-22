@@ -36,12 +36,19 @@ namespace SprtaaaaDungeon
         public override void show()
         {
             Console.Clear();
-            Console.WriteLine("던전입구");
+            Console.WriteLine("[던전입구]");
+            Console.WriteLine();
             Console.WriteLine("던전을 고르시오");
+            Console.WriteLine();
             Console.WriteLine("1. 뉴비던전");
             Console.WriteLine("2. 중수던전");
             Console.WriteLine("3. 고수던전");
+            Console.WriteLine();
             Console.WriteLine("0. 뒤로가기");
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("원하시는 행동을 입력해주세요.");
+            Console.Write(">>");
 
         }
         public override DungeonScene HandleInput(int input)
@@ -61,8 +68,8 @@ namespace SprtaaaaDungeon
                     dungeonController.SetDungeon("3");
                     sceneController.ChangeScene<DungeonBattleScene>();
                     break;
-                default:
-                    Console.WriteLine("잘못된 입력입니다.");
+                case 0:
+                    sceneController.ChangeScene<TownScene>();
                     break;
             }
             return this;

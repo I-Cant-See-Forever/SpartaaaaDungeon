@@ -4,14 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace SprtaaaaDungeon
 {
-    class DungeonBattleScene : DungeonScene
+    class DungeonAttackResultScene : DungeonScene
     {
         protected DungeonController dungeonController;
         private DungeonPlayer dungeonPlayer;
         private SceneController sceneController;
-        public DungeonBattleScene(SceneController controller, DungeonController controller2, DungeonPlayer player) : base(controller)
+        public DungeonAttackResultScene(SceneController controller, DungeonController controller2, DungeonPlayer player) : base(controller)
         {
             sceneController = controller;
             dungeonController = controller2;
@@ -40,20 +41,16 @@ namespace SprtaaaaDungeon
         {
             Console.Clear();
             Console.WriteLine("Battle!");
-            Console.WriteLine();
-            foreach (var unit in dungeonController.dungeonMonsters)
-            {
-                Console.WriteLine($"Lv.{unit.Level} {unit.Name} {unit.Health} ");
-            }
+            Console.WriteLine($"{dungeonPlayer.Name}의 공격!");
+            Console.WriteLine($"을 맞췄습니다.");
+            Console.WriteLine($"데미지 : ");
             Console.WriteLine();
             Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine("[내 정보]");
-            Console.WriteLine($"Lv.{dungeonPlayer.Level} {dungeonPlayer.Name} ({dungeonPlayer.ClassType})");
-            Console.WriteLine($"HP {dungeonPlayer.MaxHealth} / {dungeonPlayer.CurrentHealth}");
+            Console.WriteLine($"");
+            Console.WriteLine($"HP -> ");
             Console.WriteLine();
             Console.WriteLine();
-            Console.WriteLine("1. 공격");
+            Console.WriteLine("0. 다음");
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine("원하시는 행동을 입력해주세요.");
@@ -64,12 +61,10 @@ namespace SprtaaaaDungeon
         {
             switch (input)
             {
-                case 1:
-                    sceneController.ChangeScene<DungeonAttackScene>();
+                case 0:
+                    sceneController.ChangeScene<DungeonTakeHitScene>();
                     break;
-
             }
-
             return this;
         }
     

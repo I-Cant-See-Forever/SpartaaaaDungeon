@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace SprtaaaaDungeon
 {
-    public class WinResultScene : DungeonScene
+    public class DungeonWinResultScene : DungeonScene
     {
         protected DungeonController dungeonController;
         private DungeonPlayer dungeonPlayer;
-        public WinResultScene(SceneController controller, DungeonController controller2, DungeonPlayer player) : base(controller)
+        public DungeonWinResultScene(SceneController controller, DungeonController controller2, DungeonPlayer player) : base(controller)
         {
             this.dungeonController = controller2;
             this.dungeonPlayer = player;

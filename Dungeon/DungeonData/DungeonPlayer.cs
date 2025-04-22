@@ -37,10 +37,10 @@ namespace SprtaaaaDungeon
         {
             dungeonStatData = new StatData(
 
-                originalPlayer.Stat.Attack,
                 originalPlayer.Stat.MaxHealth,
-                originalPlayer.Stat.Defense,
-                originalPlayer.Stat.CurrentHealth
+                originalPlayer.Stat.CurrentHealth,
+                originalPlayer.Stat.Attack,
+                originalPlayer.Stat.Defense
                 );
 
             dungeonPlayer = new PlayerData(
@@ -51,6 +51,12 @@ namespace SprtaaaaDungeon
                 originalPlayer.Gold, 
                 dungeonStatData
                 );
+            this.Name = dungeonPlayer.Name;
+            this.Level = dungeonPlayer.Level;
+            this.MaxHealth = dungeonPlayer.Stat.MaxHealth;
+            this.CurrentHealth = dungeonPlayer.Stat.CurrentHealth;
+            this.Attack = dungeonPlayer.Stat.Attack;
+            this.Defense = dungeonPlayer.Stat.Defense;
         }
 
         public void ApplyResult ()

@@ -1,5 +1,4 @@
-﻿using SprtaaaaDungeon.Dungeon.DungeonScenes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -194,12 +193,13 @@ namespace SprtaaaaDungeon
         }
 
         public void TakeDamage()
-        {
+        { 
             foreach (var unit in dungeonMonsters)
             {
                 if (unit.Health > 0)
                 {
                     dungeonplayer.CurrentHealth -= unit.Attack;
+                    break;
                 }
             }
         }

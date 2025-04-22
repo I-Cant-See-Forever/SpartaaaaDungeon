@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SprtaaaaDungeon
 {
-    public class LoseResultScene
+    public class DungeonLoseResultScene
     {
     }
 }
