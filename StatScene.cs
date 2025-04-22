@@ -34,18 +34,19 @@
             DrawString(BonusDef == 0 ? $"방어력 : {playerdata.Stat.Defense}\n" : $"방어력 : {playerdata.Stat.Defense} (+{BonusDef})\n");
             DrawString($"체  력 : {playerdata.Stat.CurrentHealth}\n");
             DrawString($"Gold : {playerdata.Gold} G\n\n");
-
-            DrawString("0. 나가기\n\n");
-            DrawString("원하시는 행동을 입력해주세요.\n");
         }
 
         public override void Update()
         {
-            int input = int.Parse(Console.ReadLine());
-            if (input == 0)
+            if (Console.KeyAvailable)
             {
-                controller.ChangeScene<NameScene>();
+                ConsoleKeyInfo Keyinput = Console.ReadKey(true);
+                if (Keyinput.Key == ConsoleKey.Escape)
+                {
+                    controller.ChangeScene<NameScene>();
+                }
             }
+            
         }
     }
 }

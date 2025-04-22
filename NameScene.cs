@@ -23,7 +23,8 @@ namespace SprtaaaaDungeon
 
         public override void Update()
         {
-            DrawString("《x5》《y5》《tGray》이름: 《tDarkCyan》");
+            DrawString("《x5,y5,tGray》이름을 입력해주세요.");
+            DrawString("《x5,y6,tGray》이름: 《tDarkCyan》");
             string? input = Console.ReadLine();
             if (!string.IsNullOrEmpty(input))
             {
