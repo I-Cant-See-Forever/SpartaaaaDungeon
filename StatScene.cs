@@ -1,6 +1,6 @@
 ﻿namespace SprtaaaaDungeon
 {
-    internal class StatScene : Scene
+    public class StatScene : Scene
     {
         public StatScene(SceneController controller) : base(controller)
         {
