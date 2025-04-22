@@ -8,7 +8,9 @@ public static class GameEnum
 {
     public enum ClassType
     {
-        Warrior
+        Warrior = 1,
+        Mage,
+        Archer
     }
     public enum ItemType
     {

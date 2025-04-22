@@ -24,21 +24,19 @@
 
             PlayerData playerdata = GameManager.Instance.PlayerData;
 
-            Console.WriteLine("상태 보기");
-            Console.WriteLine("캐릭터의 정보가 표시됩니다.");
-            Console.WriteLine();
-            Console.WriteLine($"Lv. {playerdata.Level:D2}");
-            Console.WriteLine($"{playerdata.Name} ( {playerdata.ClassType} )");
-            Console.WriteLine();
-            Console.WriteLine(BonusAtk == 0 ? $"공격력 : {playerdata.Stat.Attack}" : $"공격력 : {playerdata.Stat.Attack} (+{BonusAtk})");
-            Console.WriteLine(BonusDef == 0 ? $"방어력 : {playerdata.Stat.Defense} " : $"방어력 : {playerdata.Stat.Defense} (+{BonusDef})");
-            Console.WriteLine($"체  력 : {playerdata.Stat.CurrentHealth}");
+            DrawString("《tDarkYellow》상태 보기\n");
+            DrawString("《tGray》캐릭터의 정보가 표시됩니다.\n\n");
 
-            Console.WriteLine($"Gold : {playerdata.Gold} G");
-            Console.WriteLine();
-            Console.WriteLine("0. 나가기");
-            Console.WriteLine();
-            Console.WriteLine("원하시는 행동을 입력해주세요.");
+            DrawString($"《tGreen》Lv. 《tGray》{playerdata.Level:D2}\n");
+            DrawString($"《tDarkCyan》{playerdata.Name} 《tGray》( {playerdata.ClassType} )\n\n");
+
+            DrawString(BonusAtk == 0 ? $"공격력 : {playerdata.Stat.Attack}\n" : $"공격력 : {playerdata.Stat.Attack} (+{BonusAtk})\n");
+            DrawString(BonusDef == 0 ? $"방어력 : {playerdata.Stat.Defense}\n" : $"방어력 : {playerdata.Stat.Defense} (+{BonusDef})\n");
+            DrawString($"체  력 : {playerdata.Stat.CurrentHealth}\n");
+            DrawString($"Gold : {playerdata.Gold} G\n\n");
+
+            DrawString("0. 나가기\n\n");
+            DrawString("원하시는 행동을 입력해주세요.\n");
         }
 
         public override void Update()
@@ -46,7 +44,7 @@
             int input = int.Parse(Console.ReadLine());
             if (input == 0)
             {
-                controller.ChangeScene<TemplateScene>();
+                controller.ChangeScene<NameScene>();
             }
         }
     }
