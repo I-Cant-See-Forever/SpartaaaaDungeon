@@ -12,7 +12,7 @@
             SceneController sceneController = new SceneController();
 
             //test
-            sceneController.ChangeScene<NameScene>();
+            sceneController.ChangeScene<ClassScene>();
 
             while (true)
             {
