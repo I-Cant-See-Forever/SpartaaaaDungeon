@@ -17,9 +17,13 @@ namespace SprtaaaaDungeon
             {
                 new TemplateScene(this),
                 new TownScene(this),
-                new StatScene(this)
+                new StatScene(this),
+                new QuestScene(this)
             };
         }
+
+       
+    
 
         public void UpdateScene() => currentScene.Update();
 

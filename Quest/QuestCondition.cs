@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace SprtaaaaDungeon
 {
-    public class Quest
+    public abstract class QuestCondition
     {
-        public string Title { get; set; }
         public string Description { get; set; }
-        public QuestReward QuestReward { get; set; }
-        public Quest(string title, string description, QuestReward questReward)
+        public abstract bool IsAchive();
+        public abstract string ProgressText();
+
+        public QuestCondition(string description)
         {
-            Title = title;
             Description = description;
-            QuestReward = questReward;
         }
+
     }
 }

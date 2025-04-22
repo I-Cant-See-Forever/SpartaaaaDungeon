@@ -8,9 +8,15 @@ namespace SprtaaaaDungeon
 {
     public class QuestReward
     {
-        public ItemData[] ItemData { get; set; }
+        public Dictionary<ItemData, int> ItemCountDict;
         public float Gold { get; set; }
-
         public float Exp { get; set; }
+
+        public QuestReward(Dictionary<ItemData, int> itemCountDict, float gold, float exp)
+        {
+            ItemCountDict = itemCountDict;
+            Gold = gold;
+            Exp = exp;
+        }
     }
 }

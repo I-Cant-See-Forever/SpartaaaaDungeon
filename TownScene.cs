@@ -36,7 +36,7 @@ namespace SprtaaaaDungeon
 
         public override void Start()
         {
-            DrawString($"《x0,y0》┏━《l{leftLenght + 1}》━《》┳《l{rightLenght-4}》━《》━┓");
+            /*DrawString($"《x0,y0》┏━《l{leftLenght + 1}》━《》┳《l{rightLenght-4}》━《》━┓");
 
             for (int y = 1; y < Console.WindowHeight - 1; y++)
             {
@@ -44,7 +44,7 @@ namespace SprtaaaaDungeon
             }
 
 
-            DrawString($"《x0,y{Console.WindowHeight -1}》┗━《l{leftLenght + 1}》━《》┻《l{rightLenght-4}》━《》━┛");
+            DrawString($"《x0,y{Console.WindowHeight -1}》┗━《l{leftLenght + 1}》━《》┻《l{rightLenght-4}》━《》━┛");*/
 
             string title = $"《x2,y0,tyellow》████████╗ ██████╗ ██╗    ██╗███╗   ██╗\r\n╚══██╔══╝██╔═══██╗██║    ██║████╗  ██║\r\n   ██║   ██║   ██║██║ █╗ ██║██╔██╗ ██║\r\n   ██║   ██║   ██║██║███╗██║██║╚██╗██║\r\n   ██║   ╚██████╔╝╚███╔███╔╝██║ ╚████║\r\n   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝";
             string input = title.Replace("\r\n", "\n《x2,tyellow》");
@@ -89,23 +89,23 @@ namespace SprtaaaaDungeon
                         controller.ChangeScene<StatScene>();
                         break;
                 }
-
+               
                 if(isCorretInput)
                 {
                     RemoveMenuText(tempSelectNum);
 
                     DrawMenuText(currentSelectNum);
 
-                    RemoveImage();
+                    //RemoveImage();
 
-                    switch(currentSelectNum)
+                 /*   switch(currentSelectNum)
                     {
                         case 0: DrawStore(); break;
                         case 1: DrawRest(); break;
                         case 2: DrawQuest(); break;
                         case 3: DrawDungeon(); break;
                         default: break;
-                    }
+                    }*/
                 }
             }
         }
