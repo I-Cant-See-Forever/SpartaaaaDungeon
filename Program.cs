@@ -4,6 +4,9 @@
     {
         static void Main(string[] args)
         {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+
+
             GameManager gameManager = new GameManager();
 
             gameManager.StartGame(true);
@@ -12,6 +15,7 @@
             SceneController sceneController = new SceneController();
 
             //test
+            sceneController.ChangeScene<TownScene>();
 
             while (true)
             {
