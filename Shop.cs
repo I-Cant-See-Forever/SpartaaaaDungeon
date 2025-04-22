@@ -4,22 +4,34 @@ using System.Security.Cryptography.X509Certificates;
 
 public class Shop
 {
-    public ItemData ItemData;
+    List<ShopItemData> shopItems;
+    private Dictionary<GameEnum.ItemType, List<ShopItemData>> shopItemDict = new ();
+    public Dictionary<GameEnum.ItemType, List<ShopItemData>> ShopItemDict => shopItemDict;
 
-    
+    public GameEnum.ItemType currentType;
+
+    public ItemData ItemData;
 
     public Shop()
 	{
-        //GameManager.Instance.GameItems = new()
-        //{
-        //    new("테스트무기",GameEnum.ItemType.Weapon , 100, new(1,1,1,1))
-        //};
+        shopItems = GameManager.Instance.ShopItems;
 
+        //저장된, 혹은 초기화된 상점아이템 불러오고 순회
 
-        GameManager.Instance.ShopItems = new()
+        foreach (var shopItem in shopItems)
         {
-            new(GameManager.Instance.GetItemData("칼날검"), 1),
-        };
+            GameEnum.ItemType type = shopItem.ItemData.Type;
+
+            if (shopItemDict.ContainsKey(type))
+            {
+                shopItemDict[type].Add(shopItem);
+            }
+            else
+            {
+                shopItemDict.Add(type, new List<ShopItemData>()); // 새 카테고리에 리스트생성
+                shopItemDict[type].Add(shopItem);
+            }
+        }
     }
 
     public ItemData GetItemData(string findName) => GameManager.Instance.GameItems.FirstOrDefault(item => item.Name == findName);

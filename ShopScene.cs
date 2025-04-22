@@ -1,27 +1,70 @@
 ﻿using SprtaaaaDungeon;
 using System;
 
-public class ShopScene
+public class ShopScene : Scene
 {
-	private ItemData ItemData;
 	private Shop shop;
+    public ShopScene(SceneController controller) : base(controller)
+    {
+        shop = new();
 
+    }
 
+    public override void Start() //시작될때 1번
+    {
+        shop.currentType = GameEnum.ItemType.Weapon;
 
-    public ShopScene()
+        DrawCategoryItems();
+    }
+
+    public override void Update()// 계속 매프레임
+    {
+        string input = Console.ReadLine();
+
+        if(input == "")
+        {
+            Console.Clear();
+
+            shop.currentType = shop.currentType == GameEnum.ItemType.Armor ?
+                GameEnum.ItemType.Weapon :
+                GameEnum.ItemType.Armor;
+
+            DrawCategoryItems();
+        }
+        else if(input == "1")
+        {
+            Console.Write(shop.ShopItemDict[shop.currentType][int.Parse(input) -1].ItemData.Name);
+            Console.WriteLine("이 구매되었습니다.");
+        }
+    }
+
+    public override void End() //나갈때 한번!
+    {
+    }
+
+    void DrawCategoryItems()
+    {
+        foreach (var item in shop.ShopItemDict)
+        {
+            if (item.Key == shop.currentType)
+            {
+                List<ShopItemData> shopItemDatas = item.Value;
+
+                for (int i = 0; i < shopItemDatas.Count; i++)
+                {
+                    Console.WriteLine($"{shopItemDatas[i].ItemData.Name}");
+                }
+            }
+        }
+    }
+
+    public void posShopText()
 	{
-		this.shop = new Shop();
-	}
-
-
-	public void posShopText()
-	{
-        Console.Clear();
-        Console.WriteLine("상점\n필요한 아이템을 얻을 수 있는 상점입니다.\n");
-        Console.WriteLine($"[보유 골드]\n 1500G\n");
-
-		Console.WriteLine(shop.ItemData);
+      
 
 
     }
+
+
+   
 }
