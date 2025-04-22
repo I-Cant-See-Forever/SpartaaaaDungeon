@@ -3,21 +3,27 @@
     internal class Program
     {
         static void Main(string[] args)
-        {
-            GameManager gameManager = new GameManager();
-
-            gameManager.StartGame(true);
+        {     
+            var shop = new ShopScene();
 
 
-            SceneController sceneController = new SceneController();
+            //GameManager gameManager = new GameManager();
 
-            sceneController.ChangeScene<TemplateScene>(); //GameStartTemplate
+            //gameManager.StartGame(true);
 
 
-            while (true)
-            {
-                sceneController.UpdateScene();
-            }
+            //SceneController sceneController = new SceneController();
+
+            //sceneController.ChangeScene<TemplateScene>(); //GameStartTemplate
+
+
+            //while (true)
+            //{
+            //    sceneController.UpdateScene();
+            //}
+
+            shop.posShopText();
+
         }
     }
 }
