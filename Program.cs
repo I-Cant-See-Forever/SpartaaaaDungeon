@@ -13,7 +13,6 @@
 
             //test
 
-
             while (true)
             {
                 sceneController.UpdateScene();
