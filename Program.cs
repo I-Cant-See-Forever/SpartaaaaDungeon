@@ -10,11 +10,11 @@ namespace SprtaaaaDungeon
 
             gameManager.StartGame(true);
 
-
+            Console.CursorVisible = false;
             SceneController sceneController = new SceneController();
 
-            sceneController.ChangeScene<TemplateScene>(); //GameStartTemplate
-            
+            sceneController.ChangeScene<CreatePlayerScene>(); //GameStartTemplate
+
 
 
             while (true)
