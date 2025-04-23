@@ -36,11 +36,12 @@ namespace SprtaaaaDungeon
             Console.Clear();
             Console.WriteLine("Battle!");
             Console.WriteLine();
-            for (int i = 0; i < dungeonController.dungeonMonsters.Count; i++)
-            {
-                var m = dungeonController.dungeonMonsters[i];
-                Console.WriteLine($"{i + 1}. Lv.{m.Level} {m.Name}  HP:{m.Health} 공격력 {m.Attack}");
-            }
+            dungeonController.IsMobAliveCheck(1);
+            //for (int i = 0; i < dungeonController.dungeonMonsters.Count; i++)
+            //{
+            //    var m = dungeonController.dungeonMonsters[i];
+            //    Console.WriteLine($"{i + 1}. Lv.{m.Level} {m.Name}  HP:{m.Health} 공격력 {m.Attack}");
+            //}
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine();
@@ -57,15 +58,13 @@ namespace SprtaaaaDungeon
         }
         public override DungeonScene HandleInput(int input)
         {
-            switch (input)
-            {
-                case 0:
-                    controller.ChangeScene<DungeonBattleScene>();
-                    break;
-                case 1:
-                    controller.ChangeScene<DungeonAttackResultScene>();
-                    break;
+            if (input == 0)
+                controller.ChangeScene<DungeonBattleScene>();
+            else
+            {                
+                dungeonController.Attack(input-1);
             }
+
             return this;
         }
 

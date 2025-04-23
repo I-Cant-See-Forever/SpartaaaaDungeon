@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,7 +18,10 @@ public class DungeonController
     public DungeonPlayer DungeonPlayerInstance => dungeonplayer;
 
     private int lastAttackIndex;
+    private float lastDamage;
     public int LastAttackIndex => lastAttackIndex; // 몬스터 공격시 마지막으로 공격한 몬스터의 인덱스 저장용도
+    public float LastDamage => lastDamage;
+    public float LastMonsterPrevHealth { get; private set; }
 
     public bool isMobDead = false;
     public bool isPlayerAlive = false;
@@ -44,7 +48,7 @@ public class DungeonController
         Random randomlevel = new Random();
 
         initMonsters = new List<DungeonData>();
-        for (int i = 0; i < 5; i++) //5번복사
+        for (int i = 0; i < 10; i++) //10번복사
         {
             int mixlevel = randomlevel.Next(1, 10); //저레벨던전용 랜덤 레벨구간
 
@@ -54,7 +58,7 @@ public class DungeonController
             initMonsters.Add(new GoblinWizard(mixlevel));
             initMonsters.Add(new Zombie(mixlevel));
         }
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 10; i++)
         {
             int mixlevel = randomlevel.Next(10, 20);
 
@@ -66,7 +70,7 @@ public class DungeonController
             initMonsters.Add(new Golem(mixlevel));
             initMonsters.Add(new Zombie(mixlevel));
         }
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 10; i++)
         {
             int mixlevel = randomlevel.Next(20, 30);
 
@@ -91,6 +95,7 @@ public class DungeonController
     public void SetDungeon(string input)
     // input 값 받아서 던전 3개중 하나로 이동하면서 몬스터 던전타입별로
     // 던전제한에맞춰 넣어준다. 다합쳐서 들어가는 몬스터는 1~4마리사이, 중복2개 허용 
+    //10보다 작은 유닛을 필터해서 랜덤하게 1~4마리 Dungeon1에 넣어줌.
     {
         Random random = new Random();
         List<DungeonData> Dungeon1 = new List<DungeonData>();
@@ -103,36 +108,15 @@ public class DungeonController
         {
             if (unit.Level < 10 && Dungeon1.Count < lowspawncount)
             {
-                for (int i = 0; i < random.Next(1, 3); i++) // 중복2개 허용
-                {
-                    Dungeon1.Add(unit);
-                    if (Dungeon1.Count >= lowspawncount)
-                    {
-                        break;
-                    }
-                }
+                Dungeon1.Add(unit);
             }
             else if (unit.Level < 20 && unit.Level >= 10 && Dungeon2.Count < middlespawncount)
             {
-                for (int i = 0; i < random.Next(1, 3); i++)
-                {
-                    Dungeon2.Add(unit);
-                    if (Dungeon2.Count >= middlespawncount)
-                    {
-                        break;
-                    }
-                }
+                Dungeon2.Add(unit);
             }
             else if (unit.Level < 30 && unit.Level >= 20 && Dungeon3.Count < highspawncount)
             {
-                for (int i = 0; i < random.Next(1, 3); i++)
-                {
-                    Dungeon3.Add(unit);
-                    if (Dungeon3.Count >= highspawncount)
-                    {
-                        break;
-                    }
-                }
+                Dungeon3.Add(unit);
             }
 
         }
@@ -203,7 +187,7 @@ public class DungeonController
                 }
                 else
                 {
-                    Console.WriteLine($"Lv.{m.Level} {m.Name} Dead");
+                    Console.WriteLine($"{i + 1}. Lv.{m.Level} {m.Name} Dead");
                     isMobDead = true;
                 }
 
@@ -216,18 +200,32 @@ public class DungeonController
     // 몬스터를 선택해서 공격해야한다. input으로 입력한 값 -1이 해당 몬스터의 인덱스일것이다.
     // 이 input -1 몬스터를 골라서 데미지를 입힌다. 
     // 이 몬스터가 체력이 0이라면 이미 사망했다 공격불가능하다고 뜬다. 
+    //공격력 오차 10% 10 * 0.9~ 1,1 -> 9 ~ 11 // 
+    //공격력 =  Attack * randomvalue.Next(0.9 , (1.1)+1),
+    // 소숫점이면 올림처리 (int)Mathf.Celling(값)
     {
-        var selectmonster = dungeonMonsters[input - 1];
+        if (input < 0 || input >= dungeonMonsters.Count) return;
+        var selectmonster = dungeonMonsters[input]; //내가 선택한 몬스터
         Random randomvalue = new Random();
-        if (selectmonster.Health > 0)
-        {
-            selectmonster.Health -= dungeonplayer.Attack;
-        }
-        else if (selectmonster.Health <= 0)
+        if (selectmonster.Health <= 0)
         {
             Console.WriteLine("이미 사망한 몬스터입니다.");
+            Thread.Sleep(1000);
+            return;
         }
-        lastAttackIndex = input - 1; // 마지막으로 공격한 몬스터의 인덱스 저장
+        LastMonsterPrevHealth = selectmonster.Health; //
+        float baseAttack = dungeonplayer.Attack;
+        float dpsFactor = 0.9f + (float)randomvalue.NextDouble() * 0.2f; // 0.9~1.1
+        lastDamage = (int)Math.Ceiling(baseAttack * dpsFactor); // 공격력 소숫점 올림처리
+
+        selectmonster.Health = Math.Max(0, selectmonster.Health -lastDamage);
+        lastAttackIndex = input; // 마지막으로 공격한 몬스터의 인덱스 저장
+        
+        GameManager.Instance.SceneController.ChangeScene<DungeonAttackResultScene>();
+         
+
+
+
     }
 
     public void TakeDamage(int i) //순회하면서 공격하는용도

@@ -32,15 +32,19 @@ namespace SprtaaaaDungeon
         }
         public override void show()
         {
+            int i = dungeonController.LastAttackIndex;
+            var m = dungeonController.dungeonMonsters[i];
+            float dmg = dungeonController.LastDamage;
+            float before = dungeonController.LastMonsterPrevHealth;
+            float after = m.Health;
             Console.Clear();
             Console.WriteLine("Battle!");
             Console.WriteLine($"{dungeonPlayer.Name}의 공격!");
-            Console.WriteLine($"을 맞췄습니다.");
-            Console.WriteLine($"데미지 : ");
+            Console.WriteLine($"Lv.{m.Level} {m.Name} 을(를) 맞췄습니다.  [데미지 : {dmg}]");   
             Console.WriteLine();
             Console.WriteLine();
-            Console.WriteLine($"");
-            Console.WriteLine($"HP -> ");
+            Console.WriteLine($"Lv.{m.Level} {m.Name}");
+            Console.WriteLine($"HP {before} ->{after}");
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine("0. 다음");
