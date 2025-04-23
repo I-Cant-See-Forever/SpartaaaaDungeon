@@ -35,7 +35,7 @@ namespace SprtaaaaDungeon
                     Console.SetCursorPosition(55, 14);
                 }
                 GameManager.Instance.PlayerData.Name = input;
-                DrawString($"《x{(Console.WindowWidth) / 2 - 18 + input.Length},y{(Console.WindowHeight) / 3 + 6},tRed》system : 《tDarkCyan》{GameManager.Instance.PlayerData.Name}《tRed》님 반갑습니다.");
+                DrawString($"《x{(Console.WindowWidth) / 2 - input.Length/2 -12},y{(Console.WindowHeight) / 3 + 6},tRed》system : 《tDarkCyan》{GameManager.Instance.PlayerData.Name}《tRed》님 반갑습니다.");
                 Thread.Sleep(1000);
                 controller.ChangeScene<ClassScene>();
                 
@@ -44,7 +44,7 @@ namespace SprtaaaaDungeon
             {
                 DrawString($"《x{(Console.WindowWidth) / 2 - 20},y{(Console.WindowHeight) / 3 + 6},tRed》system : 잘못된 입력입니다. 다시 입력하세요.");
                 Thread.Sleep(500);
-                DrawString($"《x2,{(Console.WindowHeight) / 3 + 6},l{Console.WindowWidth - 30}》 ");
+                DrawString($"《x2,y{(Console.WindowHeight) / 3 + 6},l{Console.WindowWidth - 4}》 ");
             }
         }
     }
