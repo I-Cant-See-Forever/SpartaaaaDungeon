@@ -44,22 +44,69 @@ public class GameManager
         PlayerData = 
             new("테스트이름", GameEnum.ClassType.Warrior, 1, 1500, new(100, 100, 10, 5));
 
-        GameItems = new()
+        GameItems = new() // List<ItemData>
         {
-            new("테스트무기0",GameEnum.ItemType.Weapon , 100, new(1,1,1,1))//,
-            //new("테스트무기1",GameEnum.ItemType.Weapon , 100, new(1,1,1,1)),
-            //new("테스트방어구0",GameEnum.ItemType.Armor , 100, new(1,1,1,1)),
-            //new("테스트방어구1",GameEnum.ItemType.Armor , 100, new(1,1,1,1))
+            new("테스트무기1",GameEnum.ItemType.Weapon , 100, new(1,1,1,1)),
+            new("테스트무기2",GameEnum.ItemType.Weapon , 100, new(1,1,1,1)),
+            new("테스트무기3",GameEnum.ItemType.Weapon , 100, new(1,1,1,1)),
+            new("테스트무기4",GameEnum.ItemType.Weapon , 100, new(1,1,1,1)),
+            new("테스트무기5",GameEnum.ItemType.Weapon , 100, new(1,1,1,1)),
+            new("테스트무기6",GameEnum.ItemType.Weapon , 100, new(1,1,1,1)),
+            new("테스트무기7",GameEnum.ItemType.Weapon , 100, new(1,1,1,1)),
+            new("테스트무기8",GameEnum.ItemType.Weapon , 100, new(1,1,1,1)),
+            new("테스트무기9",GameEnum.ItemType.Weapon , 100, new(1,1,1,1)),
+            new("테스트무기10",GameEnum.ItemType.Weapon , 100, new(1,1,1,1)),
+            new("테스트무기11",GameEnum.ItemType.Weapon , 100, new(1,1,1,1)),
+            new("테스트무기12",GameEnum.ItemType.Weapon , 100, new(1,1,1,1)),
+            new("테스트무기13",GameEnum.ItemType.Weapon , 100, new(1,1,1,1)),
+            new("테스트무기14",GameEnum.ItemType.Weapon , 100, new(1,1,1,1)),
+            new("테스트무기15",GameEnum.ItemType.Weapon , 100, new(1,1,1,1)),
+            new("테스트무기16",GameEnum.ItemType.Weapon , 100, new(1,1,1,1)),
+            new("테스트무기17",GameEnum.ItemType.Weapon , 100, new(1,1,1,1)),
+            new("테스트무기18",GameEnum.ItemType.Weapon , 100, new(1,1,1,1)),
+            new("테스트무기19",GameEnum.ItemType.Weapon , 100, new(1,1,1,1)),
+            new("테스트무기20",GameEnum.ItemType.Weapon , 100, new(1,1,1,1)),
+            new("테스트무기21",GameEnum.ItemType.Weapon , 100, new(1,1,1,1)),
+            new("테스트무기22",GameEnum.ItemType.Weapon , 100, new(1,1,1,1)),
+            new("테스트무기23",GameEnum.ItemType.Weapon , 100, new(1,1,1,1)),
+            new("테스트방어구0",GameEnum.ItemType.Armor , 100, new(1,1,1,1)),
+            new("테스트방어구1",GameEnum.ItemType.Armor , 100, new(1,1,1,1)),
+            new("테스트소모품0",GameEnum.ItemType.Consumable , 100, new(1,1,1,1)),
+            new("테스트소모품1",GameEnum.ItemType.Consumable , 100, new(1,1,1,1)),
         };
 
         InventoryItems = new();
 
         ShopItems = new()
         {
-            new(GetItemData("테스트무기0"), 1)//,
-            //new(GetItemData("테스트무기1"), 1),
-            //new(GetItemData("테스트방어구0"), 1),
-            //new(GetItemData("테스트방어구1"), 1)
+            new(GetItemData("테스트무기1"), 1),
+            new(GetItemData("테스트무기2"), 1),
+            new(GetItemData("테스트무기3"), 1),
+            new(GetItemData("테스트무기4"), 1),
+            new(GetItemData("테스트무기5"), 1),
+            new(GetItemData("테스트무기6"), 1),
+            new(GetItemData("테스트무기7"), 1),
+            new(GetItemData("테스트무기8"), 1),
+            new(GetItemData("테스트무기9"), 1),
+            new(GetItemData("테스트무기10"), 1),
+            new(GetItemData("테스트무기11"), 1),
+            new(GetItemData("테스트무기12"), 1),
+            new(GetItemData("테스트무기13"), 1),
+            new(GetItemData("테스트무기14"), 1),
+            new(GetItemData("테스트무기15"), 1),
+            new(GetItemData("테스트무기16"), 1),
+            new(GetItemData("테스트무기17"), 1),
+            new(GetItemData("테스트무기18"), 1),
+            new(GetItemData("테스트무기19"), 1),
+            new(GetItemData("테스트무기20"), 1),
+            new(GetItemData("테스트무기21"), 1),
+            new(GetItemData("테스트무기22"), 1),
+            new(GetItemData("테스트무기23"), 1),
+            new(GetItemData("테스트방어구0"), 1),
+            new(GetItemData("테스트방어구1"), 1),
+            new(GetItemData("테스트소모품0"), 1),
+            new(GetItemData("테스트소모품1"), 1)
+
         };
 
         QuestDatas = new()
@@ -70,7 +117,7 @@ public class GameManager
                 new(
                     new()
                     {
-                        { GetItemData("테스트무기0"), 1}
+                        { GetItemData("테스트무기1"), 1}
                     }, 
                     100, 
                     100),
