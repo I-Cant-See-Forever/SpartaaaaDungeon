@@ -1,4 +1,5 @@
 ﻿using SprtaaaaDungeon;
+using SprtaaaaDungeon.Quest;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,15 +16,24 @@ public class GameManager
     }
 
 
-    public List<ItemData> GameItems{get;set;}
-    public List<ShopItemData> ShopItems{get;set;}
-    public List<InventoryItemData> InventoryItems{get;set;}
-    public PlayerData PlayerData{get;set; }
+    //Component
+    public QuestController QuestController { get; private set; }
+    public SceneController SceneController { get; private set; }
+
+
+    //data
+    public List<ItemData> GameItems {get; private set;}
+    public List<ShopItemData> ShopItems {get; private set;}
+    public List<InventoryItemData> InventoryItems{get; private set; }
+    public PlayerData PlayerData{ get; private set; }
+    public List<QuestData> QuestDatas { get; private set; }
 
     public void StartGame(bool isNewGame)
     {
         if (isNewGame) NewGame();
 
+
+        InitComponents();
     }
 
     public ItemData GetItemData(string findName) => GameItems.FirstOrDefault(item => item.Name == findName);
@@ -51,5 +61,29 @@ public class GameManager
             //new(GetItemData("테스트방어구0"), 1),
             //new(GetItemData("테스트방어구1"), 1)
         };
+
+        QuestDatas = new()
+        {
+            new("던전 청소!", 
+                "요즘 마을이 너무 위험해.. \n" +
+                "몬스터들좀 잡아주이..",
+                new(
+                    new()
+                    {
+                        { GetItemData("테스트무기"), 1}
+                    }, 
+                    100, 
+                    100),
+                new HuntQuestCondition(
+                    "123",
+                    "아무 몬스터 잡기",
+                    3))
+        };
+    }
+
+    void InitComponents()
+    {
+        QuestController = new(QuestDatas);
+        SceneController = new();
     }
 }

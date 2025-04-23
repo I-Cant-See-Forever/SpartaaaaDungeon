@@ -29,9 +29,13 @@ namespace SprtaaaaDungeon
                 new DungeonAttackResultScene(this, dungeonController, dungeonPlayer),
                 new DungeonTakeHitScene(this, dungeonController, dungeonPlayer),
                 new TownScene(this),
-                new StatScene(this)
+                new StatScene(this),
+                new QuestScene(this)
             };
         }
+
+       
+    
 
         public void UpdateScene() => currentScene.Update();
 
