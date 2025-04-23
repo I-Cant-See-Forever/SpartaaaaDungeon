@@ -17,10 +17,6 @@ namespace SprtaaaaDungeon
         public override void Start()
         {
 
-
-
-
-
         }
         public override void Update()
         {
@@ -37,11 +33,6 @@ namespace SprtaaaaDungeon
             Console.WriteLine("Battle!");
             Console.WriteLine();
             dungeonController.IsMobAliveCheck(1);
-            //for (int i = 0; i < dungeonController.dungeonMonsters.Count; i++)
-            //{
-            //    var m = dungeonController.dungeonMonsters[i];
-            //    Console.WriteLine($"{i + 1}. Lv.{m.Level} {m.Name}  HP:{m.Health} 공격력 {m.Attack}");
-            //}
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine();

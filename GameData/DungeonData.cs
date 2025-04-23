@@ -11,14 +11,17 @@ namespace SprtaaaaDungeon
         public virtual string Name { get; set; }
         public int Level { get; set; }
         public float Attack { get; set; }
-        public float Health { get; set; }
+        public float CurrentHealth { get; set; }
 
-        public DungeonData(string name, int level, float attack, float health)
+        public float MaxHealth { get; set; }
+
+        public DungeonData(string name, int level, float attack, float currentHealth, float maxHealth)
         {
             Name = name;
             Level = level;
             Attack = attack;
-            Health = health;
+            CurrentHealth = currentHealth;
+            MaxHealth = maxHealth;
         }
 
         public DungeonData()

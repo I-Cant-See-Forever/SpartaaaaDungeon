@@ -11,11 +11,12 @@ namespace SprtaaaaDungeon
 
         public DungeonStartScene(SceneController controller) : base(controller)
         {
+            
         }
 
         public override void Start()
         {
-            dungeonController.IsPlayerAliveCheck();
+            dungeonController.IsPlayerAliveCheck(); // 체력 0 되면 false로 바꿈
         }
         public override void Update()
         {
@@ -29,7 +30,7 @@ namespace SprtaaaaDungeon
         }
         public override void show()
         {
-            Console.Clear();
+            Console.Clear();           
             Console.WriteLine("[던전입구]");
             Console.WriteLine();
             Console.WriteLine("던전을 고르시오");

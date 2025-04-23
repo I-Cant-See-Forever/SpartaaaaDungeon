@@ -15,11 +15,7 @@ namespace SprtaaaaDungeon
         private DungeonData monstser;
         public override void Start()
         {
-
-
-
-
-
+            dungeonController.IsGameOver();
         }
         public override void Update()
         {
@@ -36,10 +32,6 @@ namespace SprtaaaaDungeon
             Console.WriteLine("Battle!");
             Console.WriteLine();
             dungeonController.IsMobAliveCheck(0);
-            //foreach (var unit in dungeonController.dungeonMonsters)
-            //{
-            //    Console.WriteLine($"Lv.{unit.Level} {unit.Name} {unit.Health} 공격력 {unit.Attack}");
-            //}
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine();

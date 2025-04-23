@@ -16,10 +16,6 @@ namespace SprtaaaaDungeon
         public override void Start()
         {
 
-
-
-
-
         }
         public override void Update()
         {
@@ -36,15 +32,20 @@ namespace SprtaaaaDungeon
             var m = dungeonController.dungeonMonsters[i];
             float dmg = dungeonController.LastDamage;
             float before = dungeonController.LastMonsterPrevHealth;
-            float after = m.Health;
+            float after = m.CurrentHealth;
             Console.Clear();
             Console.WriteLine("Battle!");
+            Console.WriteLine();
             Console.WriteLine($"{dungeonPlayer.Name}의 공격!");
+            Console.WriteLine();
             Console.WriteLine($"Lv.{m.Level} {m.Name} 을(를) 맞췄습니다.  [데미지 : {dmg}]");   
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine($"Lv.{m.Level} {m.Name}");
-            Console.WriteLine($"HP {before} ->{after}");
+            if (m.CurrentHealth > 0)
+            { Console.WriteLine($"HP {before} ->{after}"); }
+            else
+            { Console.WriteLine($"HP {before} ->Dead"); }
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine("0. 다음");
@@ -56,11 +57,12 @@ namespace SprtaaaaDungeon
         }
         public override DungeonScene HandleInput(int input)
         {
+            var m = dungeonController.dungeonMonsters;
             switch (input)
             {
                 case 0:
                     controller.ChangeScene<DungeonTakeHitScene>();
-                    break;
+                   break;
             }
             return this;
         }
