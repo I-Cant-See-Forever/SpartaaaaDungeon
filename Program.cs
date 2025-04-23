@@ -1,4 +1,6 @@
-﻿namespace SprtaaaaDungeon
+﻿
+
+namespace SprtaaaaDungeon
 {
     internal class Program
     {
@@ -11,7 +13,9 @@
             Console.CursorVisible = false;
             SceneController sceneController = new SceneController();
 
-            //test
+            
+
+
 
             while (true)
             {
