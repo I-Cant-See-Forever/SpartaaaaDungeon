@@ -43,7 +43,7 @@ namespace SprtaaaaDungeon
             Console.WriteLine();
             foreach (var unit in dungeonController.dungeonMonsters)
             {
-                Console.WriteLine($"Lv.{unit.Level} {unit.Name} {unit.Health} ");
+                Console.WriteLine($"Lv.{unit.Level} {unit.Name} {unit.Health} 공격력 {unit.Attack}");
             }
             Console.WriteLine();
             Console.WriteLine();

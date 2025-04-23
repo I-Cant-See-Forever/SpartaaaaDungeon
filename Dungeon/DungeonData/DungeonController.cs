@@ -192,16 +192,13 @@ namespace SprtaaaaDungeon
 
         }
 
-        public void TakeDamage()
+        public void TakeDamage(int i) //순회하면서 공격하는용도
         { 
-            foreach (var unit in dungeonMonsters)
-            {
-                if (unit.Health > 0)
-                {
-                    dungeonplayer.CurrentHealth -= unit.Attack;
-                    break;
-                }
-            }
+           var unit = dungeonMonsters[i];
+            if (unit.Health <= 0) return;
+
+            dungeonplayer.CurrentHealth -= unit.Attack;
+            
         }
 
 

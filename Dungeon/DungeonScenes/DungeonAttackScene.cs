@@ -45,7 +45,7 @@ namespace SprtaaaaDungeon
             for (int i = 0; i < dungeonController.dungeonMonsters.Count; i++)
             {
                 var m = dungeonController.dungeonMonsters[i];
-                Console.WriteLine($"{i+1}. Lv.{m.Level} {m.Name}  HP:{m.Health}");
+                Console.WriteLine($"{i+1}. Lv.{m.Level} {m.Name}  HP:{m.Health} 공격력 {m.Attack}");
             }
             Console.WriteLine();
             Console.WriteLine();

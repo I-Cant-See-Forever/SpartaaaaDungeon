@@ -40,16 +40,22 @@ namespace SprtaaaaDungeon
         public override void show()
         {
             Console.Clear();
-            foreach (var unit in dungeonController.dungeonMonsters)
+            for (int i = 0; i < dungeonController.dungeonMonsters.Count; i++)
             {
-               
+                var unit = dungeonController.dungeonMonsters[i];
+                if (unit.Health <= 0) continue;
+
                 Console.WriteLine("Battle!");
                 Console.WriteLine($"Lv.{unit.Level} {unit.Name} 의 공격! ");
                 Console.WriteLine($"{dungeonPlayer.Name}을(를) 맞췄습니다.");
                 Console.WriteLine($"데미지 : {unit.Attack} ");
                 Console.WriteLine($"Lv.{dungeonPlayer.Level} {dungeonPlayer.Name}");
-                Console.WriteLine($"HP {dungeonPlayer.CurrentHealth} -> {dungeonPlayer.CurrentHealth-unit.Attack}");
-                dungeonController.TakeDamage();
+
+                float beforeHealth = dungeonPlayer.CurrentHealth;
+                dungeonController.TakeDamage(i);
+                float afterHealth = dungeonPlayer.CurrentHealth;
+                Console.WriteLine($"HP {beforeHealth} -> {afterHealth}");
+               
                 Console.WriteLine("");
                 Console.WriteLine("0. 다음\n");
                 Console.Write(">>");
