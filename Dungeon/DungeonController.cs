@@ -14,6 +14,8 @@ public class DungeonController
     public List<DungeonData> initMonsters { get; set; }
 
     private DungeonPlayer dungeonplayer;
+    public DungeonPlayer DungeonPlayerInstance => dungeonplayer;
+
 
     bool isMobAlive = false;
     bool isPlayerAlive = false;
@@ -25,11 +27,7 @@ public class DungeonController
     {
         dungeonplayer = player;
 
-        //PlayerData pd = GameManager.Instance.PlayerData;
-        //dungeonPlayer = new DungeonPlayer(pd);
-        //dungeonPlayer.SetDungeonPlayer();
-        //dungeonController = new DungeonController(dungeonPlayer);
-        //dungeonController.MakeMonsterLists();
+       
 
     }
 

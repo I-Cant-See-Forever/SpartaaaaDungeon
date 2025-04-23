@@ -17,9 +17,7 @@ namespace SprtaaaaDungeon
         {
             playerData = GameManager.Instance.PlayerData;
             dungeonController = GameManager.Instance.DungeonController;
-
-            dungeonPlayer = new DungeonPlayer(playerData);
-            dungeonPlayer.SetDungeonPlayer();
+            dungeonPlayer = dungeonController.DungeonPlayerInstance;
             monsters = new DungeonData();
         }
 
