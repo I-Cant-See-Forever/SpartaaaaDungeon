@@ -28,16 +28,6 @@ namespace SprtaaaaDungeon
             };
             Draw(currentIndex);
 
-            int leftLength = 20;
-            int rightLength = Console.WindowWidth - 2 - leftLength; ;
-
-            DrawString($"《x0,y0》┏━《l{leftLength + 1}》─《l{rightLength - 4}》─《》━┓");
-            for (int y = 1; y < Console.WindowHeight - 1; y++)
-            {
-                DrawString($"《x0,y{y}》│《x{leftLength + 3}》《x{Console.WindowWidth - 2}》│");
-            }
-
-            DrawString($"《x0,y{Console.WindowHeight - 1}》┗━《l{leftLength + 1}》─《l{rightLength - 4}》─《》━┛");
         }
 
         public override void Update()
@@ -72,16 +62,18 @@ namespace SprtaaaaDungeon
 
         void Draw(int currentIndex)
         {
-            Console.Clear();
+            DrawString($"《x2,{(Console.WindowWidth) / 2 - 20},y{(Console.WindowHeight) / 3 + 4},l{Console.WindowWidth - 30}》 ");
 
             string[] spotLight = new string[classTypes.Length];
+            string[] selectSign = new string[classTypes.Length];
 
             spotLight[currentIndex] = ",tmagenta";
+            selectSign[currentIndex] = "▶ ";
 
-            DrawString("《x5,y5,tGray》직업을 선택해주세요.");
-            DrawString($"《x0,y7{spotLight[0]}》1.Warrior");
-            DrawString($"《x13,y7{spotLight[1]}》2.Mage");
-            DrawString($"《x23,y7{spotLight[2]}》3.Archer");
+            DrawString($"《x{(Console.WindowWidth) / 2 - 10},y{(Console.WindowHeight) / 3 + 2},tGray》직업을 선택해주세요.");
+            DrawString($"《x{(Console.WindowWidth) / 2 - 20},y{(Console.WindowHeight) / 3 + 4}{spotLight[0]}》{selectSign[0]}1.Warrior");
+            DrawString($"《x{(Console.WindowWidth) / 2 - 3},y{(Console.WindowHeight) / 3 + 4}{spotLight[1]}》{selectSign[1]}2.Mage");
+            DrawString($"《x{(Console.WindowWidth) / 2 + 11},y{(Console.WindowHeight) / 3 + 4}{spotLight[2]}》{selectSign[2]}3.Archer");
         }
     }
 }
