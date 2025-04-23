@@ -69,7 +69,7 @@ namespace SprtaaaaDungeon
                             }
                             else
                             {
-                                item.ToggleEquip();
+                                //item.ToggleEquip();
                                 Console.WriteLine(item.IsEquip
                                     ? $"'{item.ItemData.Name}' 장착 완료"
                                     : $"'{item.ItemData.Name}' 장착 해제됨");

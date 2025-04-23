@@ -8,30 +8,24 @@ namespace SprtaaaaDungeon
 {
     class DungeonBattleScene : DungeonScene
     {
-        protected DungeonController dungeonController;
-        private DungeonPlayer dungeonPlayer;
-        private SceneController sceneController;
-        public DungeonBattleScene(SceneController controller, DungeonController controller2, DungeonPlayer player) : base(controller)
+        public DungeonBattleScene(SceneController controller) : base(controller)
         {
-            sceneController = controller;
-            dungeonController = controller2;
-            dungeonPlayer = player;
         }
 
         private DungeonData monstser;
         public override void Start()
         {
-                     
 
-        
+
+
 
 
         }
         public override void Update()
         {
-            this.show();
+            show();
             int input = int.Parse(Console.ReadLine());
-            this.HandleInput(input);
+            HandleInput(input);
         }
         public override void End()
         {
@@ -65,13 +59,13 @@ namespace SprtaaaaDungeon
             switch (input)
             {
                 case 1:
-                    sceneController.ChangeScene<DungeonAttackScene>();
+                    controller.ChangeScene<DungeonAttackScene>();
                     break;
 
             }
 
             return this;
         }
-    
+
     }
 }

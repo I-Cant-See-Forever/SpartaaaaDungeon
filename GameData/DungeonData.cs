@@ -9,13 +9,13 @@ namespace SprtaaaaDungeon
     public class DungeonData
     {
         public virtual string Name { get; set; }
-        public int Level { get; set; }   
+        public int Level { get; set; }
         public float Attack { get; set; }
         public float Health { get; set; }
 
-        public DungeonData(string name,int level, float attack, float health)
+        public DungeonData(string name, int level, float attack, float health)
         {
-            Name = name;        
+            Name = name;
             Level = level;
             Attack = attack;
             Health = health;

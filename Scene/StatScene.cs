@@ -1,4 +1,5 @@
-﻿namespace SprtaaaaDungeon
+﻿
+namespace SprtaaaaDungeon
 {
     public class StatScene : Scene
     {

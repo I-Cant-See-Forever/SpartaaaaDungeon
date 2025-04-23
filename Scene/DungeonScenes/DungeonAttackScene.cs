@@ -9,30 +9,24 @@ namespace SprtaaaaDungeon
 {
     class DungeonAttackScene : DungeonScene
     {
-        protected DungeonController dungeonController;
-        private DungeonPlayer dungeonPlayer;
-        private SceneController sceneController;
-        public DungeonAttackScene(SceneController controller, DungeonController controller2, DungeonPlayer player) : base(controller)
+        public DungeonAttackScene(SceneController controller) : base(controller)
         {
-            sceneController = controller;
-            dungeonController = controller2;
-            dungeonPlayer = player;
         }
 
         private DungeonData monstser;
         public override void Start()
         {
-                     
 
-        
+
+
 
 
         }
         public override void Update()
         {
-            this.show();
+            show();
             int input = int.Parse(Console.ReadLine());
-            this.HandleInput(input);
+            HandleInput(input);
         }
         public override void End()
         {
@@ -45,7 +39,7 @@ namespace SprtaaaaDungeon
             for (int i = 0; i < dungeonController.dungeonMonsters.Count; i++)
             {
                 var m = dungeonController.dungeonMonsters[i];
-                Console.WriteLine($"{i+1}. Lv.{m.Level} {m.Name}  HP:{m.Health} 공격력 {m.Attack}");
+                Console.WriteLine($"{i + 1}. Lv.{m.Level} {m.Name}  HP:{m.Health} 공격력 {m.Attack}");
             }
             Console.WriteLine();
             Console.WriteLine();
@@ -66,14 +60,14 @@ namespace SprtaaaaDungeon
             switch (input)
             {
                 case 0:
-                    sceneController.ChangeScene<DungeonBattleScene>();
+                    controller.ChangeScene<DungeonBattleScene>();
                     break;
                 case 1:
-                    sceneController.ChangeScene<DungeonAttackResultScene>();
+                    controller.ChangeScene<DungeonAttackResultScene>();
                     break;
             }
             return this;
         }
-    
+
     }
 }

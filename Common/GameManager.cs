@@ -1,5 +1,4 @@
 ﻿using SprtaaaaDungeon;
-using SprtaaaaDungeon.Quest;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +18,7 @@ public class GameManager
     //Component
     public QuestController QuestController { get; private set; }
     public SceneController SceneController { get; private set; }
+    public DungeonController DungeonController { get; set; }
 
 
     //data
@@ -70,7 +70,7 @@ public class GameManager
                 new(
                     new()
                     {
-                        { GetItemData("테스트무기"), 1}
+                        { GetItemData("테스트무기0"), 1}
                     }, 
                     100, 
                     100),

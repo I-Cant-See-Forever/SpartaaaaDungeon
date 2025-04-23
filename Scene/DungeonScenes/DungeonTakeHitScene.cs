@@ -9,30 +9,24 @@ namespace SprtaaaaDungeon
 {
     class DungeonTakeHitScene : DungeonScene
     {
-        protected DungeonController dungeonController;
-        private DungeonPlayer dungeonPlayer;
-        private SceneController sceneController;
-        public DungeonTakeHitScene(SceneController controller, DungeonController controller2, DungeonPlayer player) : base(controller)
+        public DungeonTakeHitScene(SceneController controller) : base(controller)
         {
-            sceneController = controller;
-            dungeonController = controller2;
-            dungeonPlayer = player;
         }
 
         private DungeonData monstser;
         public override void Start()
         {
-                     
 
-        
+
+
 
 
         }
         public override void Update()
         {
-            this.show();
+            show();
             int input = int.Parse(Console.ReadLine());
-            this.HandleInput(input);
+            HandleInput(input);
         }
         public override void End()
         {
@@ -55,7 +49,7 @@ namespace SprtaaaaDungeon
                 dungeonController.TakeDamage(i);
                 float afterHealth = dungeonPlayer.CurrentHealth;
                 Console.WriteLine($"HP {beforeHealth} -> {afterHealth}");
-               
+
                 Console.WriteLine("");
                 Console.WriteLine("0. 다음\n");
                 Console.Write(">>");
@@ -78,11 +72,11 @@ namespace SprtaaaaDungeon
             switch (input)
             {
                 case 0:
-                    sceneController.ChangeScene<DungeonBattleScene>();
+                    controller.ChangeScene<DungeonBattleScene>();
                     break;
             }
             return this;
         }
-    
+
     }
 }

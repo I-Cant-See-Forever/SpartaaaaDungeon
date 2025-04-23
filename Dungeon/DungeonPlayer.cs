@@ -25,12 +25,12 @@ namespace SprtaaaaDungeon
         public PlayerData DungeonPlayerClone
         {
             get { return dungeonPlayer; }
-           private set { dungeonPlayer = value; }
+            private set { dungeonPlayer = value; }
         }
 
         public DungeonPlayer(PlayerData player)
         {
-            originalPlayer = player;           
+            originalPlayer = player;
         }
 
         public void SetDungeonPlayer()
@@ -45,21 +45,21 @@ namespace SprtaaaaDungeon
 
             dungeonPlayer = new PlayerData(
 
-                originalPlayer.Name, 
-                originalPlayer.ClassType, 
-                originalPlayer.Level, 
-                originalPlayer.Gold, 
+                originalPlayer.Name,
+                originalPlayer.ClassType,
+                originalPlayer.Level,
+                originalPlayer.Gold,
                 dungeonStatData
                 );
-            this.Name = dungeonPlayer.Name;
-            this.Level = dungeonPlayer.Level;
-            this.MaxHealth = dungeonPlayer.Stat.MaxHealth;
-            this.CurrentHealth = dungeonPlayer.Stat.CurrentHealth;
-            this.Attack = dungeonPlayer.Stat.Attack;
-            this.Defense = dungeonPlayer.Stat.Defense;
+            Name = dungeonPlayer.Name;
+            Level = dungeonPlayer.Level;
+            MaxHealth = dungeonPlayer.Stat.MaxHealth;
+            CurrentHealth = dungeonPlayer.Stat.CurrentHealth;
+            Attack = dungeonPlayer.Stat.Attack;
+            Defense = dungeonPlayer.Stat.Defense;
         }
 
-        public void ApplyResult ()
+        public void ApplyResult()
         {
             originalPlayer.Name = dungeonPlayer.Name;
             originalPlayer.ClassType = dungeonPlayer.ClassType;

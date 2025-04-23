@@ -28,8 +28,8 @@ namespace SprtaaaaDungeon
             string subText = colorText.Substring(1);
 
             return Enum.TryParse<ConsoleColor>(subText, true, out var color) ?
-                 color : 
-                 ConsoleColor.Gray; 
+                 color :
+                 ConsoleColor.Gray;
             // 입력된 문자가 잘못입력되어 매칭되는 색상 없으면 Gray
             // 위 true 매개변수가 대소문자 상관없게 하는거
         }
@@ -71,7 +71,7 @@ namespace SprtaaaaDungeon
 
                     for (int i = 0; i < parts.Length; i++)
                     {
-                        if (parts[i].Length>0) //《》빈괄호면 패스
+                        if (parts[i].Length > 0) //《》빈괄호면 패스
                         {
                             switch (parts[i][0])
                             {
@@ -104,7 +104,7 @@ namespace SprtaaaaDungeon
                         }
                     }
 
-                    string drawLenght = drawEnd == input.Length ? 
+                    string drawLenght = drawEnd == input.Length ?
                         input.Substring(drawStart, input.Length - drawStart) : //뒤에 괄호가 없다면 끝까지 출력
                         input.Substring(drawStart, drawEnd - drawStart); // 있다면 다음괄호 전까지 짤라서 출력
 

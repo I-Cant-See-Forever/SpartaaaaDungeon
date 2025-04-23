@@ -1,5 +1,6 @@
 ﻿
 
+
 namespace SprtaaaaDungeon
 {
     internal class Program
@@ -7,23 +8,20 @@ namespace SprtaaaaDungeon
         static void Main(string[] args)
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
-
+            Console.CursorVisible = false;
 
             GameManager gameManager = new GameManager();
 
             gameManager.StartGame(true);
 
-            Console.CursorVisible = false;
-            SceneController sceneController = new SceneController();
-
-            
+           /* SceneController sceneController = new SceneController();
 
 
 
             while (true)
             {
                 sceneController.UpdateScene();
-            }
+            }*/
         }
     }
 }

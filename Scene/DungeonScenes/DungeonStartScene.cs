@@ -8,30 +8,24 @@ namespace SprtaaaaDungeon
 {
     public class DungeonStartScene : DungeonScene
     {
-        protected DungeonController dungeonController;
-        private DungeonPlayer dungeonPlayer;
-        private PlayerData player;
-        private SceneController sceneController;
-        public DungeonStartScene(SceneController controller, DungeonController controller2, DungeonPlayer player): base(controller) 
+        
+        public DungeonStartScene(SceneController controller) : base(controller)
         {
-            sceneController = controller;
-            dungeonController = controller2;
-            dungeonPlayer = player;
         }
 
         public override void Start()
-        {           
-            
+        {
+
         }
         public override void Update()
         {
-            this.show();
+            show();
             int input = int.Parse(Console.ReadLine());
-            this.HandleInput(input);
+            HandleInput(input);
         }
         public override void End()
         {
-            
+
         }
         public override void show()
         {
@@ -56,20 +50,20 @@ namespace SprtaaaaDungeon
             switch (input)
             {
                 case 1:
-                    dungeonController.SetDungeon("1");                   
-                    sceneController.ChangeScene<DungeonBattleScene>();
+                    dungeonController.SetDungeon("1");
+                    controller.ChangeScene<DungeonBattleScene>();
                     break;
 
                 case 2:
                     dungeonController.SetDungeon("2");
-                    sceneController.ChangeScene<DungeonBattleScene>();
+                    controller.ChangeScene<DungeonBattleScene>();
                     break;
                 case 3:
                     dungeonController.SetDungeon("3");
-                    sceneController.ChangeScene<DungeonBattleScene>();
+                    controller.ChangeScene<DungeonBattleScene>();
                     break;
                 case 0:
-                    sceneController.ChangeScene<TownScene>();
+                    controller.ChangeScene<TownScene>();
                     break;
             }
             return this;

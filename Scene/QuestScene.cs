@@ -9,7 +9,7 @@ namespace SprtaaaaDungeon
     public class QuestScene : Scene
     {
         List<QuestData> questDatas;
-        public QuestScene(SceneController controller) : base(controller) 
+        public QuestScene(SceneController controller) : base(controller)
         {
             questDatas = GameManager.Instance.QuestDatas;
         }
@@ -32,7 +32,7 @@ namespace SprtaaaaDungeon
 
             GameManager.Instance.QuestController.UpdateHuntQuest("");
 
-            if(questDatas[0].Condition.IsAchive())
+            if (questDatas[0].Condition.IsAchive())
             {
                 DrawString(
                 $"{questDatas[0].Title}\n\n" +
