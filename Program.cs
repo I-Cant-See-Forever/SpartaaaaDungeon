@@ -15,7 +15,6 @@
             SceneController sceneController = new SceneController();
 
             //test
-            sceneController.ChangeScene<TownScene>();
 
             while (true)
             {
