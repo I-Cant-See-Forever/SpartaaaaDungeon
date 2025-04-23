@@ -3,6 +3,7 @@ namespace SprtaaaaDungeon
 {
     public class StatScene : Scene
     {
+        PlayerData playerData;
         public StatScene(SceneController controller) : base(controller)
         {
         }
@@ -14,6 +15,8 @@ namespace SprtaaaaDungeon
 
         public override void Start()
         {
+            playerData = GameManager.Instance.PlayerData;
+
             float BonusAtk = 0;
             float BonusDef = 0;
 

@@ -9,62 +9,51 @@ namespace SprtaaaaDungeon
 {
     public class TownScene : Scene
     {
-        int leftLenght;
-        int rightLenght;
+        TitleLayout layout = new();
 
-        int menuStartHeight;
-        int menuStartWidth;
-
-        Rectangle titleRect = new(1, 1, 38, 6);
-        //사각형
+        (string, Rectangle)[] menuTextRect;
 
         int currentSelectNum = 0;
 
-        string[] menuArray = new string[]
-        {
-            "상점",
-            "휴식",
-            "퀘스트",
-            "던전"
-        };
-
         public TownScene(SceneController controller) : base(controller) 
         {
-            leftLenght = 30;
-            rightLenght = Console.WindowWidth - 2 - leftLenght;
-            menuStartHeight = 10;
-            menuStartWidth = 9;
+            menuTextRect = new (string, Rectangle)[]
+            {
+                new("상점", new()),
+                new("휴식", new()),
+                new("퀘스트", new()),
+                new("던전", new()),
+            };
+
+            for (int i = 0; i < menuTextRect.Length; i++)
+            {
+                menuTextRect[i].Item2 = 
+                    new Rectangle(
+                        layout.Menu.X + 9, 
+                        layout.Menu.Y + 4 + i * 2, 
+                        layout.Menu.Width, 
+                        1);
+            }
         }
 
         public override void Start()
         {
-            /*DrawString($"《x0,y0》┏━《l{leftLenght + 1}》━《》┳《l{rightLenght-4}》━《》━┓");
-
-            for (int y = 1; y < Console.WindowHeight - 1; y++)
-            {
-                DrawString($"《x0,y{y}》┃《x{leftLenght+3}》┃《x{Console.WindowWidth - 1}》┃");
-            }
-
-
-            DrawString($"《x0,y{Console.WindowHeight -1}》┗━《l{leftLenght + 1}》━《》┻《l{rightLenght-4}》━《》━┛");*/
-
-            string title = $"《x1,y1,tyellow》" +
+            string title = $"《x{layout.Title.X},y{layout.Title.Y},tyellow》" +
                 $"████████╗ ██████╗ ██╗    ██╗███╗   ██╗\r\n" +
                 $"╚══██╔══╝██╔═══██╗██║    ██║████╗  ██║\r\n" +
                 $"   ██║   ██║   ██║██║ █╗ ██║██╔██╗ ██║\r\n" +
                 $"   ██║   ██║   ██║██║███╗██║██║╚██╗██║\r\n" +
                 $"   ██║   ╚██████╔╝╚███╔███╔╝██║ ╚████║\r\n" +
                 $"   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝";
-            string input = title.Replace("\r\n", "\n《x1,tyellow》");
-            DrawString(input);
+            string replaceTitle = title.Replace("\r\n", $"\n《x{layout.Title.X},tyellow》");
 
-            //DrawRemoveRect(titleRect);
+            DrawString(replaceTitle);
 
             DrawMenuText(currentSelectNum);
 
             DrawStore();
         }
-         
+
         public override void Update()
         {
 
@@ -86,7 +75,7 @@ namespace SprtaaaaDungeon
                         }
                         break;
                     case ConsoleKey.DownArrow:
-                        if (currentSelectNum < menuArray.Length - 1)
+                        if (currentSelectNum < menuTextRect.Length - 1)
                         {
                             currentSelectNum++;
 
@@ -103,20 +92,9 @@ namespace SprtaaaaDungeon
                
                 if(isCorretInput)
                 {
-                    RemoveMenuText(tempSelectNum);
+                    DrawRemoveRect(menuTextRect[tempSelectNum].Item2);
 
                     DrawMenuText(currentSelectNum);
-
-                    //RemoveImage();
-
-                 /*   switch(currentSelectNum)
-                    {
-                        case 0: DrawStore(); break;
-                        case 1: DrawRest(); break;
-                        case 2: DrawQuest(); break;
-                        case 3: DrawDungeon(); break;
-                        default: break;
-                    }*/
                 }
             }
         }
@@ -127,42 +105,27 @@ namespace SprtaaaaDungeon
         }
        
         
-        void DrawMenuText(int index)
+        void DrawMenuText(int spotLightIndex)
         {
-            string[] backSpotlight = new string[menuArray.Length];
-            string[] selectSign = new string[menuArray.Length];
+            string[] backSpotlight = new string[menuTextRect.Length];
+            string[] selectSign = new string[menuTextRect.Length];
 
 
-            backSpotlight[index] = "tmagenta";
-            selectSign[index] = "▶ ";
+            backSpotlight[spotLightIndex] = "tmagenta";
+            selectSign[spotLightIndex] = "▶ ";
 
-            for (int i = 0; i < menuArray.Length; i ++)
+
+            for (int i = 0; i < menuTextRect.Length; i ++)
             {
-                DrawString($"《x{menuStartWidth},y{menuStartHeight + i * 2},{backSpotlight[i]}》{selectSign[i]}{menuArray[i]}");
-            }
-        }
-
-        void RemoveMenuText(int removeIndex) => DrawString($"《x{menuStartWidth},y{menuStartHeight + removeIndex * 2},l{leftLenght - menuStartWidth}》 ");
-
-
-        void RemoveImage()
-        {
-            for (int i = 1; i < Console.WindowHeight-1; i++)
-            {
-                if(i < 7)
-                {
-                    DrawString($"《x{leftLenght + 20},y{i},l{Console.WindowWidth - leftLenght - 22}》 ");
-                }
-                else
-                {
-                    DrawString($"《x{leftLenght + 4},y{i},l{Console.WindowWidth - leftLenght - 5}》 ");
-                }
+                DrawString($"《x{menuTextRect[i].Item2.X},y{menuTextRect[i].Item2.Y},{backSpotlight[i]}》{selectSign[i]}{menuTextRect[i].Item1}");
             }
         }
 
         void DrawStore()
         {
-            string pictureString = $"《x42,y8》" +
+            int startPosX = layout.Image.X + 10;
+
+            string pictureString = $"《x{startPosX},y{layout.Image.Y - 1}》" +
                 $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢧⣄⡀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
                 $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠘⠹⠽⠯⣟⣽⣳⣖⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀《tyellow》⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
                 $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣞⣗⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀《tyellow》⠺⠕⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
@@ -184,99 +147,7 @@ namespace SprtaaaaDungeon
                 $"\r\n⠀⠀⠀⠀⠀《tdarkgreen》⠀⠉⢩⣺⣞⣟⡾⣈⣌⣉⠁⠁《》⠀⠀⠀⠸⣽⢽⣽⣺⠉⠁⣻⡊⠉⢑⣟⣞⣗⣟⡾⡵⣤⢤⣤⣤⢼⢯⡯⣗⣯⢧⣤⣤⣤⢼⡂⠀⠀⠀《tdarkgreen》⠏⢟⡾⣽⢾⠹⠛⠚⠇⠀⠀⠀⠀⠀⠀" +
                 $"\r\n⠀⠀⠀⠀⠀《tdarkgreen》⠀⡰⣽⣳⣳⣗⡿⣽⣺⡽⣧《》⠀⠀⠀⠀⢨⢯⡷⣳⢯⣖⣖⣞⣖⣦⢾⣺⣳⣻⣺⢽⣍⡀⡀⡀⡀⣹⢽⡽⣽⢞⡇⡀⡀⡀⣸⡂⠀⠀⠀《tdarkgreen》⡰⣽⢽⣳⣟⣽⣻⣳⠀⠀⠀⠀⠀⠀⠀" +
                 $"\r\n⠀⠀⠀⠀《tdarkgreen》⠀⣰⢯⣗⣟⣞⡾⣽⡳⣗⣯⢷⣳⡀《》⠀⠀⢨⢯⡯⣟⡽⣞⣗⣟⣞⣗⣯⢷⣻⣺⢽⡽⡞⠙⠉⠋⠋⢫⡯⣯⢯⡯⡏⠋⠙⠙⢚⠆⠀⠀《tdarkgreen》⣰⢯⡯⣟⣾⣺⣞⡾⣽⣳⡀⠀⠀⠀⠀⠀";
-            string input = pictureString.Replace("\r\n", "\n《x42》");
-
-            DrawString(input);
-        }
-
-        void DrawRest()
-        {
-            //《tCyan》《》
-            string pictureString = $"《x42,y8》" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀《tred》⢠⡾⠛⠛⢛⡿⠛⠛⠛⠛⢻⠟⠛⠛⠛⠛⡿⠛⠛⠛⠛⠻⡿⠿⠿⠿⣿⠿⣿⣦⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀《tred》⠀⢠⣟⣁⣀⣀⣾⠁⠀⠀⠀⢀⡟⠀⠀⠀⠀⣼⠁⠀⠀⠀⠀⣼⠁⠀⠀⣰⠃⣼⣿⣿⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀《tred》⠀⣰⠏⣩⡟⠉⠉⠉⢩⡟⠉⠉⠉⠀⢙⡟⠛⢻⠛⠒⠒⠒⠒⢚⠃⠚⠛⠛⠻⣿⣿⣿⣿⣿⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀《tred》⠀⣼⣃⣰⠏⠀⠀⠀⢠⡿⠀⠀⠀⠀⠀⣼⠁⠀⠋⠀⠀⠀⠀⢀⡏⠀⠀⠀⠀⣸⣿⣿⣿⣿⣿⣿⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀《tred》⢠⡾⠋⠉⠛⣻⠏⠉⠉⠉⠉⡉⠉⠉⠉⠉⠛⠒⠒⠛⢻⠟⠒⠒⠛⠓⢲⡖⠲⣾⣿⣿⣿⣿⣿⣿⣿⣿⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀《tred》⣰⠏⠀⠀⠀⣰⠏⠀⠀⠀⢀⡾⠁⠀⠀⠀⠀⢀⡖⠀⣰⠏⠀⠀⠀⠀⢠⡟⠀⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀《tred》⠘⠛⠛⠛⠛⠛⠛⠛⣿⣿⣿⣿⠷⠶⠶⠶⠖⠒⠚⠓⠒⠛⠒⠒⠒⠒⠒⠛⠛⢻⣿⣿⣿⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠉⠹⣿⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣼⡿⠛⢻⣿⣤⣤⣤⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀   ⠀⠀⠀⣿⠀⢠⣿⠀⠀⠀⠀⠀⠀⠀⡔⠒⠓⢢⡄⠀⠀⠀⠀⠀⢸⡇⠀⢸⣿⠀⠀⢸⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠀⢸⣿⠀⠀⠀⠀⠀⠀⢸⡏⠉⠉⠉⡷⠀⠀⠀⠀⠀⢸⡇⠀⢸⣿⠀⠀⠘⠿⠶⠶⠶⠶⠶⠆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠀⢸⣿⠀⣀⣤⡤⠤⠤⠬⣇⡀⢀⣀⡇⠤⠤⢤⣤⣄⣸⣧⣀⢠⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣴⣶⣿⣤⣼⠿《tCyan》⣤⣶⣶⣶⣶⣶⣶⣦⣭⣭⣥⣴⣶⣶⣶⣤⣤《》⣼⣿⣿⣿⣿⣶⣶⣤⣤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡏⠉⠉⢻《tCyan》⠛⠒⠀⠠⣤⠤⠤⠤⠄⠀⠀⡀⠀⣀⠀⢀⡀⠀⠀⠀⢠⠀⠀⠤⠤⢤《》⠐⠒⢻⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢻⣶⡦⠾⢤⣀⡀⢀《tCyan》⣟⠀⠀⠀⠀⠀⠀⡇⠀⣷⠀⠀⡄⠀《》⠀⠀⠀⠀⠀⠀⠀⣸⣤⣤⡾⠟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣿⣥⣄⣠⡇⠀⠀⠉⠉⢹⡏⠙⠛⠛⠛⠛⠛《tCyan》⣿⣿⢻⣿⣿⣿⣿⣿⣿⣿《》⠉⠉⢁⣸⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡿⠟⢀⣀⣀⣀⣶⠶⠶⠾⠧⠀⠒⢒⠒⢒⠒⠛⠛⠚⠛⠛⠛⢛《tCyan》⣛⣛⣛《》⣻⡉⠉⢀⡸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣤⣤⣤⣤⣤⠗⠦⠾⣿⣿⣿⣿⠀⠀⠀⠀⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⢻⠉⠉⠉⠀⠀⣸⣄⡤⢼⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⣤⣾⣿⣿⣿⣿⣁⠘⣶⡤⣄⣸⡁⠈⠉⠀⠀⠀⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⠛⠒⠒⡾⠋⠉⠉⢀⣀⣸⡟⢻⣿⣿⣷⣶⣤⣤⣤⣤⣶⣶⣶⣦⣤⣀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⢀⣤⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠙⢿⣇⣀⠈⠉⣻⣿⣶⣶⣶⣿⠛⠛⠛⠛⠛⠛⠛⠋⠛⠛⣤⣤⣴⣿⣶⣶⡟⠉⣁⡼⢇⣸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣦⣤" +
-                $"\r\n⢀⣤⣤⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⣿⠿⡿⠿⡤⠬⠙⠛⠓⠻⠿⠿⠿⠿⠿⣤⡤⠤⠤⠤⠤⣤⠴⢤⠤⠿⠿⠿⠿⠿⠟⢛⠛⠩⡤⠼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿" +
-                $"\r\n";
-            string input = pictureString.Replace("\r\n", "\n《x42》");
-
-            DrawString(input);
-
-        }
-
-        void DrawQuest()
-        {
-            string pictureString = $"《x42,y7》" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀《tYellow》⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡴⣶⣶⣶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠞⠿⠶⠶⠶⠶⡶⠶⠶⢶⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀《tYellow》⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⠀⢪⡼⣿⣿⡝⢂⠒⡐⢂⡒⠰⣈⠒⡐⢂⠒⡌⡘⠤⢃⠜⡠⢃⠼⢀⠹⣜⣿⣿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀《tYellow》⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⠀⢲⡽⣿⣯⣿⢀⡣⠞⠡⠉⠣⠉⠍⠉⠏⠙⠌⠩⠍⠙⠦⣑⡌⡸⢀⢹⣎⣿⣿⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀《tYellow》⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⢈⣳⢻⣿⣯⡟⢧⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣘⢇⡱⢈⢷⢪⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀《tYellow》⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠰⡜⡼⣿⣿⣯⣹⠆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢨⣧⡹⢐⠮⡱⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀《tYellow》⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠐⡬⣱⣿⣿⣿⣽⠃⠀《tgreen》⠀⠀⠀⣀⢎⠳⣄⠀⠀《tYellow》⠀⠀⠀⠀⠰⣷⣯⠠⢣⢱⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀《tYellow》⠀⠀⠀⠀⠀⠀ ⠀⠀⢸⠀⡇⢺⣿⣿⣯⣿⠁⠀⠀《tgreen》⠀⠦⠑⣌⠳⡼⡉⢆⠀⠀《tYellow》⠀⠀⢸⡷⣏⢐⢢⠹⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀《tYellow》⠀⠀⠀⠀⠀⠀⠀⠀⢸⡀⢇⡹⣿⣿⣿⡿⠄⠀《tgreen》⠀⢠⠃⠜⣠⠓⡐⢠⡀⢎⡀《tYellow》⠀⠀⣸⣿⣣⠈⠦⢹⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀《tYellow》⠀⠀⠀⠀⠀⠀⠀⠀⢸⠄⡣⢼⣿⣿⣿⣿⠁⠀《tgreen》⢀⠦⢉⠰⠁⠴⣼⣳⣯⠢⡅《tYellow》⠀⠀⢼⣷⢧⠘⠬⢱⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀《tYellow》⠀⠀⠀⠀⠀⠀⠀⠀⢸⠠⡑⢮⣿⣿⣿⣟⡂《tgreen》⠀⢈⠰⣁⢢⡙⢜⠤⣛⠾⡑《tYellow》⠀⠀⢀⣻⡟⣾⢣⢙⡰⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀《tYellow》⠀⠀⠀⠀⠀⠀⠀⢸⠡⠜⣻⣿⣿⣿⡿⡄⠀⠀⠀⡌⠂⠈⠈⠘⠀⡓⠀⠀⠀⠀⣿⣻⣎⢁⠲⣘⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀《tYellow》⠀⠀⠀⠀⠀⠀⠀⢸⠁⡎⣽⣿⣿⣿⣿⣖⡄⠀⠀⠀⠂⠄⡠⢀⠆⠁⠀⠀⠀⠐⣹⣧⢏⠠⡓⣰⣿⣯⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀《tYellow》⠀⠀⠀⠀⠀⠀⠀⢸⡡⢜⡸⣿⣿⣟⣿⡐⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⠀⠠⠀⠀⢱⣯⢯⠐⡅⢲⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀《tYellow》⠀⠀⠀⠀⠀⠀⠀⠀⢸⣇⢢⢹⣿⣿⣿⡻⠄⠀⠀⠀⠀⠀⠀⢠⢀⡀⣀⠀⠠⢀⠡⡚⣟⡮⢐⡩⢎⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀《tYellow》⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠆⡸⢸⣿⣿⣟⣿⣮⣔⣤⣆⣦⣒⣬⣷⢿⡻⣷⢯⣷⣍⣶⣱⣯⠷⡀⢇⢺⣿⣯⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀《tYellow》⠀⠀⠀⠀⠀⠀⠀⠀⢈⠶⡨⢦⠱⡎⢦⡙⢦⢩⠔⣣⠱⡜⣢⠜⣔⠢⡕⢣⡒⢴⢪⡔⢦⡱⢆⠮⣽⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀《tYellow》⠀⠀⠀⠀⠀⠀⠀⠀⢸⣶⣽⣶⣿⣼⣧⠿⠮⠷⠿⠼⠷⠽⠶⠿⠬⠷⠽⠧⠿⠶⠷⠾⠧⢽⣮⣿⣽⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀《tYellow》⠀⠀⠀⠀⠀⠀⠀⠀⢸⣟⡿⣾⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢨⡷⣿⢿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀《tYellow》⠀⠀⠀⠀⠀⠀⠀⢸⠄⢳⡘⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⠑⣩⢚⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀《tdarkYellow》⠀⠀⠀⠀⠀⢀⣀⣀⣠⣴⣦⢶⣾⠈⣥⢚⣿⢯⣿⢶⡶⣶⣶⡶⣶⣶⣶⣶⣶⣶⠖⣶⣶⣶⢶⡶⣶⣾⢐⣢⡙⣾⣳⣿⣿⢿⡿⣿⢶⢦⣤⣄⣀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀《tdarkYellow》⠀⠀⣀⣠⣤⢶⡿⣾⣽⣳⣯⣞⣧⡿⣟⡷⣯⢿⣭⢿⣻⢾⣷⣻⣼⡷⣯⣞⣷⡾⣽⣻⣶⣿⣞⣧⡿⣧⣯⣭⣗⡿⣿⣽⣳⣯⣷⣻⣼⣟⣾⢮⣽⣭⣻⣶⣤⣀⠀⠀⠀⠀";
-
-            string input = pictureString.Replace("\r\n", "\n《x42》");
-
-            DrawString(input);
-        }
-
-        void DrawDungeon()
-        {
-            //《tgreen》《》
-
-            string pictureString = 
-                $"《x42,y9》" +
-                $"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⡘⢄⠡⢈⠐⠈⢀⠁⡐⠠⠀⠄⢀⠠⢀⡀⣀⢀⡀⣀⢀⡀⠄⡀⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠠⡔⣠⠉⠆⡑⠢⠌⡐⡀⢆⠰⣀⠆⡰⠠⠄⢂⠐⣀⠢⠐⡄⠂⠌⡰⠰⣍⠲⢠⢀⡀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠄⢂⠡⠐⡡⢞⡤⢋⡜⡰⢃⠖⣠⢑⡊⣅⠢⣌⢡⡑⣈⠆⡌⣄⠢⢥⠰⢉⠢⢁⠣⣝⠣⢆⠢⡘⢄⠊⡔⢠⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⢁⠊⠄⣈⠰⢌⠣⡜⡡⣎⠱⡩⢞⠡⠎⠴⡈⠳⠄⠣⠘⣀⠋⡐⢈⠁⢂⠂⠡⢂⠡⠒⣨⢇⡉⠓⠼⣤⡳⣬⠦⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡁⠂⠌⡒⢠⢁⡮⡓⣬⡑⠎⢡⠁⢂⠐⡈⠐⠠⠁⠌⡠⢁⠄⠒⢠⠂⠜《tdarkred》⡠⣌⣱⣌《》⠶⡛⢌⠳⡄⡈⠄⠠⢉⠡⠃⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡄⢢⣙⢮⡹⣙⢮⡱⢳⢄⠢⠉⠄⢂⠄⡂⠤⠑⢂⠩⢄⢡⠲《tdarkred》⣌⢷⣦⣿⣾⣿⣿⣿⡎《》⡐⠡⢈⠳⣆⠱⡈⣅⠢⢄⠡⢌⢃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡘⢤⢋⠦⣑⠣⢦⡹⢧⢎⡰⢉⡰⣈⠔⣠《tdarkred》⢣⣜⣦⣷⣾⣾⣿⣿⣿⣿⡿⣿⢿⣟⣿⡇《》⠄⠡⢈⡓⠧⡑⢌⠤⢃⠬⡑⡌⣂⠆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⡑⢎⠞⡸⣥⢻⡖⠫⠙⡎⡑⠫《tdarkred》⢷⣿⣿⣿⣿⣿⡿⣿⣻⣯⣟⣯⣿⣳⣿⣻⣟⣯⣿⡇《》⡌⠐⡠⢍⡳⣈⢆⡚⡌⢆⠱⡘⢄⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡰⣉⣎⢾⡱⠋⠡⢠⠁⡃⢵⡀⢃《tdarkred》⣹⣿⣿⣻⣽⡷⣿⣻⢷⡯⢿⡽⣾⢽⣳⣟⣯⣿⢾⡇《》《》⠠⠁⡐⢌⣳⡥⣞⡴⡩⢆⠳⠜⢦⠥⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠌⡑⠉⢈⠀⢄⠡⢃⠢⠑⡀⢎⠌⠱《tdarkred》⢸⣿⣿⣽⢯⣿⣻⡽⣏⡿⣏⡿⣞⣯⢷⣻⢾⡽⣿⣂《》⠡⠐⡀⢦⢹⡎⡵⢂⠐⠠⠂⠌⡀⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⢤⠉⠂⠄⣁⠢⡘⢠⢃⠰⣀⠃⡌⡖⣈⠡《tdarkred》⢃⣿⣿⡾⣟⣷⢯⡿⣝⣯⠿⣝⣟⡾⣏⣯⢷⣻⢿《》⡀⢋⠒⠔⣊⢱⡟⡜⠠⠈⠄⢁⠠⠀⠡⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠰⡈⢆⠱⡌⢤⠓⣌⠣⣌⠒⠤⡑⡌⢷⠀⢢⠁《tdarkred》⣿⣿⣻⢿⡽⣯⣻⡽⣞⡿⣽⢾⣽⣛⡾⣯⣻⢿《》⢀⠡⠈⠔⡠⢋⡞⡌⢀⠡⠐⠀⠄⡈⠐⠠⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⡱⢌⡜⠒⡜⢢⡝⢬⡓⡬⡘⠄⢳⢭⡻⡌⠴⡈《tdarkred》⢾⣿⣟⣯⣟⡷⣯⣽⣛⡾⣽⣳⢯⣽⣳⢯⣟⣯《》⠐⠠⢁⢊⠰⡩⣗⢀⠂⡄⠡⡈⠄⠐⡈⢐⠰⣀⡀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⡄⣣⠑⡈⠌⠓⠌⢥⡚⣥⢚⡥⡱⢈⢦⡳⣽⠂⠡⠐《tdarkred》⣸⣿⣯⢿⡾⣽⣳⢯⣽⣛⡷⣯⣟⡾⣽⣛⡾⡧《》⢈⠐⡀⠂⢆⠱⣟⢦⢣⠴⡡⢐⡈⠄⡐⠡⢂⡵⠃⠌⡐⠠⢀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⢀⡘⠰⣅⠢⠐⠌⢂⠜⣢⠑⣎⠳⡘⢥⢋⠦⣱⢮⡁⠆⡁《tdarkred》⢢⣿⣟⣯⣟⡷⣯⣟⡾⣽⣫⢷⡾⣽⣳⢯⣟⡇《》⠢⠐⠠⡑⢌⠛⣯⢟⣎⠳⡝⣆⠌⡰⢀⠣⣜⠢⡑⡈⠤⠑⡠⠂⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⢦⡙⢦⣙⠆⣉⠸⡤⢋⠴⣉⢆⢣⡑⢎⡞⡼⣱⠋⡜⢠⡑⢆《tdarkred》⣻⣯⣿⣽⣻⣼⣳⣟⣳⢯⣿⣹⠷⣯⣟⡾⣧《》⠳⠜⢃⠡⠈⡜⡿⢞⣮⣛⠽⣌⠳⢠⢁⢲⣅⠲⣡⠞⣴⢣⡖⠁⠀⠀" +
-                $"\r\n⠀⠀⠀⢐⠦⡙⢦⣹⢚⡴⣋⢖⡩⡞⠴⣊⠖⡙⢎⠸⡱⣏⠒⠠⢁⠐⠢《tdarkred》⢼⣿⣳⣯⢷⣻⡼⣯⣽⣻⢶⣯⣟⣷⣫⢿⠆《》⣁⠊⠄⢂⠡⣘⢧⡘⣦⡝⡞⡬⠓⡄⢎⡞⣘⠳⣌⡟⣬⠳⣆⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⢸⢣⡝⢦⡩⢗⡲⢍⢮⡱⣍⢞⡌⢶⣡⢊⡔⡱⢂⠌⡐⠠⢈⠔《tdarkred》⡸⡿⠯⠛⠯⠷⣻⣳⠷⣯⣟⣶⣻⢮⣟⣿《》⢂⠄⡈⠐⢨⠐⣍⢲⡙⣧⠻⡜⡰⢩⠜⣢⠓⣌⠳⡜⡜⢦⠛⡜⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠁⠈⠂⠔⠡⠐⡈⠄⠡⠈⠄⡘⢀⠃⠣⠘⡁⢃⠘⠄⠣⠌⠚⠄⡐⠠⢁⠂⡐⢀⠠⠈⠄⠡⠈⠄⠡⡀⢌⠃⠎⡔⠡⢆⠹⠐⠊⡝⠊⠷⠙⠶⠁⠎⡀⠉⠄⡑⢈⠐⠠⠁⠐⠀⠀⠀";
-            string input = pictureString.Replace("\r\n", "\n《x42》");
+            string input = pictureString.Replace("\r\n", $"\n《x{startPosX}》");
 
             DrawString(input);
         }

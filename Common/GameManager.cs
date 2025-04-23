@@ -44,6 +44,7 @@ public class GameManager
         PlayerData = 
             new("테스트이름", GameEnum.ClassType.Warrior, 1, 1500, new(100, 100, 10, 5));
 
+
         GameItems = new()
         {
             new("테스트무기0",GameEnum.ItemType.Weapon , 100, new(1,1,1,1))//,
