@@ -14,14 +14,16 @@ namespace SprtaaaaDungeon
 
             gameManager.StartGame(true);
 
-           /* SceneController sceneController = new SceneController();
+            SceneController sceneController = new SceneController();
 
+            //test
+            //sceneController.ChangeScene<SceneClassType>();
 
 
             while (true)
             {
                 sceneController.UpdateScene();
-            }*/
+            }
         }
     }
 }
