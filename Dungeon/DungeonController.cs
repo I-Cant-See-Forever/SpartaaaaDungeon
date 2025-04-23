@@ -14,22 +14,20 @@ public class DungeonController
     public List<DungeonData> initMonsters { get; set; }
 
     private DungeonPlayer dungeonplayer;
+    public DungeonPlayer DungeonPlayerInstance => dungeonplayer;
 
-    bool isMobAlive = false;
-    bool isPlayerAlive = false;
-    bool isGameWin = false;
-    bool isGameOver = false;
+
+    public bool isMobAlive = false;
+    public bool isPlayerAlive = false;
+    public bool isGameWin = false;
+    public bool isGameOver = false;
 
 
     public DungeonController(DungeonPlayer player)
     {
         dungeonplayer = player;
 
-        /* PlayerData pd = GameManager.Instance.PlayerData;
-            dungeonPlayer = new DungeonPlayer(pd);
-            dungeonPlayer.SetDungeonPlayer();
-            dungeonController = new DungeonController(dungeonPlayer);
-            dungeonController.MakeMonsterLists();*/
+       
 
     }
 
@@ -153,7 +151,20 @@ public class DungeonController
         }
     }
 
-    public void IsAliveCheck() // start()에서 체크해서 죽은 몬스터는 그레이컬로 이름, 선택불가능하게, 전부 죽으면 넘어갈때 화면 전환
+    public void IsPlayerAliveCheck() // start()에서 체크해서 죽은 몬스터는 그레이컬로 이름, 선택불가능하게, 전부 죽으면 넘어갈때 화면 전환
+    {
+
+        if(dungeonplayer.CurrentHealth <= 0)
+        {            
+            isPlayerAlive = false;
+        }
+        else
+        {
+            isPlayerAlive = true;
+        }
+
+    }
+    public void IsMobAliveCheck() // start()에서 체크해서 죽은 몬스터는 그레이컬로 이름, 선택불가능하게, 전부 죽으면 넘어갈때 화면 전환
     {
 
         foreach (var unit in dungeonMonsters)
@@ -201,8 +212,17 @@ public class DungeonController
     {
         var unit = dungeonMonsters[i];
         if (unit.Health <= 0) return;
-
-        dungeonplayer.CurrentHealth -= unit.Attack;
+        
+        else if(dungeonplayer.CurrentHealth<unit.Attack)
+        {
+            dungeonplayer.CurrentHealth = 0;
+            isPlayerAlive = false;
+        }
+        else
+        {
+            dungeonplayer.CurrentHealth -= unit.Attack;
+        }
+            
 
     }
 

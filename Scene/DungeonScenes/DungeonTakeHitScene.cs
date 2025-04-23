@@ -62,7 +62,10 @@ namespace SprtaaaaDungeon
             Console.WriteLine($"Lv.{dungeonPlayer.Level} {dungeonPlayer.Name}");
             Console.WriteLine($"HP {dungeonPlayer.CurrentHealth}");
             Console.WriteLine();
-            Console.WriteLine("0. 전투재개 ");
+            if (dungeonPlayer.CurrentHealth > 0) Console.WriteLine("0. 전투재개 ");
+            else if (dungeonPlayer.CurrentHealth == 0) Console.WriteLine("0. 전투종료 ");
+            else if (dungeonController.dungeonMonsters.Count == 0)
+                { Console.WriteLine("0. 전투종료 "); }
             Console.WriteLine("원하시는 행동을 입력해주세요.");
             Console.Write(">>");
 
@@ -72,8 +75,14 @@ namespace SprtaaaaDungeon
             switch (input)
             {
                 case 0:
+                    if(dungeonPlayer.CurrentHealth > 0)
                     controller.ChangeScene<DungeonBattleScene>();
-                    break;
+                    else if (dungeonPlayer.CurrentHealth == 0)
+                        controller.ChangeScene<DungeonLoseResultScene>();
+                    else if (dungeonController.dungeonMonsters.Count == 0)
+                        controller.ChangeScene<DungeonWinResultScene>();
+
+                        break;
             }
             return this;
         }

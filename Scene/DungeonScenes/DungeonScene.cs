@@ -11,16 +11,14 @@ namespace SprtaaaaDungeon
         protected DungeonController dungeonController;
         protected DungeonPlayer dungeonPlayer;
         protected PlayerData playerData;
-        protected DungeonData monstser;
+        protected DungeonData monsters;
 
         public DungeonScene(SceneController controller) : base(controller)
         {
             playerData = GameManager.Instance.PlayerData;
             dungeonController = GameManager.Instance.DungeonController;
-
-            dungeonPlayer = new(playerData);
-
-            monstser = new DungeonData();
+            dungeonPlayer = dungeonController.DungeonPlayerInstance;
+            monsters = new DungeonData();
         }
 
 
