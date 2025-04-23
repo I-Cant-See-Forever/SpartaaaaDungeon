@@ -29,7 +29,7 @@ namespace SprtaaaaDungeon
         public MenuInfoLayout()
         {
             Left = new(0, 0, 40, Console.WindowHeight);
-            Right = new(Left.Width + 1, 0, Console.LargestWindowWidth - Left.Width, Console.WindowHeight);
+            Right = new(Left.Width + 1, 0, Console.WindowWidth - Left.Width, Console.WindowHeight);
         }
     }
 }
