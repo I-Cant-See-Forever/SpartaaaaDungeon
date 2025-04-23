@@ -25,16 +25,16 @@ public class Shop
 
             if (shopItemDict.ContainsKey(type)) // shopItems 속의 지금 들어온 shopItem의 type(enum)에 키가 있으면
             {
-                shopItemDict[type].Add(shopItem); //shopItemDict의 그 type shopItem 추가(Add)
+                shopItemDict[type].Add(shopItem); //shopItemDict의 그 shopItem 추가(Add)
             }
             else // shopItems 속의 지금 들어온 shopItem의 type(enum)에 키가 없으면
             {
                 shopItemDict.Add(type, new List<ShopItemData>()); // 새 카테고리에 리스트생성, 
-                shopItemDict[type].Add(shopItem); //shopItemDict의 그 type shopItem 추가(Add)
+                shopItemDict[type].Add(shopItem); //shopItemDict의 그 shopItem 추가(Add)
             }
         }
     }
-    // weapon armor consumable
+
     public ItemData GetItemData(string findName) => GameManager.Instance.GameItems.FirstOrDefault(item => item.Name == findName);
 
 }
