@@ -28,7 +28,7 @@ namespace SprtaaaaDungeon
         public Rectangle Right { get; private set; }
         public MenuInfoLayout()
         {
-            Left = new(0, 0, 40, Console.WindowHeight);
+            Left = new(0, 0, 30, Console.WindowHeight);
             Right = new(Left.Width + 1, 0, Console.WindowWidth - Left.Width, Console.WindowHeight);
         }
     }
