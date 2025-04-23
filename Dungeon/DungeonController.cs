@@ -16,8 +16,10 @@ public class DungeonController
     private DungeonPlayer dungeonplayer;
     public DungeonPlayer DungeonPlayerInstance => dungeonplayer;
 
+    private int lastAttackIndex;
+    public int LastAttackIndex => lastAttackIndex; // 몬스터 공격시 마지막으로 공격한 몬스터의 인덱스 저장용도
 
-    public bool isMobAlive = false;
+    public bool isMobDead = false;
     public bool isPlayerAlive = false;
     public bool isGameWin = false;
     public bool isGameOver = false;
@@ -27,7 +29,7 @@ public class DungeonController
     {
         dungeonplayer = player;
 
-       
+
 
     }
 
@@ -154,8 +156,8 @@ public class DungeonController
     public void IsPlayerAliveCheck() // start()에서 체크해서 죽은 몬스터는 그레이컬로 이름, 선택불가능하게, 전부 죽으면 넘어갈때 화면 전환
     {
 
-        if(dungeonplayer.CurrentHealth <= 0)
-        {            
+        if (dungeonplayer.CurrentHealth <= 0)
+        {
             isPlayerAlive = false;
         }
         else
@@ -164,56 +166,76 @@ public class DungeonController
         }
 
     }
-    public void IsMobAliveCheck() // start()에서 체크해서 죽은 몬스터는 그레이컬로 이름, 선택불가능하게, 전부 죽으면 넘어갈때 화면 전환
+    public void IsMobAliveCheck(int input)
+    // start()에서 체크해서
+    // 아직 몬스터들이 조금이라도 살아있다면 우선 소환된 몬스터 띄워줌.
+    // 죽은 몬스터는 dungeonMonsters에서 deathMonsters로 복사
+    // 죽은몬스터는 그레이컬로 이름바꿔준뒤, Dead로 추가.
     {
-
-        foreach (var unit in dungeonMonsters)
+        int PressAttack = 1;
+        if (PressAttack != input)
         {
-            if (unit.Health <= 0)
+            for (int i = 0; i < dungeonMonsters.Count; i++)
             {
-                isMobAlive = false;
+                var m = dungeonMonsters[i];
+                if (m.Health > 0)
+                {
+                    Console.WriteLine($"Lv.{m.Level} {m.Name} {m.Health} 공격력 {m.Attack}");
+
+                }
+                else
+                {
+                    Console.WriteLine($"Lv.{m.Level} {m.Name} Dead");
+                    isMobDead = true;
+                }
+            }
+            deathMonsters = dungeonMonsters.Where(x => x.Health <= 0).ToList();
+        }
+        else if(PressAttack == input)
+        {
+            for (int i = 0; i < dungeonMonsters.Count; i++)
+            {
+                var m = dungeonMonsters[i];
+                if (m.Health > 0)
+                {
+                    Console.WriteLine($"{i + 1}. Lv.{m.Level} {m.Name}  HP:{m.Health} 공격력 {m.Attack}");
+
+                }
+                else
+                {
+                    Console.WriteLine($"Lv.{m.Level} {m.Name} Dead");
+                    isMobDead = true;
+                }
 
             }
         }
-        deathMonsters = dungeonMonsters.Where(x => x.Health <= 0).ToList();
-        if (deathMonsters.Count == dungeonMonsters.Count)
-        {
-            isGameWin = true;
-        }
-        if (dungeonplayer.CurrentHealth <= 0)
-        {
-            isGameOver = true;
-        }
-        for (int i = 0; i < deathMonsters.Count; i++)
-        {
-            Console.WriteLine($"{deathMonsters[i].Name}");
-        }
-
+        
     }
 
     public void Attack(int input)
+    // 몬스터를 선택해서 공격해야한다. input으로 입력한 값 -1이 해당 몬스터의 인덱스일것이다.
+    // 이 input -1 몬스터를 골라서 데미지를 입힌다. 
+    // 이 몬스터가 체력이 0이라면 이미 사망했다 공격불가능하다고 뜬다. 
     {
+        var selectmonster = dungeonMonsters[input - 1];
         Random randomvalue = new Random();
-        for (int i = 0; i < dungeonMonsters.Count; i++)
+        if (selectmonster.Health > 0)
         {
-            if (dungeonMonsters[input].Health > 0)
-            {
-                dungeonMonsters[input].Health -= dungeonplayer.Attack;
-            }
-            else
-            {
-
-            }
+            selectmonster.Health -= dungeonplayer.Attack;
         }
-
+        else if (selectmonster.Health <= 0)
+        {
+            Console.WriteLine("이미 사망한 몬스터입니다.");
+        }
+        lastAttackIndex = input - 1; // 마지막으로 공격한 몬스터의 인덱스 저장
     }
 
     public void TakeDamage(int i) //순회하면서 공격하는용도
     {
         var unit = dungeonMonsters[i];
         if (unit.Health <= 0) return;
-        
-        else if(dungeonplayer.CurrentHealth<unit.Attack)
+
+        else if (dungeonplayer.CurrentHealth < unit.Attack)
         {
             dungeonplayer.CurrentHealth = 0;
             isPlayerAlive = false;
@@ -222,7 +244,7 @@ public class DungeonController
         {
             dungeonplayer.CurrentHealth -= unit.Attack;
         }
-            
+
 
     }
 
