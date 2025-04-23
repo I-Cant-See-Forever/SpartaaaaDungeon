@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,8 @@ namespace SprtaaaaDungeon
         int menuStartHeight;
         int menuStartWidth;
 
+        Rectangle titleRect = new(1, 1, 38, 6);
+        //사각형
 
         int currentSelectNum = 0;
 
@@ -31,7 +34,6 @@ namespace SprtaaaaDungeon
             rightLenght = Console.WindowWidth - 2 - leftLenght;
             menuStartHeight = 10;
             menuStartWidth = 9;
-
         }
 
         public override void Start()
@@ -46,9 +48,17 @@ namespace SprtaaaaDungeon
 
             DrawString($"《x0,y{Console.WindowHeight -1}》┗━《l{leftLenght + 1}》━《》┻《l{rightLenght-4}》━《》━┛");*/
 
-            string title = $"《x2,y0,tyellow》████████╗ ██████╗ ██╗    ██╗███╗   ██╗\r\n╚══██╔══╝██╔═══██╗██║    ██║████╗  ██║\r\n   ██║   ██║   ██║██║ █╗ ██║██╔██╗ ██║\r\n   ██║   ██║   ██║██║███╗██║██║╚██╗██║\r\n   ██║   ╚██████╔╝╚███╔███╔╝██║ ╚████║\r\n   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝";
-            string input = title.Replace("\r\n", "\n《x2,tyellow》");
+            string title = $"《x1,y1,tyellow》" +
+                $"████████╗ ██████╗ ██╗    ██╗███╗   ██╗\r\n" +
+                $"╚══██╔══╝██╔═══██╗██║    ██║████╗  ██║\r\n" +
+                $"   ██║   ██║   ██║██║ █╗ ██║██╔██╗ ██║\r\n" +
+                $"   ██║   ██║   ██║██║███╗██║██║╚██╗██║\r\n" +
+                $"   ██║   ╚██████╔╝╚███╔███╔╝██║ ╚████║\r\n" +
+                $"   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝";
+            string input = title.Replace("\r\n", "\n《x1,tyellow》");
             DrawString(input);
+
+            //DrawRemoveRect(titleRect);
 
             DrawMenuText(currentSelectNum);
 
@@ -57,6 +67,7 @@ namespace SprtaaaaDungeon
          
         public override void Update()
         {
+
             if (Console.KeyAvailable)
             {
                 ConsoleKeyInfo input = Console.ReadKey(true);
@@ -151,7 +162,7 @@ namespace SprtaaaaDungeon
 
         void DrawStore()
         {
-            string pictureString = $"《x42,y6》" +
+            string pictureString = $"《x42,y8》" +
                 $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢧⣄⡀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
                 $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠘⠹⠽⠯⣟⣽⣳⣖⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀《tyellow》⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
                 $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣞⣗⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀《tyellow》⠺⠕⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
@@ -172,9 +183,7 @@ namespace SprtaaaaDungeon
                 $"\r\n⠀⠀⠀⠀⠀⠀《tdarkgreen》⣰⢟⣾⣺⢽⣽⣺⣞⡯⣷⡀《》⠀⠀⠀⠰⡯⣯⢯⣟⣀⣀⣞⣅⣀⣰⢯⣞⣗⣟⣞⡗⠯⠺⠺⠳⢽⢞⡾⣽⣳⠗⠗⠻⠚⢷⠅⠀⠀《tdarkgreen》⠀⢠⢯⡯⣗⣯⢿⢽⣕⠀⠀⠀⠀⠀⠀⠀" +
                 $"\r\n⠀⠀⠀⠀⠀《tdarkgreen》⠀⠉⢩⣺⣞⣟⡾⣈⣌⣉⠁⠁《》⠀⠀⠀⠸⣽⢽⣽⣺⠉⠁⣻⡊⠉⢑⣟⣞⣗⣟⡾⡵⣤⢤⣤⣤⢼⢯⡯⣗⣯⢧⣤⣤⣤⢼⡂⠀⠀⠀《tdarkgreen》⠏⢟⡾⣽⢾⠹⠛⠚⠇⠀⠀⠀⠀⠀⠀" +
                 $"\r\n⠀⠀⠀⠀⠀《tdarkgreen》⠀⡰⣽⣳⣳⣗⡿⣽⣺⡽⣧《》⠀⠀⠀⠀⢨⢯⡷⣳⢯⣖⣖⣞⣖⣦⢾⣺⣳⣻⣺⢽⣍⡀⡀⡀⡀⣹⢽⡽⣽⢞⡇⡀⡀⡀⣸⡂⠀⠀⠀《tdarkgreen》⡰⣽⢽⣳⣟⣽⣻⣳⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀《tdarkgreen》⠀⣰⢯⣗⣟⣞⡾⣽⡳⣗⣯⢷⣳⡀《》⠀⠀⢨⢯⡯⣟⡽⣞⣗⣟⣞⣗⣯⢷⣻⣺⢽⡽⡞⠙⠉⠋⠋⢫⡯⣯⢯⡯⡏⠋⠙⠙⢚⠆⠀⠀《tdarkgreen》⣰⢯⡯⣟⣾⣺⣞⡾⣽⣳⡀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠐⠶⠲⠞⠽⠽⠺⠳⠯⠻⠺⠽⠽⠺⠯⠗⠷⠖⠶⠮⠯⠯⠯⠯⠷⠻⠺⠵⠻⠺⠽⠾⠽⠽⠽⠳⠶⠶⠶⠖⠷⠻⠽⠽⠽⠳⠶⠶⠶⠺⠳⠲⠖⠯⠟⠾⠽⠺⠞⠾⠝⠗⠷⠳⠶⠶⠆⠀⠀" +
-                $"\r\n";
+                $"\r\n⠀⠀⠀⠀《tdarkgreen》⠀⣰⢯⣗⣟⣞⡾⣽⡳⣗⣯⢷⣳⡀《》⠀⠀⢨⢯⡯⣟⡽⣞⣗⣟⣞⣗⣯⢷⣻⣺⢽⡽⡞⠙⠉⠋⠋⢫⡯⣯⢯⡯⡏⠋⠙⠙⢚⠆⠀⠀《tdarkgreen》⣰⢯⡯⣟⣾⣺⣞⡾⣽⣳⡀⠀⠀⠀⠀⠀";
             string input = pictureString.Replace("\r\n", "\n《x42》");
 
             DrawString(input);

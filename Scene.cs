@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -118,6 +119,22 @@ namespace SprtaaaaDungeon
                     inputIndex++;
                 }
             }
+        }
+
+
+        protected void DrawRemoveRect(Rectangle rectangle)
+        {
+            string removeString = "";
+
+            for (int y = rectangle.Top; y <= rectangle.Height; y++)
+            {
+                for (int x = rectangle.Left; x <= rectangle.Width; x++)
+                {
+                    removeString += $"《x{x},y{y}》 ";
+                }
+            }
+
+            DrawString(removeString);
         }
     }
 }
