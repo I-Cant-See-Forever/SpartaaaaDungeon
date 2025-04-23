@@ -39,20 +39,19 @@ public class DungeonController
 
     public void MakeMonsterLists()
     {
-        // 우선 몬스터리스트에 몬스터들을 소환해주는데,
-        // 이것도 랜덤한 레벨로 랜덤한 갯수로 넣어준다. 다만 최대 1개이상은 넣어줘야한다.
-        // 같은 레벨로 , 혹은 다른 레벨로 중복해서 생겨날수도있다.
-        // 우선 초기 몬스터 리스트 생성에 몬스터 한개씩 넣어줌, 기본값
-        // 몬스터리스트에 이 몬스터들 1~10레벨 랜덤 5번, 10~20레벨 랜덤 5번, 20~30레벨 랜덤 5번으로 넣어줌
+        // 우선 initMonster리스트는 앱실행시 모든 몬스터를 원하는 만큼 생성한다.
+        // 랜덤한 레벨로 정해진 갯수만큼 반복해서 객체생성함.
+        // 같은 레벨로 중복해서 생겨날수도있다, 확률상 거의다름.
+        // 몬스터리스트에 이 몬스터들 1~10레벨 랜덤 10번, 10~20레벨 랜덤 10번, 20~30레벨 랜덤 10번으로 초기화해놓음
 
         Random randomlevel = new Random();
 
         initMonsters = new List<DungeonData>();
         for (int i = 0; i < 10; i++) //10번복사
         {
-            int mixlevel = randomlevel.Next(1, 10); //저레벨던전용 랜덤 레벨구간
+            int mixlevel = randomlevel.Next(1, 10); //저레벨던전용 랜덤 레벨구간, 몬스터스탯에 영향.
 
-            initMonsters.Add(new Banddit(mixlevel)); // 저레벨던전용 몹리스트, MonsterList에서 추가가능
+            initMonsters.Add(new Banddit(mixlevel)); // 저레벨던전용 몹리스트, MonsterList에서 생성한 클래스 추가가능, 저레벨이라 가짓수 적음.
             initMonsters.Add(new SkeletonArchor(mixlevel));
             initMonsters.Add(new SkeletonWarrior(mixlevel));
             initMonsters.Add(new GoblinWizard(mixlevel));
@@ -60,7 +59,7 @@ public class DungeonController
         }
         for (int i = 0; i < 10; i++)
         {
-            int mixlevel = randomlevel.Next(10, 20);
+            int mixlevel = randomlevel.Next(10, 20); // 중레벨 던전용
 
             initMonsters.Add(new Banddit(mixlevel));
             initMonsters.Add(new SkeletonArchor(mixlevel));
@@ -72,7 +71,7 @@ public class DungeonController
         }
         for (int i = 0; i < 10; i++)
         {
-            int mixlevel = randomlevel.Next(20, 30);
+            int mixlevel = randomlevel.Next(20, 30);  // 고레벨 던전용
 
             initMonsters.Add(new Banddit(mixlevel));
             initMonsters.Add(new Dragon(mixlevel));
@@ -88,22 +87,21 @@ public class DungeonController
 
         Random rd = new Random();
 
-        initMonsters = initMonsters.OrderBy(x => rd.NextDouble()).ToList();
+        initMonsters = initMonsters.OrderBy(x => rd.NextDouble()).ToList(); //배열 섞어주기.
     }
 
 
     public void SetDungeon(string input)
     // input 값 받아서 던전 3개중 하나로 이동하면서 몬스터 던전타입별로
-    // 던전제한에맞춰 넣어준다. 다합쳐서 들어가는 몬스터는 1~4마리사이, 중복2개 허용 
-    //10보다 작은 유닛을 필터해서 랜덤하게 1~4마리 Dungeon1에 넣어줌.
+    // 던전제한에맞춰 넣어준다. 다합쳐서 들어가는 몬스터는 1~4마리사이, 
     {
         Random random = new Random();
         List<DungeonData> Dungeon1 = new List<DungeonData>();
         List<DungeonData> Dungeon2 = new List<DungeonData>();
         List<DungeonData> Dungeon3 = new List<DungeonData>();
         int lowspawncount = random.Next(1, 5); // 1~4마리, 저레벨던전용스폰확률 변수
-        int middlespawncount = random.Next(2, 5);
-        int highspawncount = random.Next(3, 5);
+        int middlespawncount = random.Next(2, 5); // 확정 2마리 이상
+        int highspawncount = random.Next(3, 5); // 확정 3마리 이상
         foreach (var unit in initMonsters)
         {
             if (unit.Level < 10 && Dungeon1.Count < lowspawncount)
@@ -135,13 +133,13 @@ public class DungeonController
                 Console.WriteLine("잘못된 입력입니다.");
                 break;
         }
-        foreach(var unit in dungeonMonsters)
+        foreach(var unit in dungeonMonsters) // 던전에 들어가기전 몬스터 체력 초기화
         {
             unit.CurrentHealth = unit.MaxHealth;
         }
     }
 
-    public void IsGameOver()
+    public void IsGameOver() // 게임오버체크용, start()에서 호출해서 체크
     {
         if (dungeonplayer.CurrentHealth <= 0)
         {
@@ -153,7 +151,7 @@ public class DungeonController
         }
     }
 
-    public void IsPlayerAliveCheck()
+    public void IsPlayerAliveCheck() // 플레이어 죽었으면 플래그 false
     {
 
         if (dungeonplayer.CurrentHealth <= 0)
@@ -167,9 +165,10 @@ public class DungeonController
 
     }
     public void IsMobAliveCheck(int input)
-    // start()에서 체크해서
-    // 아직 몬스터들이 조금이라도 살아있다면 우선 소환된 몬스터 띄워줌.
-    // 죽은몬스터는 그레이컬로 이름바꿔준뒤, Dead로 추가.
+    // 특정 scene의 몬스터들 정보를 출력해주는 메서드, 추후 씬 꾸밀때는 필요없을수있음.
+    // 소환된 몬스터 정보 띄워줌.
+    // 죽은몬스터는 그레이컬로 색바꿔준뒤, Dead로 변경.
+    //0 -> 몬스터 인덱스 번호 없는, 1 -> 몬스터 인덱스 번호있는 값임, input에 넣어줄것.
     {
         int PressAttack = 1;
         if (PressAttack != input)
@@ -234,15 +233,15 @@ public class DungeonController
             Thread.Sleep(1000);
             return;
         }
-        LastMonsterPrevHealth = selectmonster.CurrentHealth; //
+        LastMonsterPrevHealth = selectmonster.CurrentHealth; //공격전 몬스터 체력저장
         float baseAttack = dungeonplayer.Attack;
         float dpsFactor = 0.9f + (float)randomvalue.NextDouble() * 0.2f; // 0.9~1.1
         lastDamage = (int)Math.Ceiling(baseAttack * dpsFactor); // 공격력 소숫점 올림처리
 
-        selectmonster.CurrentHealth = Math.Max(0, selectmonster.CurrentHealth -lastDamage);
+        selectmonster.CurrentHealth = Math.Max(0, selectmonster.CurrentHealth -lastDamage); //냅다 공격, 체력에서 확정데미지빼거나, 0 반환
         lastAttackIndex = input; // 마지막으로 공격한 몬스터의 인덱스 저장
         
-        GameManager.Instance.SceneController.ChangeScene<DungeonAttackResultScene>();
+        GameManager.Instance.SceneController.ChangeScene<DungeonAttackResultScene>(); //공격시 확정적으로 화면전환일어나므로, 
          
 
 
