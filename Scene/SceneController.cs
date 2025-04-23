@@ -28,6 +28,8 @@ namespace SprtaaaaDungeon
                 new ClassScene(this),
                 new InventoryScene(this),
                 new ShopScene(this),
+                new DungeonWinResultScene(this),
+                new DungeonLoseResultScene(this),
             };
         }
 
