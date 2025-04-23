@@ -85,5 +85,7 @@ public class GameManager
     {
         QuestController = new(QuestDatas);
         SceneController = new();
+        DungeonController = new DungeonController ( new(PlayerData) );
+        DungeonController.MakeMonsterLists();
     }
 }

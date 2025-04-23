@@ -25,11 +25,11 @@ public class DungeonController
     {
         dungeonplayer = player;
 
-        /* PlayerData pd = GameManager.Instance.PlayerData;
-            dungeonPlayer = new DungeonPlayer(pd);
-            dungeonPlayer.SetDungeonPlayer();
-            dungeonController = new DungeonController(dungeonPlayer);
-            dungeonController.MakeMonsterLists();*/
+        //PlayerData pd = GameManager.Instance.PlayerData;
+        //dungeonPlayer = new DungeonPlayer(pd);
+        //dungeonPlayer.SetDungeonPlayer();
+        //dungeonController = new DungeonController(dungeonPlayer);
+        //dungeonController.MakeMonsterLists();
 
     }
 

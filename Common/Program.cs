@@ -18,7 +18,7 @@ namespace SprtaaaaDungeon
 
             //test
             //sceneController.ChangeScene<SceneClassType>();
-
+            sceneController.ChangeScene<DungeonStartScene>();
 
             while (true)
             {
