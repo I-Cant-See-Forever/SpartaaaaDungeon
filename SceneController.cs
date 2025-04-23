@@ -10,12 +10,24 @@ namespace SprtaaaaDungeon
     {
         Scene currentScene;
         Scene[] sceneContainer;
-
+        DungeonPlayer dungeonPlayer;
+        DungeonController dungeonController;
         public SceneController()
         {
+            PlayerData pd = GameManager.Instance.PlayerData;
+            dungeonPlayer = new DungeonPlayer(pd);
+            dungeonPlayer.SetDungeonPlayer();
+            dungeonController = new DungeonController(dungeonPlayer);
+            dungeonController.MakeMonsterLists();
+
             sceneContainer = new Scene[]
             {
                 new TemplateScene(this),
+                new DungeonStartScene(this, dungeonController,dungeonPlayer),
+                new DungeonBattleScene(this, dungeonController, dungeonPlayer),
+                new DungeonAttackScene(this, dungeonController, dungeonPlayer),
+                new DungeonAttackResultScene(this, dungeonController, dungeonPlayer),
+                new DungeonTakeHitScene(this, dungeonController, dungeonPlayer),
                 new TownScene(this),
                 new StatScene(this),
                 new QuestScene(this)
