@@ -55,9 +55,11 @@ public class GameManager
 
         InventoryItems = new()
         {
-            new InventoryItemData(GetItemData("테스트무기0"), 1, false),
-            new InventoryItemData(GetItemData("테스트방어구0"), 1, false),
-            new InventoryItemData(GetItemData("테스트회복포션0"), 3, false)
+            //new InventoryItemData(GetItemData("테스트무기0"), 1, false),
+            //new InventoryItemData(GetItemData("테스트무기1"), 1, false),
+            //new InventoryItemData(GetItemData("테스트방어구0"), 1, false),
+            //new InventoryItemData(GetItemData("테스트방어구1"), 1, false),
+            //new InventoryItemData(GetItemData("테스트회복포션0"), 3, false)
         };
 
         ShopItems = new()
