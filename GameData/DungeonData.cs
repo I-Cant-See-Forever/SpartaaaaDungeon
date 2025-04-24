@@ -1,5 +1,4 @@
-﻿using SprtaaaaDungeon.GameData;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,8 +11,6 @@ namespace SprtaaaaDungeon
         public string Name { get; private set; }
         public int Level { get; private set; }
         public DungeonReward Reward { get; private set; }
-
-        public int EXP { get; set; }
 
         public List<MonsterData> Monsters { get; private set; }
         public DungeonData(string name, int level, DungeonReward reward)

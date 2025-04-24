@@ -49,6 +49,7 @@ namespace SprtaaaaDungeon
             {
                 controller.GetScene<ShopScene>(),
                 controller.GetScene<QuestMainScene>(),
+                controller.GetScene<DungeonMainScene>(),
             };
 
 

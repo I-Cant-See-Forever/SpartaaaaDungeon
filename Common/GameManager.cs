@@ -83,7 +83,13 @@ public class GameManager
         InventoryItems = saveManager.LoadGameData<List<InventoryItemData>>(GamePath.InventoryItemDataPath);
         ShopItems = saveManager.LoadGameData<List<ShopItemData>>(GamePath.ShopItemDataPath);
         PlayerQuestDatas = saveManager.LoadGameData<List<PlayerQuestData>>(GamePath.PlayerQuestDataPath);
-    
+    }
+
+    public void GameOver()
+    {
+        SaveManager.Instance.DeleteSaveFile(GamePath.SaveRoot);
+
+        SceneController.ChangeScene<GameEndScene>();
     }
 
 
@@ -106,4 +112,6 @@ public class GameManager
         GameItems = saveManager.LoadGameData<List<ItemData>>(GamePath.ItemDataPath);
         GameQuestDatas = saveManager.LoadGameData<List<QuestData>>(GamePath.QuestDataPath);
     }
+
+   
 }

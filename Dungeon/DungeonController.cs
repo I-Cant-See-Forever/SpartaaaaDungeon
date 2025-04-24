@@ -9,14 +9,16 @@ using System.Threading.Tasks;
 
 public class DungeonController
 {
+    
+/*
     private MonsterData monster;
+
     public List<MonsterData> dungeonMonsters { get; set; }
     public List<MonsterData> deathMonsters { get; set; }
     public List<MonsterData> initMonsters { get; set; }
 
-    private readonly PlayerData playerData;
     private DungeonPlayer dungeonplayer;
-    public DungeonPlayer DungeonPlayerInstance => dungeonplayer;
+    public DungeonPlayer DungeonPlayerInstance => dungeonplayer;*/
     
 
     private int lastAttackIndex;
@@ -36,7 +38,12 @@ public class DungeonController
 
     List<MonsterData> allMonsterDatas;
 
-    public int SelectIndex { get; set; }
+    PlayerData playerData;
+
+    public int dungeonIndex;
+    public int monsterIndex;
+    public int attackTypeIndex;
+    public int mkillIndex;
     public List<DungeonData> DungeonDatas => dungeonDatas;
     public DungeonData CurrentDungeon { get; private set; }
 
@@ -142,7 +149,7 @@ public class DungeonController
                 GetLeveledMonsterData(CurrentDungeon, allMonsterDatas));
         }
 
-        CurrentDungeon.EXP = randCount;
+        CurrentDungeon.Reward.EXP = randCount;
     }
 
     MonsterData GetLeveledMonsterData(DungeonData targetDungeon, List<MonsterData> monsterDatas)
@@ -152,10 +159,12 @@ public class DungeonController
         for (int i = 0; i < monsterDatas.Count; i++)
         {
             //해당 던전 레벨 + 5 까지의 몬스터들을 리스트에 넣어줍니다.
-            //이러면 최대체력의 몬스터를 세팅하는것이니 따로 몬스터 체력 초기화 안해도됨.
-            if (monsterDatas[i].Level > targetDungeon.Level && monsterDatas[i].Level < targetDungeon.Level + 5)
+            //이러면 최대체력의 몬스터를 참조해서 추가 하는것이니 따로 몬스터 체력 초기화 안해도됨.
+            if (monsterDatas[i].Level >= targetDungeon.Level && monsterDatas[i].Level <= targetDungeon.Level + 5)
             {
-                leveledMonsterData.Add(monsterDatas[i]);
+                var target = monsterDatas[i];
+
+                leveledMonsterData.Add(new(target.Name, target.Level, target.BaseDamage, target.MaxHealth));
             }
         }
 
@@ -166,6 +175,73 @@ public class DungeonController
 
         return leveledMonsterData[randCount];
     }
+
+
+
+
+    public void TryBasicAttack(int monsterIndex, out float attackDamage)
+    {
+        Random rand = new Random();
+
+        bool isEvade = rand.Next(100) < 10;
+
+        if (isEvade)
+        {
+            attackDamage = 0;
+        }
+        else
+        {
+            MonsterData targetMonster = CurrentDungeon.Monsters[monsterIndex];
+
+            bool isCrit = rand.Next(100) < 15;
+
+            attackDamage = isCrit ? playerData.Stat.Attack : playerData.Stat.Attack * 1.6f;
+
+            targetMonster.CurrentHealth -= attackDamage;
+        }
+    }
+
+    public void TakeDamage(MonsterData monster, out float attackDamage)
+    {
+        attackDamage = monster.BaseDamage;
+
+        playerData.Stat.CurrentHealth -= attackDamage;
+    }
+
+    public void IsMonsterDead(MonsterData monster, out bool isClear)
+    {
+        isClear = false;
+
+        if (monster.CurrentHealth < 0)
+        {
+            CurrentDungeon.Monsters.Remove(monster);
+
+            if (CurrentDungeon.Monsters.Count == 0)
+            {
+                isClear = true;
+
+                GetReward();
+            }
+        }
+    }
+
+    public bool IsPlayerDead()
+    {
+        return playerData.Stat.CurrentHealth < 0;
+    }
+
+    public void GetReward()
+    {
+        playerData.Gold += CurrentDungeon.Reward.Gold;
+        playerData.addExp(CurrentDungeon.Reward.EXP);
+
+        for (int i = 0; i < CurrentDungeon.Reward.EXP; i++) //임시용.. 몬스터수 = exp 이니..
+        {
+            GameManager.Instance.QuestController.UpdateHuntQuest("");
+        }
+        //인벤토리 아이템
+    }
+
 
 
 
@@ -185,12 +261,11 @@ public class DungeonController
 
     public void ExitDungeon()
     {
-        if (dungeonplayer != null)
+       /* if (dungeonplayer != null)
         {
             dungeonplayer.ApplyResult();
             dungeonplayer = null;
-        }
-        //dfdfdf
+        }*/
     }
 
 
@@ -201,7 +276,7 @@ public class DungeonController
         // 같은 레벨로 중복해서 생겨날수도있다, 확률상 거의다름.
         // 몬스터리스트에 이 몬스터들 1~10레벨 랜덤 10번, 10~20레벨 랜덤 10번, 20~30레벨 랜덤 10번으로 초기화해놓음
 
-        Random randomlevel = new Random();
+        /*Random randomlevel = new Random();
 
         initMonsters = new List<MonsterData>();
         for (int i = 0; i < 10; i++) //10번복사
@@ -242,9 +317,9 @@ public class DungeonController
             initMonsters.Add(new Zombie(mixlevel));
         }
 
-        Random rd = new Random();
+        Random rd = new Random();*/
 
-        initMonsters = initMonsters.OrderBy(x => rd.NextDouble()).ToList(); //배열 섞어주기.
+        //initMonsters = initMonsters.OrderBy(x => rd.NextDouble()).ToList(); //배열 섞어주기.
     }
 
 
@@ -252,27 +327,27 @@ public class DungeonController
 
     public void IsGameOver() // 게임오버체크용, start()에서 호출해서 체크
     {
-        if (dungeonplayer.CurrentHealth <= 0)
+       /* if (dungeonplayer.CurrentHealth <= 0)
         {
             GameManager.Instance.SceneController.ChangeScene<DungeonLoseResultScene>();
         }
         else if (dungeonMonsters.All(x => x.CurrentHealth <= 0))
         {
             GameManager.Instance.SceneController.ChangeScene<DungeonWinResultScene>();
-        }
+        }*/
     }
 
     public void IsPlayerAliveCheck() // 플레이어 죽었으면 플래그 false
     {
 
-        if (dungeonplayer == null)
+        /*if (dungeonplayer == null)
         {
             isPlayerAlive = playerData.Stat.CurrentHealth > 0;
         }
         else
         {
             isPlayerAlive = dungeonplayer.CurrentHealth > 0;
-        }
+        }*/
 
     }
     public void IsMobAliveCheck(int input)
@@ -281,7 +356,7 @@ public class DungeonController
     // 죽은몬스터는 그레이컬로 색바꿔준뒤, Dead로 변경.
     //0 -> 몬스터 인덱스 번호 없는, 1 -> 몬스터 인덱스 번호있는 값임, input에 넣어줄것.
     {
-        int PressAttack = 1;
+        /*int PressAttack = 1;
         if (PressAttack != input)
         {
             for (int i = 0; i < dungeonMonsters.Count; i++)
@@ -323,9 +398,9 @@ public class DungeonController
                 }
 
             }
-        }
-
+        }*/
     }
+
 
     public void Attack(int input)
     // 몬스터를 선택해서 공격해야한다. input으로 입력한 값 -1이 해당 몬스터의 인덱스일것이다.
@@ -335,7 +410,7 @@ public class DungeonController
     //공격력 =  Attack * randomvalue.Next(0.9 , (1.1)+1),
     // 소숫점이면 올림처리 (int)Mathf.Celling(값)
     {
-        if (input < 0 || input >= dungeonMonsters.Count) return;
+       /* if (input < 0 || input >= dungeonMonsters.Count) return;
         var selectmonster = dungeonMonsters[input]; //내가 선택한 몬스터
         Random randomvalue = new Random();
         if (selectmonster.CurrentHealth <= 0)
@@ -349,19 +424,16 @@ public class DungeonController
         float dpsFactor = 0.9f + (float)randomvalue.NextDouble() * 0.2f; // 0.9~1.1
         lastDamage = (int)Math.Ceiling(baseAttack * dpsFactor); // 공격력 소숫점 올림처리
 
-        selectmonster.CurrentHealth = Math.Max(0, selectmonster.CurrentHealth -lastDamage); //냅다 공격, 체력에서 확정데미지빼거나, 0 반환
+        selectmonster.CurrentHealth = Math.Max(0, selectmonster.CurrentHealth - lastDamage); //냅다 공격, 체력에서 확정데미지빼거나, 0 반환
         lastAttackIndex = input; // 마지막으로 공격한 몬스터의 인덱스 저장
-        
-        GameManager.Instance.SceneController.ChangeScene<DungeonAttackResultScene>(); //공격시 확정적으로 화면전환일어나므로, 
-         
 
-
+        GameManager.Instance.SceneController.ChangeScene<DungeonAttackResultScene>(); //공격시 확정적으로 화면전환일어나므로, */
 
     }
 
     public void TakeDamage(int i) //순회하면서 공격하는용도
     {
-        var unit = dungeonMonsters[i];
+       /* var unit = dungeonMonsters[i];
         if (unit.CurrentHealth <= 0) return;
 
         else if (dungeonplayer.CurrentHealth < unit.BaseDamage)
@@ -372,7 +444,7 @@ public class DungeonController
         else
         {
             dungeonplayer.CurrentHealth -= unit.BaseDamage;
-        }
+        }*/
     }
 
 

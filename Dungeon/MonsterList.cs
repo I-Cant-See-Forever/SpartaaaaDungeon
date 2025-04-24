@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SprtaaaaDungeon
 {
-    class GoblinWizard : MonsterData
+    /*class GoblinWizard : MonsterData
     {
         //몬스터 밸런싱 및 추가하는곳
         //초기값 전부 같음.
@@ -102,6 +102,6 @@ namespace SprtaaaaDungeon
 
         }
     }
-
+*/
 
 }

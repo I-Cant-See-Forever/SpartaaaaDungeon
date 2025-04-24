@@ -27,9 +27,9 @@ public class SaveManager
 
     public void DeleteSaveFile(string path)
     {
-        if (File.Exists(path))
+        if (Directory.Exists(path))
         {
-            File.Delete(path);
+            Directory.Delete(path);
         }
     }
 

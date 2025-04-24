@@ -29,7 +29,7 @@ namespace SprtaaaaDungeon
         }
         public override void show()
         {
-            Console.Clear();
+            /*Console.Clear();
             for (int i = 0; i < dungeonController.dungeonMonsters.Count; i++)
             {
                 var unit = dungeonController.dungeonMonsters[i];
@@ -41,7 +41,7 @@ namespace SprtaaaaDungeon
                 Console.WriteLine();
                 Console.WriteLine($"{dungeonPlayer.Name}을(를) 맞췄습니다.");
                 Console.WriteLine();
-                Console.WriteLine($"데미지 : {unit.Attack} ");
+                //Console.WriteLine($"데미지 : {unit.Attack} ");
                 Console.WriteLine();
                 Console.WriteLine($"Lv.{dungeonPlayer.Level} {dungeonPlayer.Name}");
 
@@ -65,7 +65,7 @@ namespace SprtaaaaDungeon
             if (dungeonPlayer.CurrentHealth > 0) Console.WriteLine("0. 전투재개 ");
             else if (dungeonPlayer.CurrentHealth == 0 || dungeonController.dungeonMonsters.Count == 0) Console.WriteLine("0. 전투종료 ");
             Console.WriteLine("원하시는 행동을 입력해주세요.");
-            Console.Write(">>");
+            Console.Write(">>");*/
 
         }
         public override DungeonScene HandleInput(int input)

@@ -32,4 +32,21 @@ namespace SprtaaaaDungeon
             Right = new(Left.Width + 1, 0, Console.WindowWidth - Left.Width, Console.WindowHeight);
         }
     }
+
+    public class DungeonLayout
+    {
+        public Rectangle MonsterInfo { get; private set; }
+        public Rectangle PlayerInfo { get; private set; }
+        public Rectangle MonsterImage { get; private set; }
+        public Rectangle BattleInfo { get; private set; }
+        public DungeonLayout()
+        {
+            MonsterInfo = new(0, 0, 30, 20);
+            PlayerInfo = new(0, 20, 30, 10);
+
+            MonsterImage = new(31, 0, 89, 20);
+            BattleInfo = new(31, 20, 89, 6);
+        }
+    }
+
 }

@@ -35,10 +35,18 @@ namespace SprtaaaaDungeon
 
         public override void Start()
         {
-            DrawString("[던전입구]\n\n");
-            DrawString("던전을 고르시오\n\n");
+            string title = $"《x{layout.Title.X},y{layout.Title.Y},tDarkRed》" +
+                $"██████╗ ██╗   ██╗███╗   ██╗ ██████╗ ███████╗ ██████╗ ███╗   ██╗\r\n" +
+                $"██╔══██╗██║   ██║████╗  ██║██╔════╝ ██╔════╝██╔═══██╗████╗  ██║\r\n" +
+                $"██║  ██║██║   ██║██╔██╗ ██║██║  ███╗█████╗  ██║   ██║██╔██╗ ██║\r\n" +
+                $"██║  ██║██║   ██║██║╚██╗██║██║   ██║██╔══╝  ██║   ██║██║╚██╗██║\r\n" +
+                $"██████╔╝╚██████╔╝██║ ╚████║╚██████╔╝███████╗╚██████╔╝██║ ╚████║\r\n" +
+                $"╚═════╝  ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝ ╚══════╝ ╚═════╝ ╚═╝  ╚═══╝";
+            string replaceTitle = title.Replace("\r\n", $"\n《x{layout.Title.X},tDarkRed》");
 
-            DrawMenuText(dungeonController.SelectIndex);
+            DrawString(replaceTitle);
+
+            DrawMenuText(dungeonController.dungeonIndex);
         }
 
         public override void Update()
@@ -49,20 +57,20 @@ namespace SprtaaaaDungeon
 
                 bool isCorretInput = false;
 
-                int tempSelectNum = dungeonController.SelectIndex;
+                int tempSelectNum = dungeonController.dungeonIndex;
 
                 switch (input.Key)
                 {
                     case ConsoleKey.UpArrow:
-                        dungeonController.SelectIndex = GetMoveSelectIndex(dungeonController.SelectIndex, -1, menuTextRects.Count - 1);
+                        dungeonController.dungeonIndex = GetMoveSelectIndex(dungeonController.dungeonIndex, -1, menuTextRects.Count - 1);
                         isCorretInput = true;
                         break;
                     case ConsoleKey.DownArrow:
-                        dungeonController.SelectIndex = GetMoveSelectIndex(dungeonController.SelectIndex, +1, menuTextRects.Count - 1);
+                        dungeonController.dungeonIndex = GetMoveSelectIndex(dungeonController.dungeonIndex, +1, menuTextRects.Count - 1);
                         isCorretInput = true;
                         break;
                     case ConsoleKey.Enter:
-                        dungeonController.SetDungeon(dungeonController.SelectIndex);
+                        dungeonController.SetDungeon(dungeonController.dungeonIndex);
                         controller.ChangeScene<DungeonBattleScene>();
                         break;
                     case ConsoleKey.Escape:
@@ -74,7 +82,7 @@ namespace SprtaaaaDungeon
                 {
                     DrawRemoveRect(menuTextRects[tempSelectNum].Item2);
 
-                    DrawMenuText(dungeonController.SelectIndex);
+                    DrawMenuText(dungeonController.dungeonIndex);
                 }
             }
         }
