@@ -3,6 +3,10 @@ namespace SprtaaaaDungeon
 {
     public class StatScene : Scene
     {
+        PlayerData playerdata = GameManager.Instance.PlayerData;
+        MenuInfoLayout layout = new();
+        int StatRange = 15;
+
         public StatScene(SceneController controller) : base(controller)
         {
         }
@@ -14,27 +18,32 @@ namespace SprtaaaaDungeon
 
         public override void Start()
         {
-            float BonusAtk = 0;
-            float BonusDef = 0;
+            string title = $"《x{layout.Left.X},y{layout.Right.Y},tyellow》" +
+                $"███████╗████████╗ █████╗ ████████╗\r\n" +
+                $"██╔════╝╚══██╔══╝██╔══██╗╚══██╔══╝\r\n" +
+                $"███████╗   ██║   ███████║   ██║   \r\n" +
+                $"╚════██║   ██║   ██╔══██║   ██║   \r\n" +
+                $"███████║   ██║   ██║  ██║   ██║   \r\n" +
+                $"╚══════╝   ╚═╝   ╚═╝  ╚═╝   ╚═╝   ";
+            string replaceTitle = title.Replace("\r\n", $"\n《x{layout.Left.X},tyellow》");
 
-            for (int i = 0; i<GameManager.Instance.InventoryItems.Count; i++)
-            {
-                BonusAtk += GameManager.Instance.InventoryItems[i].ItemData.StatData.Attack;
-                BonusDef += GameManager.Instance.InventoryItems[i].ItemData.StatData.Defense;
-            }
+            DrawString(replaceTitle);
 
-            PlayerData playerdata = GameManager.Instance.PlayerData;
+            DrawString($"《x{layout.Right.X},y{StatRange}》Lv. {playerdata.Level:D2}");
+            DrawString($"《x{layout.Right.X},y{StatRange+1},tDarkCyan》{playerdata.Name} 《tGray》( {playerdata.ClassType} )");
 
-            DrawString("《x3,y3》《tDarkYellow》상태 보기\n");
-            DrawString("《x3,y4》《tGray》캐릭터의 정보가 표시됩니다.\n\n");
+            DrawAtkDef();
 
-            DrawString($"《x3,y5》《tGreen》Lv. 《tGray》{playerdata.Level:D2}\n");
-            DrawString($"《x3,y6》《tDarkCyan》{playerdata.Name} 《tGray》( {playerdata.ClassType} )\n\n");
+            DrawString($"《x{layout.Right.X},y{StatRange + 6}》체  력 : ");
+            DrawStatBar(playerdata.Stat.MaxHealth, playerdata.Stat.CurrentHealth, "red", 6);
+            
+            DrawString($"《x{layout.Right.X},y{StatRange + 7}》마  력 : ");
+            DrawStatBar(100, 50, "blue", 7);
+            
+            DrawString($"《x{layout.Right.X},y{StatRange+8}》경험치 : ");
+            DrawStatBar(playerdata.maxExp, playerdata.currentExp, "green", 8);
 
-            DrawString(BonusAtk == 0 ? $"《x3,y7》공격력 : {playerdata.Stat.Attack}\n" : $"《x3,y7》공격력 : {playerdata.Stat.Attack} (+{BonusAtk})\n");
-            DrawString(BonusDef == 0 ? $"《x3,y8》방어력 : {playerdata.Stat.Defense}\n" : $"《x3,y8》방어력 : {playerdata.Stat.Defense} (+{BonusDef})\n");
-            DrawString($"《x3,y9》체  력 : {playerdata.Stat.CurrentHealth}\n");
-            DrawString($"《x3,y10》Gold : {playerdata.Gold} G\n\n");
+            DrawString($"《x{layout.Right.X},y{StatRange+10}》Gold : {playerdata.Gold} G\n\n");
         }
 
         public override void Update()
@@ -46,8 +55,18 @@ namespace SprtaaaaDungeon
                 {
                     controller.ChangeScene<TownScene>();
                 }
+
+                // 스탯 증가 감소 테스트용
+                if (Keyinput.Key == ConsoleKey.UpArrow)
+                {
+                    playerdata.Stat.CurrentHealth++;
+                    playerdata.addExp(1);
+                }
+                if (Keyinput.Key == ConsoleKey.DownArrow)
+                {
+                    playerdata.Stat.CurrentHealth--;
+                }
             }
-            
         }
         void Frame() // 테두리 그리는 함수!
         {
@@ -59,6 +78,37 @@ namespace SprtaaaaDungeon
             }
 
             DrawString($"《x0,y{Console.WindowHeight - 1}》┗━《l{Console.WindowWidth - 5}》━《》━┛");
+        }
+
+        void DrawAtkDef()
+        {
+            float bonusAtk = 0;
+            float bonusDef = 0;
+
+            for (int i = 0; i < GameManager.Instance.InventoryItems.Count; i++)
+            {
+                bonusAtk += GameManager.Instance.InventoryItems[i].ItemData.StatData.Attack;
+                bonusDef += GameManager.Instance.InventoryItems[i].ItemData.StatData.Defense;
+            }
+
+            string bonusAtkStr = bonusAtk == 0 ? "" : $"(+{bonusAtk})";
+            string bonusDefStr = bonusDef == 0 ? "" : $"(+{bonusDef})";
+
+            DrawString($"《x{layout.Right.X},y{StatRange + 3}》공격력 : {playerdata.Stat.Attack} {bonusAtkStr}");
+            DrawString($"《x{layout.Right.X},y{StatRange + 4}》방어력 : {playerdata.Stat.Defense} {bonusDefStr}");
+        }
+
+        void DrawStatBar(float maxData, float curData, string color, int yNum)
+        {
+            int maxBar = 30;
+            int currentBar = (int)(MathF.Ceiling(curData * (maxBar / maxData)));
+
+            if (maxBar < currentBar)
+            {
+                currentBar = maxBar;
+            }
+            DrawString($"《x{layout.Right.X+9},y{StatRange + yNum}》《bWhite,l{maxBar}》 《》 {curData}/{maxData}\n");
+            DrawString($"《x{layout.Right.X+9},y{StatRange + yNum}》《b{color},l{currentBar}》 ");
         }
     }
 }

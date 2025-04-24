@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SprtaaaaDungeon
@@ -21,7 +22,6 @@ namespace SprtaaaaDungeon
         public abstract void Start();
         public abstract void Update();
         public abstract void End();
-
 
         protected ConsoleColor ConvertColor(string colorText)
         {
@@ -126,15 +126,32 @@ namespace SprtaaaaDungeon
         {
             string removeString = "";
 
-            for (int y = rectangle.Top; y <= rectangle.Height; y++)
+            for (int y = 0; y < rectangle.Height; y++)
             {
-                for (int x = rectangle.Left; x <= rectangle.Width; x++)
+                for (int x = 0; x < rectangle.Width; x++)
                 {
-                    removeString += $"《x{x},y{y}》 ";
+                    removeString += $"《x{x + rectangle.Left},y{y + rectangle.Top}》 ";
                 }
             }
 
             DrawString(removeString);
+        }
+
+
+        protected int GetMoveSelectIndex(int targetIndex, int delta, int maxIndex)
+        {
+            targetIndex += delta;
+
+            if (targetIndex < 0)
+            {
+                targetIndex = 0;
+            }
+            else if (targetIndex > maxIndex)
+            {
+                targetIndex = maxIndex;
+            }
+
+            return targetIndex;
         }
     }
 }

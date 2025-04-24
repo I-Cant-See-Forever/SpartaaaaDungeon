@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace SprtaaaaDungeon
 {
@@ -23,8 +24,9 @@ namespace SprtaaaaDungeon
             classTypes = new GameEnum.ClassType[]
             {
                 GameEnum.ClassType.Warrior,
+                GameEnum.ClassType.Archer,
                 GameEnum.ClassType.Mage,
-                GameEnum.ClassType.Archor
+                GameEnum.ClassType.Assassin
             };
             Draw(currentIndex);
 
@@ -62,7 +64,7 @@ namespace SprtaaaaDungeon
 
         void Draw(int currentIndex)
         {
-            DrawString($"《x2,{Console.WindowWidth / 2 - 20},y{Console.WindowHeight / 3 + 4},l{Console.WindowWidth - 30}》 ");
+            DrawString($"《x2,y{Console.WindowHeight / 3 + 4},l{Console.WindowWidth - 4}》 ");
 
             string[] spotLight = new string[classTypes.Length];
             string[] selectSign = new string[classTypes.Length];
@@ -71,9 +73,22 @@ namespace SprtaaaaDungeon
             selectSign[currentIndex] = "▶ ";
 
             DrawString($"《x{Console.WindowWidth / 2 - 10},y{Console.WindowHeight / 3 + 2},tGray》직업을 선택해주세요.");
-            DrawString($"《x{Console.WindowWidth / 2 - 20},y{Console.WindowHeight / 3 + 4}{spotLight[0]}》{selectSign[0]}1.Warrior");
-            DrawString($"《x{Console.WindowWidth / 2 - 3},y{Console.WindowHeight / 3 + 4}{spotLight[1]}》{selectSign[1]}2.Mage");
-            DrawString($"《x{Console.WindowWidth / 2 + 11},y{Console.WindowHeight / 3 + 4}{spotLight[2]}》{selectSign[2]}3.Archer");
+            
+            // 직업 선택
+            int totalWidth = 70;
+            int padding = (Console.WindowWidth - totalWidth) / 2; //양쪽 여백
+
+            for (int i = 0; i < classTypes.Length; i++)
+            {
+                int stringLenght = classTypes[i].ToString().Length + 2;
+
+                int posX = (totalWidth / (classTypes.Length + 1)) * (i + 1) - (stringLenght / 2) + padding;
+                int posY = Console.WindowHeight / 3 + 4;
+
+                DrawString($"《x{posX},y{posY}{spotLight[i]}》{selectSign[i]}{i + 1}.{classTypes[i]}");
+            }
+
+
         }
     }
 }
