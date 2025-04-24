@@ -8,10 +8,10 @@ namespace SprtaaaaDungeon
 {
     public class DungeonStartScene : DungeonScene
     {
+        int currentSelectNum = 0;
 
         public DungeonStartScene(SceneController controller) : base(controller)
         {
-            
         }
 
         public override void Start()
@@ -23,6 +23,39 @@ namespace SprtaaaaDungeon
             show();
             int input = int.Parse(Console.ReadLine());
             HandleInput(input);
+
+            if (Console.KeyAvailable)
+            {
+                ConsoleKeyInfo inputInfo = Console.ReadKey(true);
+
+                bool isCorretInput = false;
+                int tempSelectNum = currentSelectNum;
+
+                switch (inputInfo.Key)
+                {
+                    case ConsoleKey.UpArrow:
+                        currentSelectNum = GetMoveSelectIndex(currentSelectNum, -1, menuTextRect.Length - 1);
+                        isCorretInput = true;
+                        break;
+                    case ConsoleKey.DownArrow:
+                        currentSelectNum = GetMoveSelectIndex(currentSelectNum, +1, menuTextRect.Length - 1);
+                        isCorretInput = true;
+                        break;
+                    case ConsoleKey.Enter:
+                        controller.ChangeScene(SelectScenes[currentSelectNum]);
+                        break;
+                    case ConsoleKey.Escape:
+                        controller.ChangeScene<StatScene>();
+                        break;
+                }
+
+                if (isCorretInput)
+                {
+                    DrawRemoveRect(menuTextRect[tempSelectNum].Item2);
+
+                    DrawMenuText(currentSelectNum);
+                }
+            }
         }
         public override void End()
         {

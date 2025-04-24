@@ -24,6 +24,7 @@ namespace SprtaaaaDungeon
 
         public TownScene(SceneController controller) : base(controller) 
         {
+
             menuTextRect = new (string, Rectangle)[]
             {
                 new("상점", new()),

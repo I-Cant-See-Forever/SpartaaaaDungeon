@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SprtaaaaDungeon.GameData;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,27 +9,20 @@ namespace SprtaaaaDungeon
 {
     public class DungeonData
     {
-        public virtual string Name { get; set; }
-        public int Level { get; set; }
-        public float Attack { get; set; }
-        public float CurrentHealth { get; set; }
+        public string Name { get; private set; }
+        public int Level { get; private set; }
+        public DungeonReward Reward { get; private set; }
 
-        public float MaxHealth { get; set; }
+        public int EXP { get; set; }
 
-        public DungeonData(string name, int level, float attack, float currentHealth, float maxHealth)
+        public List<MonsterData> Monsters { get; private set; }
+        public DungeonData(string name, int level, DungeonReward reward)
         {
             Name = name;
             Level = level;
-            Attack = attack;
-            CurrentHealth = currentHealth;
-            MaxHealth = maxHealth;
+            Reward = reward;
+
+            Monsters = new();
         }
-
-        public DungeonData()
-        {
-
-        }
-
-
     }
 }

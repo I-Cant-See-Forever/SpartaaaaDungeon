@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 public class DungeonController
 {
-    private DungeonData monster;
-    public List<DungeonData> dungeonMonsters { get; set; }
-    public List<DungeonData> deathMonsters { get; set; }
-    public List<DungeonData> initMonsters { get; set; }
+    private MonsterData monster;
+    public List<MonsterData> dungeonMonsters { get; set; }
+    public List<MonsterData> deathMonsters { get; set; }
+    public List<MonsterData> initMonsters { get; set; }
 
-    private readonly PlayerData originalplayer;
+    private readonly PlayerData playerData;
     private DungeonPlayer dungeonplayer;
     public DungeonPlayer DungeonPlayerInstance => dungeonplayer;
     
@@ -31,21 +31,157 @@ public class DungeonController
     public bool isGameOver = false;
 
 
-    public DungeonController(PlayerData player)
-    {
-        originalplayer = player;
+    ///////////////////////////////////////////////민혁
+    List<DungeonData> dungeonDatas;
 
+    List<MonsterData> allMonsterDatas;
+
+    public int SelectIndex { get; set; }
+    public List<DungeonData> DungeonDatas => dungeonDatas;
+    public DungeonData CurrentDungeon { get; private set; }
+
+    public DungeonController()
+    {
+        var gameManager = GameManager.Instance;
+
+        playerData = gameManager.PlayerData; //플레이어데이터 캐싱
+
+        //던전생성
+        dungeonDatas = new List<DungeonData>()
+        {
+            new DungeonData("숲", 1, new DungeonReward(100, 10,
+                new()
+                {
+                    { gameManager.GetItemData("테스트무기0"),1}
+                })),
+            new DungeonData("늪지대", 5, new DungeonReward(100, 10,
+                new()
+                {
+                    { gameManager.GetItemData("테스트무기0"),1}
+                })),
+            new DungeonData("광산", 10, new DungeonReward(100, 10,
+                new()
+                {
+                    { gameManager.GetItemData("테스트무기0"),1}
+                })),
+        };
+
+        //몬스터데이터 생성
+        allMonsterDatas = new List<MonsterData>()
+        {
+            new("임상엽", 1, 5, 20),
+            new("장유현", 3, 10, 40),
+            new("이수민", 5, 15, 60),
+            new("이민혁", 7, 20, 80),
+            new("최진안", 10, 25, 100)
+        };
     }
+
+
+    public void SetDungeon(int input)
+    // input 값 받아서 던전 3개중 하나로 이동하면서 몬스터 던전타입별로
+    // 던전제한에맞춰 넣어준다. 다합쳐서 들어가는 몬스터는 1~4마리사이, 
+    {
+        /*Random random = new Random();
+        List<MonsterData> Dungeon1 = new List<MonsterData>();
+        List<MonsterData> Dungeon2 = new List<MonsterData>();
+        List<MonsterData> Dungeon3 = new List<MonsterData>();
+        int lowspawncount = random.Next(1, 5); // 1~4마리, 저레벨던전용스폰확률 변수
+        int middlespawncount = random.Next(2, 5); // 확정 2마리 이상
+        int highspawncount = random.Next(3, 5); // 확정 3마리 이상
+        foreach (var unit in initMonsters)
+        {
+            if (unit.Level < 10 && Dungeon1.Count < lowspawncount)
+            {
+                Dungeon1.Add(unit);
+            }
+            else if (unit.Level < 20 && unit.Level >= 10 && Dungeon2.Count < middlespawncount)
+            {
+                Dungeon2.Add(unit);
+            }
+            else if (unit.Level < 30 && unit.Level >= 20 && Dungeon3.Count < highspawncount)
+            {
+                Dungeon3.Add(unit);
+            }
+
+        }
+        switch (input)
+        {
+            case "1":
+                dungeonMonsters = Dungeon1;
+                break;
+            case "2":
+                dungeonMonsters = Dungeon2;
+                break;
+            case "3":
+                dungeonMonsters = Dungeon3;
+                break;
+            default:
+                Console.WriteLine("잘못된 입력입니다.");
+                break;
+        }
+        foreach(var unit in dungeonMonsters) // 던전에 들어가기전 몬스터 체력 초기화
+        {
+            unit.CurrentHealth = unit.MaxHealth;
+        }*/
+
+
+        // 이제 이곳은 DungeonData를 참조해 던전 레벨에 맞는 몬스터를 세팅합니다.
+        Random random = new Random();
+
+        int randCount = random.Next(1, 4);
+
+
+        //현재던전을 깨끗한던전으로 초기화
+        CurrentDungeon = dungeonDatas[input];
+
+        for (int i = 0; i < randCount; i++)
+        {
+            // 던전 레벨에 맞는 몬스터를 던전에 추가
+            CurrentDungeon.Monsters.Add(
+                GetLeveledMonsterData(CurrentDungeon, allMonsterDatas));
+        }
+
+        CurrentDungeon.EXP = randCount;
+    }
+
+    MonsterData GetLeveledMonsterData(DungeonData targetDungeon, List<MonsterData> monsterDatas)
+    {
+        List<MonsterData> leveledMonsterData = new();
+
+        for (int i = 0; i < monsterDatas.Count; i++)
+        {
+            //해당 던전 레벨 + 5 까지의 몬스터들을 리스트에 넣어줍니다.
+            //이러면 최대체력의 몬스터를 세팅하는것이니 따로 몬스터 체력 초기화 안해도됨.
+            if (monsterDatas[i].Level > targetDungeon.Level && monsterDatas[i].Level < targetDungeon.Level + 5)
+            {
+                leveledMonsterData.Add(monsterDatas[i]);
+            }
+        }
+
+        //그중에서 한마리를 선택
+        Random random = new Random();
+
+        int randCount = random.Next(0, leveledMonsterData.Count);
+
+        return leveledMonsterData[randCount];
+    }
+
+
+
     public void EnterDungeon(string difficulty)
     {
-        if(dungeonplayer == null)
+        //던전 플레이어 제거
+      /*  if(dungeonplayer == null)
         {
-            dungeonplayer = new DungeonPlayer(originalplayer);
+            dungeonplayer = new DungeonPlayer(playerData);
             dungeonplayer.SetDungeonPlayer();
-        }
-        MakeMonsterLists(); // 던전 입장시 몬스터 리스트 생성
-        SetDungeon(difficulty);
+        }*/
+        //MakeMonsterLists(); // 던전 입장시 몬스터 리스트 생성 (굳이 매입장시 생성하지 않아도 괜찮음)
+
+        //SetDungeon(difficulty); 역할이 정리돼 EnterDugeon 이아닌 외부에서 SetDungeon 으로 사용
     }
+
 
     public void ExitDungeon()
     {
@@ -67,7 +203,7 @@ public class DungeonController
 
         Random randomlevel = new Random();
 
-        initMonsters = new List<DungeonData>();
+        initMonsters = new List<MonsterData>();
         for (int i = 0; i < 10; i++) //10번복사
         {
             int mixlevel = randomlevel.Next(1, 10); //저레벨던전용 랜덤 레벨구간, 몬스터스탯에 영향.
@@ -113,53 +249,6 @@ public class DungeonController
 
 
 
-    public void SetDungeon(string input)
-    // input 값 받아서 던전 3개중 하나로 이동하면서 몬스터 던전타입별로
-    // 던전제한에맞춰 넣어준다. 다합쳐서 들어가는 몬스터는 1~4마리사이, 
-    {
-        Random random = new Random();
-        List<DungeonData> Dungeon1 = new List<DungeonData>();
-        List<DungeonData> Dungeon2 = new List<DungeonData>();
-        List<DungeonData> Dungeon3 = new List<DungeonData>();
-        int lowspawncount = random.Next(1, 5); // 1~4마리, 저레벨던전용스폰확률 변수
-        int middlespawncount = random.Next(2, 5); // 확정 2마리 이상
-        int highspawncount = random.Next(3, 5); // 확정 3마리 이상
-        foreach (var unit in initMonsters)
-        {
-            if (unit.Level < 10 && Dungeon1.Count < lowspawncount)
-            {
-                Dungeon1.Add(unit);
-            }
-            else if (unit.Level < 20 && unit.Level >= 10 && Dungeon2.Count < middlespawncount)
-            {
-                Dungeon2.Add(unit);
-            }
-            else if (unit.Level < 30 && unit.Level >= 20 && Dungeon3.Count < highspawncount)
-            {
-                Dungeon3.Add(unit);
-            }
-
-        }
-        switch (input)
-        {
-            case "1":
-                dungeonMonsters = Dungeon1;
-                break;
-            case "2":
-                dungeonMonsters = Dungeon2;
-                break;
-            case "3":
-                dungeonMonsters = Dungeon3;
-                break;
-            default:
-                Console.WriteLine("잘못된 입력입니다.");
-                break;
-        }
-        foreach(var unit in dungeonMonsters) // 던전에 들어가기전 몬스터 체력 초기화
-        {
-            unit.CurrentHealth = unit.MaxHealth;
-        }
-    }
 
     public void IsGameOver() // 게임오버체크용, start()에서 호출해서 체크
     {
@@ -178,7 +267,7 @@ public class DungeonController
 
         if (dungeonplayer == null)
         {
-            isPlayerAlive = originalplayer.Stat.CurrentHealth > 0;
+            isPlayerAlive = playerData.Stat.CurrentHealth > 0;
         }
         else
         {
@@ -200,7 +289,7 @@ public class DungeonController
                 var m = dungeonMonsters[i];
                 if (m.CurrentHealth > 0)
                 {
-                    Console.WriteLine($"Lv.{m.Level} {m.Name} {m.CurrentHealth} 공격력 {m.Attack}");
+                    Console.WriteLine($"Lv.{m.Level} {m.Name} {m.CurrentHealth} 공격력 {m.BaseDamage}");
 
                 }
                 else
@@ -222,7 +311,7 @@ public class DungeonController
                 var m = dungeonMonsters[i];
                 if (m.CurrentHealth > 0)
                 {
-                    Console.WriteLine($"{i + 1}. Lv.{m.Level} {m.Name}  HP:{m.CurrentHealth} 공격력 {m.Attack}");
+                    Console.WriteLine($"{i + 1}. Lv.{m.Level} {m.Name}  HP:{m.CurrentHealth} 공격력 {m.BaseDamage}");
 
                 }
                 else
@@ -275,14 +364,14 @@ public class DungeonController
         var unit = dungeonMonsters[i];
         if (unit.CurrentHealth <= 0) return;
 
-        else if (dungeonplayer.CurrentHealth < unit.Attack)
+        else if (dungeonplayer.CurrentHealth < unit.BaseDamage)
         {
             dungeonplayer.CurrentHealth = 0;
             isPlayerAlive = false;
         }
         else
         {
-            dungeonplayer.CurrentHealth -= unit.Attack;
+            dungeonplayer.CurrentHealth -= unit.BaseDamage;
         }
     }
 

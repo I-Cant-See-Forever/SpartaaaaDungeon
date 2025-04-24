@@ -91,7 +91,7 @@ public class GameManager
     void InitComponents()
     {
 
-        DungeonController = new DungeonController (PlayerData);
+        DungeonController = new();
 
 
         QuestController = new();
