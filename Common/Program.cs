@@ -17,7 +17,7 @@ namespace SprtaaaaDungeon
             SceneController sceneController = new SceneController();
 
             //test
-            //sceneController.ChangeScene<SceneClassType>();
+            sceneController.ChangeScene<InventoryScene>();
 
 
             while (true)

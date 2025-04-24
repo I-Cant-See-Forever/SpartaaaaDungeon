@@ -50,40 +50,59 @@ namespace SprtaaaaDungeon
                     break;
 
                 case "1":
-                    Console.Clear();
-                    inventoryController.PrintItems();
-                    Console.Write("\n장착할 아이템 번호를 입력하세요\n>> ");
-                    string select = Console.ReadLine();
-                    int index;
-
-                    if (int.TryParse(select, out index))
+                    while(true)
                     {
-                        index -= 1;
-                        if (index >= 0 && index < inventoryController.Items.Count)
-                        {
-                            InventoryItemData item = inventoryController.Items[index];
+                        Console.Clear();
+                        inventoryController.PrintItems();
+                        Console.WriteLine("\n0. 나가기");
+                        Console.Write("\n장착/해제할 아이템 번호를 입력하세요\n>> ");
+                        string select = Console.ReadLine();
+                        int index;
 
-                            if (item.ItemData.Type == GameEnum.ItemType.Consumable)
+                        if (int.TryParse(select, out index))
+                        {
+                            if (select == "0")
                             {
-                                Console.WriteLine("소비 아이템은 장착할 수 없습니다.");
+                                Console.Clear();
+                                Start();
+                                break;
+                            }
+                            index -= 1;
+                            if (index >= 0 && index < inventoryController.Items.Count)
+                            {
+                                InventoryItemData item = inventoryController.Items[index];
+
+                                if (item.ItemData.Type == GameEnum.ItemType.Consumable)
+                                {
+                                    Console.WriteLine("\n소비 아이템은 장착할 수 없습니다.");
+                                    Console.WriteLine("\nEnter를 눌러 계속");
+                                    Console.ReadLine();
+                                }
+                                else
+                                {
+                                    bool isEquipped = inventoryController.ToggleEquipState(item);
+                                    Console.WriteLine(isEquipped
+                                        ? $"\n'{item.ItemData.Name}' 장착 완료"
+                                        : $"\n'{item.ItemData.Name}' 장착 해제됨");
+                                    Console.WriteLine("\nEnter를 눌러 계속");
+                                    Console.ReadLine();
+
+                                    Console.Clear();
+                                    inventoryController.PrintItems();
+                                }
                             }
                             else
                             {
-                                //item.ToggleEquip();
-                                Console.WriteLine(item.IsEquip
-                                    ? $"'{item.ItemData.Name}' 장착 완료"
-                                    : $"'{item.ItemData.Name}' 장착 해제됨");
+                                Console.WriteLine("존재하지 않는 아이템 번호입니다");
                             }
                         }
                         else
                         {
-                            Console.WriteLine("존재하지 않는 아이템 번호입니다");
+                            Console.WriteLine("잘못된 입력입니다.");
+                            Console.ReadLine();
                         }
                     }
-                    else
-                    {
-                        Console.WriteLine("숫자를 입력해주세요");
-                    }
+                        
                     Console.ReadLine();
                     Start();
                     break;
