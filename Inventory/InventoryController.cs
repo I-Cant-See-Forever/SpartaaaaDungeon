@@ -40,6 +40,7 @@ namespace SprtaaaaDungeon
 
         public void PrintItems(GameEnum.ItemType targetType)
         {
+            int index = 1;
             foreach (KeyValuePair<GameEnum.ItemType, List<InventoryItemData>> pair in typeItemDict)
             {
                 if(pair.Key == targetType)
@@ -55,7 +56,8 @@ namespace SprtaaaaDungeon
                             GameEnum.ItemType.Consumable => "회복력 +" + item.ItemData.StatData.Defense,
                             _ => ""
                         };
-                        Console.WriteLine("- " + prefix + item.ItemData.Name + " | " + effect);
+                        Console.WriteLine($"{index}. {prefix}{item.ItemData.Name} | {effect}");
+                        index++;
                     }
                     Console.WriteLine();
                 }

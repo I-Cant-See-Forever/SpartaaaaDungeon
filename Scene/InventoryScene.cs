@@ -41,6 +41,7 @@ namespace SprtaaaaDungeon
                 inventoryController.PrintItems(itemTypeList[currentPage]);
             }
             Console.WriteLine("1. 장착 관리");
+            Console.WriteLine("2. 목록 전환");
             Console.WriteLine("0. 나가기\n");
             Console.Write("원하시는 행동을 입력해주세요.\n>> ");
         }
@@ -77,12 +78,29 @@ namespace SprtaaaaDungeon
                     {
                         Console.Clear();
                         inventoryController.PrintItems(itemTypeList[currentPage]);
+                        Console.WriteLine("\na. 목록 전환");
                         Console.WriteLine("\n0. 나가기");
                         Console.Write("\n장착/해제할 아이템 번호를 입력하세요\n>> ");
                         string select = Console.ReadLine();
                         int index;
 
-                        if (int.TryParse(select, out index))
+                        select = select.ToLower();
+                        if (select == "ㅁ") select = "a";
+                        if (select == "a")
+                        {
+                            if (currentPage < maxPage)
+                            {
+                                currentPage++;
+                            }
+                            else
+                            {
+                                currentPage = 0;
+                            }
+                            Console.Clear();
+                            inventoryController.PrintItems(itemTypeList[currentPage]);
+                        }
+
+                        else if (int.TryParse(select, out index))
                         {
                             if (select == "0")
                             {
@@ -90,10 +108,13 @@ namespace SprtaaaaDungeon
                                 Start();
                                 break;
                             }
+                            
                             index -= 1;
-                            if (index >= 0 && index < inventoryController.Items.Count)
+
+                            List<InventoryItemData> currentList = inventoryController.CategorizedItems[itemTypeList[currentPage]];
+                            if (index >= 0 && index < currentList.Count)
                             {
-                                InventoryItemData item = inventoryController.Items[index];
+                                InventoryItemData item = currentList[index];
 
                                 if (item.ItemData.Type == GameEnum.ItemType.Consumable)
                                 {
@@ -116,7 +137,9 @@ namespace SprtaaaaDungeon
                             }
                             else
                             {
-                                Console.WriteLine("존재하지 않는 아이템 번호입니다");
+                                Console.WriteLine("\n존재하지 않는 아이템 번호입니다");
+                                Console.WriteLine("\nEnter를 눌러 계속");
+                                Console.ReadLine();
                             }
                         }
                         else
