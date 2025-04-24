@@ -23,75 +23,88 @@ public class GameManager
 
     //data
     public List<ItemData> GameItems {get; private set;}
+    public List<QuestData> GameQuestDatas { get; private set; }
+
+    //save
+    public List<PlayerQuestData> PlayerQuestDatas { get; private set; } = new();
     public List<ShopItemData> ShopItems {get; private set;}
     public List<InventoryItemData> InventoryItems{get; private set; }
     public PlayerData PlayerData{ get; private set; }
-    public List<QuestData> QuestDatas { get; private set; }
 
-    public void StartGame(bool isNewGame)
+    public void StartGame()
     {
-        if (isNewGame) NewGame();
+        InitGameData();
 
+        if (SaveManager.Instance.HasSaveFile(GamePath.SaveRoot))
+        {
+            LoadGame();
+        }
+        else
+        {
+            NewGame();
+        }
 
         InitComponents();
     }
 
     public ItemData GetItemData(string findName) => GameItems.FirstOrDefault(item => item.Name == findName);
+    public QuestData GetQuestData(string findName) => GameQuestDatas.FirstOrDefault(item => item.Title == findName);
 
 
     void NewGame()
     {
-        PlayerData = 
+        PlayerData =
             new("테스트이름", GameEnum.ClassType.Warrior, 1, 1500, new(100, 100, 10, 5));
-
-
-        GameItems = new()
-        {
-            new("테스트무기0",GameEnum.ItemType.Weapon , 100, new(1,1,1,1))//,
-            //new("테스트무기1",GameEnum.ItemType.Weapon , 100, new(1,1,1,1)),
-            //new("테스트방어구0",GameEnum.ItemType.Armor , 100, new(1,1,1,1)),
-            //new("테스트방어구1",GameEnum.ItemType.Armor , 100, new(1,1,1,1))
-        };
 
         InventoryItems = new();
 
         ShopItems = new()
         {
-            new(GetItemData("테스트무기0"), 1)//,
-            //new(GetItemData("테스트무기1"), 1),
-            //new(GetItemData("테스트방어구0"), 1),
-            //new(GetItemData("테스트방어구1"), 1)
-        };
-
-        QuestDatas = new()
-        {
-            new("던전 청소!", 
-                "요즘 마을이 너무 위험해.. \n" +
-                "몬스터들좀 잡아주이..",
-                new(
-                    new()
-                    {
-                        { GetItemData("테스트무기0"), 1}
-                    }, 
-                    100, 
-                    100),
-                new HuntQuestCondition(
-                    "123",
-                    "아무 몬스터 잡기",
-                    3))
+            new(GetItemData("테스트무기0"), 1)
         };
     }
 
+    public void SaveGame()
+    {
+        var saveManager = SaveManager.Instance;
+
+        saveManager.SaveGameData(PlayerData, GamePath.PlayerDataPath);
+        saveManager.SaveGameData(InventoryItems, GamePath.InventoryItemDataPath);
+        saveManager.SaveGameData(ShopItems, GamePath.ShopItemDataPath);
+        saveManager.SaveGameData(PlayerQuestDatas, GamePath.PlayerQuestDataPath);
+    }
+
+
+    public void LoadGame()
+    {
+        var saveManager = SaveManager.Instance;
+
+        PlayerData = saveManager.LoadGameData<PlayerData>(GamePath.PlayerDataPath);
+        InventoryItems = saveManager.LoadGameData<List<InventoryItemData>>(GamePath.InventoryItemDataPath);
+        ShopItems = saveManager.LoadGameData<List<ShopItemData>>(GamePath.ShopItemDataPath);
+        PlayerQuestDatas = saveManager.LoadGameData<List<PlayerQuestData>>(GamePath.PlayerQuestDataPath);
+    
+    }
+
+
+
     void InitComponents()
     {
-        QuestController = new(QuestDatas);
-        
-
         var dp = new DungeonPlayer(PlayerData);
         dp.SetDungeonPlayer();
-        DungeonController = new DungeonController (dp);
-        DungeonController.MakeMonsterLists(); 
+        DungeonController = new DungeonController (PlayerData);
+        DungeonController.MakeMonsterLists();
+
+        QuestController = new();
 
         SceneController = new();
+    }
+
+    void InitGameData()
+    {
+        var saveManager = SaveManager.Instance;
+
+        GameItems = saveManager.LoadGameData<List<ItemData>>(GamePath.ItemDataPath);
+        GameQuestDatas = saveManager.LoadGameData<List<QuestData>>(GamePath.QuestDataPath);
     }
 }

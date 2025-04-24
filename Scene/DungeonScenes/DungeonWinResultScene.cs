@@ -30,14 +30,25 @@ namespace SprtaaaaDungeon
         public override void show()
         {
             Console.WriteLine("Battle!! - Result");
+            Console.WriteLine();
             Console.WriteLine("Victory");
+            Console.WriteLine();
             Console.WriteLine("던전의 몬스터를 모두 잡았습니다.");
-
+            Console.WriteLine();
+            Console.WriteLine();
             Console.WriteLine("0. 다음");
+            Console.Write(">>");
 
         }
         public override DungeonScene HandleInput(int input)
         {
+            switch (input)
+            {
+                case 0:
+                    controller.ChangeScene<DungeonStartScene>();
+                    break;
+
+            }
 
             return this;
         }

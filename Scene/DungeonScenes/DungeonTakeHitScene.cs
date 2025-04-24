@@ -16,11 +16,7 @@ namespace SprtaaaaDungeon
         private DungeonData monstser;
         public override void Start()
         {
-
-
-
-
-
+           dungeonController.IsGameOver();
         }
         public override void Update()
         {
@@ -37,25 +33,29 @@ namespace SprtaaaaDungeon
             for (int i = 0; i < dungeonController.dungeonMonsters.Count; i++)
             {
                 var unit = dungeonController.dungeonMonsters[i];
-                if (unit.Health <= 0) continue;
+                if (unit.CurrentHealth <= 0) continue;
 
                 Console.WriteLine("Battle!");
+                Console.WriteLine();
                 Console.WriteLine($"Lv.{unit.Level} {unit.Name} 의 공격! ");
+                Console.WriteLine();
                 Console.WriteLine($"{dungeonPlayer.Name}을(를) 맞췄습니다.");
+                Console.WriteLine();
                 Console.WriteLine($"데미지 : {unit.Attack} ");
+                Console.WriteLine();
                 Console.WriteLine($"Lv.{dungeonPlayer.Level} {dungeonPlayer.Name}");
 
                 float beforeHealth = dungeonPlayer.CurrentHealth;
                 dungeonController.TakeDamage(i);
                 float afterHealth = dungeonPlayer.CurrentHealth;
+
                 Console.WriteLine($"HP {beforeHealth} -> {afterHealth}");
 
                 Console.WriteLine("");
                 Console.WriteLine("0. 다음\n");
                 Console.Write(">>");
-                string input = Console.ReadLine();
+                string input = Console.ReadLine(); //키입력방식 바뀔수도있어서 간단하게 아무입력이나받음 넘어가게
                 Console.Clear();
-
             }
 
             Console.WriteLine();
@@ -63,9 +63,7 @@ namespace SprtaaaaDungeon
             Console.WriteLine($"HP {dungeonPlayer.CurrentHealth}");
             Console.WriteLine();
             if (dungeonPlayer.CurrentHealth > 0) Console.WriteLine("0. 전투재개 ");
-            else if (dungeonPlayer.CurrentHealth == 0) Console.WriteLine("0. 전투종료 ");
-            else if (dungeonController.dungeonMonsters.Count == 0)
-                { Console.WriteLine("0. 전투종료 "); }
+            else if (dungeonPlayer.CurrentHealth == 0 || dungeonController.dungeonMonsters.Count == 0) Console.WriteLine("0. 전투종료 ");
             Console.WriteLine("원하시는 행동을 입력해주세요.");
             Console.Write(">>");
 
@@ -75,13 +73,7 @@ namespace SprtaaaaDungeon
             switch (input)
             {
                 case 0:
-                    if(dungeonPlayer.CurrentHealth > 0)
                     controller.ChangeScene<DungeonBattleScene>();
-                    else if (dungeonPlayer.CurrentHealth == 0)
-                        controller.ChangeScene<DungeonLoseResultScene>();
-                    else if (dungeonController.dungeonMonsters.Count == 0)
-                        controller.ChangeScene<DungeonWinResultScene>();
-
                         break;
             }
             return this;

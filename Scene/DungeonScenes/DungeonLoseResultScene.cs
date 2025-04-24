@@ -30,10 +30,14 @@ namespace SprtaaaaDungeon
         public override void show()
         {
             Console.WriteLine("Battle!! - Result");
+            Console.WriteLine();
             Console.WriteLine("You Lose");
+            Console.WriteLine();
+            Console.WriteLine();
             Console.WriteLine("Lv.1 Chad");
             Console.WriteLine($"HP {dungeonPlayer.MaxHealth} -> 0");
-
+            Console.WriteLine();
+            Console.WriteLine();
             Console.WriteLine("0. 다음");
             Console.Write(">>");
 

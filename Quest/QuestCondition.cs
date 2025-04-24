@@ -4,18 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SprtaaaaDungeon
+public abstract class QuestCondition
 {
-    public abstract class QuestCondition
+    public string Description { get; set; }
+    public abstract bool IsAchive();
+    public abstract string ProgressText();
+
+    public QuestCondition(string description)
     {
-        public string Description { get; set; }
-        public abstract bool IsAchive();
-        public abstract string ProgressText();
-
-        public QuestCondition(string description)
-        {
-            Description = description;
-        }
-
+        Description = description;
     }
+
 }
