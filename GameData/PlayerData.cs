@@ -33,6 +33,7 @@ namespace SprtaaaaDungeon
             if(currentExp >= maxExp)
             {
                 Level++;
+                currentExp = 0;
                 maxExp += 10;
             }
         }
