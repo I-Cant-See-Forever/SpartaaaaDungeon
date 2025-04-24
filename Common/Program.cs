@@ -15,22 +15,16 @@ namespace SprtaaaaDungeon
 
             gameManager.StartGame();
 
-            //gameManager.SaveGame();
+            var sceneController = gameManager.SceneController;
 
-        /*    var sceneController = gameManager.SceneController;
-
-
-            gameManager.LoadGame();*/
-
-           
-            /*//test
-            sceneController.ChangeScene<QuestScene>();
+            //test
+            sceneController.ChangeScene<QuestMainScene>();
 
 
             while (true)
             {
                 sceneController.UpdateScene();
-            }*/
+            }
         }
     }
 }

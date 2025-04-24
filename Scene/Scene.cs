@@ -136,5 +136,22 @@ namespace SprtaaaaDungeon
 
             DrawString(removeString);
         }
+
+
+        protected int GetMoveSelectIndex(int targetIndex, int delta, int maxIndex)
+        {
+            targetIndex += delta;
+
+            if (targetIndex < 0)
+            {
+                targetIndex = 0;
+            }
+            else if (targetIndex > maxIndex)
+            {
+                targetIndex = maxIndex;
+            }
+
+            return targetIndex;
+        }
     }
 }

@@ -26,6 +26,7 @@ public class GameManager
     public List<QuestData> GameQuestDatas { get; private set; }
 
     //save
+    public List<PlayerQuestData> PlayerQuestDatas { get; private set; } = new();
     public List<ShopItemData> ShopItems {get; private set;}
     public List<InventoryItemData> InventoryItems{get; private set; }
     public PlayerData PlayerData{ get; private set; }
@@ -68,10 +69,9 @@ public class GameManager
         var saveManager = SaveManager.Instance;
 
         saveManager.SaveGameData(PlayerData, GamePath.PlayerDataPath);
-        saveManager.SaveGameData(GameItems, GamePath.ItemDataPath);
         saveManager.SaveGameData(InventoryItems, GamePath.InventoryItemDataPath);
         saveManager.SaveGameData(ShopItems, GamePath.ShopItemDataPath);
-        saveManager.SaveGameData(GameQuestDatas, GamePath.QuestDataPath);
+        saveManager.SaveGameData(PlayerQuestDatas, GamePath.PlayerQuestDataPath);
     }
 
 
@@ -82,13 +82,15 @@ public class GameManager
         PlayerData = saveManager.LoadGameData<PlayerData>(GamePath.PlayerDataPath);
         InventoryItems = saveManager.LoadGameData<List<InventoryItemData>>(GamePath.InventoryItemDataPath);
         ShopItems = saveManager.LoadGameData<List<ShopItemData>>(GamePath.ShopItemDataPath);
+        PlayerQuestDatas = saveManager.LoadGameData<List<PlayerQuestData>>(GamePath.PlayerQuestDataPath);
+    
     }
 
 
 
     void InitComponents()
     {
-        QuestController = new(GameQuestDatas);
+        QuestController = new();
 
         var dp = new DungeonPlayer(PlayerData);
         dp.SetDungeonPlayer();

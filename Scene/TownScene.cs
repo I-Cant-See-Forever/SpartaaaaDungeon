@@ -20,14 +20,33 @@ namespace SprtaaaaDungeon
 
         Stopwatch animWatch = new();
 
+        public List<Scene> SelectScenes;
+
         public TownScene(SceneController controller) : base(controller) 
         {
+            SelectScenes = new ();
+
+            /*if(controller.TryGetScene(out ShopScene shopScene))
+            {
+                SelectScenes.Add(shopScene);
+            }
+
+            if (controller.TryGetScene(out QuestMainScene questScene))
+            {
+                SelectScenes.Add(questScene);
+            }
+
+        *//*    if(controller.TryGetScene(out DungeonScene dungeonScene))
+            {
+                SelectScenes.Add(dungeonScene);
+            }   */
+
+
             menuTextRect = new (string, Rectangle)[]
             {
                 new("상점", new()),
-                new("휴식", new()),
                 new("퀘스트", new()),
-                new("던전", new()),
+                new("던전", new())
             };
 
             for (int i = 0; i < menuTextRect.Length; i++)
@@ -93,23 +112,15 @@ namespace SprtaaaaDungeon
                 switch (input.Key)
                 {
                     case ConsoleKey.UpArrow:
-                        if (currentSelectNum > 0)
-                        {
-                            currentSelectNum--;
-
-                            isCorretInput = true;
-                        }
+                        currentSelectNum = GetMoveSelectIndex(currentSelectNum, -1, menuTextRect.Length - 1);
+                        isCorretInput = true;
                         break;
                     case ConsoleKey.DownArrow:
-                        if (currentSelectNum < menuTextRect.Length - 1)
-                        {
-                            currentSelectNum++;
-
-                            isCorretInput = true;
-                        }
+                        currentSelectNum = GetMoveSelectIndex(currentSelectNum, +1, menuTextRect.Length - 1);
+                        isCorretInput = true;
                         break;
                     case ConsoleKey.Enter:
-                        //ChangeScene;
+                        controller.ChangeScene(SelectScenes[currentSelectNum]);
                         break;
                     case ConsoleKey.Escape:
                         controller.ChangeScene<StatScene>();

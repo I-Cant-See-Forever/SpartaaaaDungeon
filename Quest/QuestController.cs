@@ -8,10 +8,45 @@ namespace SprtaaaaDungeon
 {
     public class QuestController
     {
-        public List<QuestData> QuestDatas { get; private set; }
-        public QuestController(List<QuestData> questDatas)
+        public int SelectTypeIndex { get; set; } = 0;
+        public List<PlayerQuestData>[] QuestTypeList { get; private set; }
+        public List<PlayerQuestData> AcceptableDatas { get; private set; } = new();
+        public List<PlayerQuestData> ProgressDatas { get; private set; } = new();
+        public List<PlayerQuestData> FinishDatas { get; private set; } = new();
+
+        public QuestController()
         {
-            QuestDatas = questDatas;
+            var gameManager = GameManager.Instance;
+            var questDatas = gameManager.GameQuestDatas;
+            var playerQuestDatas = gameManager.PlayerQuestDatas;
+
+            foreach (var quest in questDatas)
+            {
+                var playerQuest = playerQuestDatas.FirstOrDefault(data => data.Data.Title == quest.Title);
+                
+                if (playerQuest != null)
+                {
+                    if (playerQuest.IsClear)
+                    {
+                        FinishDatas.Add(playerQuest);
+                    }
+                    else
+                    {
+                        ProgressDatas.Add(playerQuest);
+                    }
+                }
+                else
+                {
+                    AcceptableDatas.Add(new PlayerQuestData(quest, false));
+                }
+            }
+
+            QuestTypeList = new List<PlayerQuestData>[]
+            {
+                AcceptableDatas,
+                ProgressDatas,
+                FinishDatas
+            };
         }
 
         public void AddReward(QuestReward reward)
@@ -34,9 +69,9 @@ namespace SprtaaaaDungeon
 
         public void UpdateHuntQuest(string enemyName)
         {
-            foreach (var quest in QuestDatas)
+            foreach (var quest in ProgressDatas)
             {
-                if(quest.Condition is HuntQuestCondition huntConditon)
+                if(quest.Data.Condition is HuntQuestCondition huntConditon)
                 {
                     if(enemyName == huntConditon.EnemyName || enemyName == "")
                     {
