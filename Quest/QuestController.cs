@@ -9,10 +9,11 @@ namespace SprtaaaaDungeon
     public class QuestController
     {
         public int SelectTypeIndex { get; set; } = 0;
-        public List<PlayerQuestData>[] QuestTypeList { get; private set; }
-        public List<PlayerQuestData> AcceptableDatas { get; private set; } = new();
-        public List<PlayerQuestData> ProgressDatas { get; private set; } = new();
-        public List<PlayerQuestData> FinishDatas { get; private set; } = new();
+        public int SelectQuestIndex { get; set; } = 0;
+        public List<QuestData>[] QuestTypeList { get; private set; }
+        public List<QuestData> AcceptableDatas { get; private set; } = new();
+        public List<QuestData> ProgressDatas { get; private set; } = new();
+        public List<QuestData> FinishDatas { get; private set; } = new();
 
         public QuestController()
         {
@@ -28,25 +29,58 @@ namespace SprtaaaaDungeon
                 {
                     if (playerQuest.IsClear)
                     {
-                        FinishDatas.Add(playerQuest);
+                        FinishDatas.Add(playerQuest.Data);
                     }
                     else
                     {
-                        ProgressDatas.Add(playerQuest);
+                        ProgressDatas.Add(playerQuest.Data);
                     }
                 }
                 else
                 {
-                    AcceptableDatas.Add(new PlayerQuestData(quest, false));
+                    AcceptableDatas.Add(quest);
                 }
             }
 
-            QuestTypeList = new List<PlayerQuestData>[]
+            QuestTypeList = new List<QuestData>[]
             {
                 AcceptableDatas,
                 ProgressDatas,
                 FinishDatas
             };
+        }
+
+        public void Accept(QuestData targetQuest)
+        {
+            AcceptableDatas.Remove(targetQuest);
+            ProgressDatas.Add(targetQuest);
+
+            var newPlayerQuest = new PlayerQuestData(targetQuest, false);
+
+            GameManager.Instance.PlayerQuestDatas.Add(newPlayerQuest);
+        }
+
+        public bool TryClear(QuestData targetQuest)
+        {
+            if(targetQuest.Condition.IsAchive())
+            {
+                ProgressDatas.Remove(targetQuest);
+                FinishDatas.Add(targetQuest);
+
+                foreach (var item in GameManager.Instance.PlayerQuestDatas)
+                {
+                    if (item.Data == targetQuest)
+                    {
+                        item.IsClear = true;
+                    }
+                }
+
+                AddReward(targetQuest.Reward);
+
+                return true;
+            }
+
+            return false;
         }
 
         public void AddReward(QuestReward reward)
@@ -71,7 +105,7 @@ namespace SprtaaaaDungeon
         {
             foreach (var quest in ProgressDatas)
             {
-                if(quest.Data.Condition is HuntQuestCondition huntConditon)
+                if(quest.Condition is HuntQuestCondition huntConditon)
                 {
                     if(enemyName == huntConditon.EnemyName || enemyName == "")
                     {

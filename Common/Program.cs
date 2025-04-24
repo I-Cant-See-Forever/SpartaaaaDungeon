@@ -18,13 +18,13 @@ namespace SprtaaaaDungeon
             var sceneController = gameManager.SceneController;
 
             //test
-            sceneController.ChangeScene<QuestMainScene>();
+            /*sceneController.ChangeScene<TownScene>();
 
 
             while (true)
             {
                 sceneController.UpdateScene();
-            }
+            }*/
         }
     }
 }

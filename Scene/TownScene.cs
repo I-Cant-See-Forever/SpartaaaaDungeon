@@ -24,24 +24,6 @@ namespace SprtaaaaDungeon
 
         public TownScene(SceneController controller) : base(controller) 
         {
-            SelectScenes = new ();
-
-            /*if(controller.TryGetScene(out ShopScene shopScene))
-            {
-                SelectScenes.Add(shopScene);
-            }
-
-            if (controller.TryGetScene(out QuestMainScene questScene))
-            {
-                SelectScenes.Add(questScene);
-            }
-
-        *//*    if(controller.TryGetScene(out DungeonScene dungeonScene))
-            {
-                SelectScenes.Add(dungeonScene);
-            }   */
-
-
             menuTextRect = new (string, Rectangle)[]
             {
                 new("상점", new()),
@@ -62,6 +44,13 @@ namespace SprtaaaaDungeon
 
         public override void Start()
         {
+            SelectScenes = new()
+            {
+                controller.GetScene<ShopScene>(),
+                controller.GetScene<QuestMainScene>(),
+            };
+
+
             string title = $"《x{layout.Title.X},y{layout.Title.Y},tyellow》" +
                 $"████████╗ ██████╗ ██╗    ██╗███╗   ██╗\r\n" +
                 $"╚══██╔══╝██╔═══██╗██║    ██║████╗  ██║\r\n" +
@@ -151,7 +140,7 @@ namespace SprtaaaaDungeon
             backSpotlight[spotLightIndex] = "tmagenta";
             selectSign[spotLightIndex] = "▶ ";
 
-
+      
             for (int i = 0; i < menuTextRect.Length; i ++)
             {
                 DrawString($"《x{menuTextRect[i].Item2.X},y{menuTextRect[i].Item2.Y},{backSpotlight[i]}》{selectSign[i]}{menuTextRect[i].Item1}");

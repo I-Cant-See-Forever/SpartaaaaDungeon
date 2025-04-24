@@ -25,7 +25,6 @@ namespace SprtaaaaDungeon
         {
             questController = GameManager.Instance.QuestController;
 
-
             menuTextRect = new (string, Rectangle)[]
             {
                 new("퀘스트 받기", new()),
@@ -46,6 +45,8 @@ namespace SprtaaaaDungeon
 
         public override void Start()
         {
+            questController.SelectQuestIndex = 0;
+
             DrawTitle();
         }
 
@@ -70,7 +71,7 @@ namespace SprtaaaaDungeon
                         isCorretInput = true;
                         break;
                     case ConsoleKey.Enter:
-                        controller.ChangeScene<QuestInfoScene>();
+                        controller.ChangeScene<QuestListScene>();
                         break;
                     case ConsoleKey.Escape:
                         controller.ChangeScene<TownScene>();

@@ -90,12 +90,12 @@ public class GameManager
 
     void InitComponents()
     {
-        QuestController = new();
-
         var dp = new DungeonPlayer(PlayerData);
         dp.SetDungeonPlayer();
         DungeonController = new DungeonController (dp);
-        DungeonController.MakeMonsterLists(); 
+        DungeonController.MakeMonsterLists();
+
+        QuestController = new();
 
         SceneController = new();
     }

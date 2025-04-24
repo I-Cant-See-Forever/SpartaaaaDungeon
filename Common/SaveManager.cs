@@ -22,7 +22,7 @@ public class SaveManager
 
     public bool HasSaveFile(string path)
     {
-        return File.Exists(path);
+        return Directory.Exists("SaveData");
     }
 
     public void DeleteSaveFile(string path)

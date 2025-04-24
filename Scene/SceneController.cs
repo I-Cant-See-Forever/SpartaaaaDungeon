@@ -24,6 +24,7 @@ namespace SprtaaaaDungeon
                 new TownScene(this),
                 new StatScene(this),
                 new QuestMainScene(this),
+                new QuestListScene(this),
                 new QuestInfoScene(this),
                 new NameScene(this),
                 new ClassScene(this),
@@ -52,6 +53,8 @@ namespace SprtaaaaDungeon
 
                     changedScene.Start();
 
+                    //GameManager.Instance.SaveGame();
+
                     return;
                 }
             }
@@ -61,34 +64,32 @@ namespace SprtaaaaDungeon
         {
             foreach (var item in sceneContainer)
             {
-                if (item is T changedScene)
+                if (item is T)
                 {
                     currentScene?.End();
 
-                    currentScene = changedScene;
+                    currentScene = scene;
 
                     Console.Clear();
 
-                    changedScene.Start();
+                    scene.Start();
 
                     return;
                 }
             }
         }
 
-        public bool TryGetScene<T>(out T targetScene) where T : Scene
+        public T GetScene<T>() where T : Scene
         {
-            targetScene = null;
-
             foreach (var item in sceneContainer)
             {
-                if (item is T)
+                if (item is T target)
                 {
-                    targetScene = (T)item;
+                    return target;
                 }
             }
 
-            return targetScene != null;
+            return null;
         }    
     }
 }
