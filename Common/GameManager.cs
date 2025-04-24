@@ -75,7 +75,10 @@ public class GameManager
             new("테스트소모품1",GameEnum.ItemType.Consumable , 100, new(1,1,1,1)),
         };
 
-        InventoryItems = new();
+        InventoryItems = new()
+        {
+            new(GetItemData("테스트무기1"), 1, false)
+        };
 
         ShopItems = new()
         {
