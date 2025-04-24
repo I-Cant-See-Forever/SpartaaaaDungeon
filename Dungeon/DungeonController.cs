@@ -14,8 +14,10 @@ public class DungeonController
     public List<DungeonData> deathMonsters { get; set; }
     public List<DungeonData> initMonsters { get; set; }
 
+    private readonly PlayerData originalplayer;
     private DungeonPlayer dungeonplayer;
     public DungeonPlayer DungeonPlayerInstance => dungeonplayer;
+    
 
     private int lastAttackIndex;
     private float lastDamage;
@@ -29,13 +31,26 @@ public class DungeonController
     public bool isGameOver = false;
 
 
-    public DungeonController(DungeonPlayer player)
+    public DungeonController(PlayerData player)
     {
-        dungeonplayer = player;
-
-
+        originalplayer = player;
 
     }
+    public void EnterDungeon(string difficulty)
+    {
+        dungeonplayer = new DungeonPlayer(originalplayer);
+        dungeonplayer.SetDungeonPlayer();
+
+        MakeMonsterLists(); // 던전 입장시 몬스터 리스트 생성
+        SetDungeon(difficulty);
+    }
+
+    public void ExitDungeon()
+    {
+        dungeonplayer.ApplyResult();
+        dungeonplayer = null;
+    }
+
 
     public void MakeMonsterLists()
     {
@@ -89,6 +104,7 @@ public class DungeonController
 
         initMonsters = initMonsters.OrderBy(x => rd.NextDouble()).ToList(); //배열 섞어주기.
     }
+
 
 
     public void SetDungeon(string input)
@@ -154,13 +170,13 @@ public class DungeonController
     public void IsPlayerAliveCheck() // 플레이어 죽었으면 플래그 false
     {
 
-        if (dungeonplayer.CurrentHealth <= 0)
+        if (dungeonplayer == null)
         {
-            isPlayerAlive = false;
+            isPlayerAlive = originalplayer.Stat.CurrentHealth > 0;
         }
         else
         {
-            isPlayerAlive = true;
+            isPlayerAlive = dungeonplayer.CurrentHealth > 0;
         }
 
     }

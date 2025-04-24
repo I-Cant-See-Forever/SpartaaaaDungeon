@@ -55,7 +55,7 @@ namespace SprtaaaaDungeon
                 case 1:
                     if (dungeonController.isPlayerAlive)
                     {
-                        dungeonController.SetDungeon("1");
+                        dungeonController.EnterDungeon("1");
                         controller.ChangeScene<DungeonBattleScene>();
                     }
                     else
@@ -71,7 +71,7 @@ namespace SprtaaaaDungeon
                 case 2:
                     if (dungeonController.isPlayerAlive)
                     {
-                        dungeonController.SetDungeon("2");
+                        dungeonController.EnterDungeon("1");
                         controller.ChangeScene<DungeonBattleScene>();
                     }
                     else
@@ -84,7 +84,7 @@ namespace SprtaaaaDungeon
                 case 3:
                     if (dungeonController.isPlayerAlive)
                     {
-                        dungeonController.SetDungeon("3");
+                        dungeonController.EnterDungeon("1");
                         controller.ChangeScene<DungeonBattleScene>();
                     }
                     else
@@ -95,6 +95,7 @@ namespace SprtaaaaDungeon
                     }
                     break;
                 case 0:
+                    dungeonController.ExitDungeon();
                     controller.ChangeScene<TownScene>();
                     break;
 
