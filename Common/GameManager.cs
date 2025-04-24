@@ -56,11 +56,19 @@ public class GameManager
         PlayerData =
             new("테스트이름", GameEnum.ClassType.Warrior, 1, 1500, new(100, 100, 10, 5));
 
-        InventoryItems = new();
+        InventoryItems = new(); // 병합 시 아이템들만 삭제(괄호도 지움)
 
-        ShopItems = new()
+        GameItems = new() // 병합 시 삭제
         {
-            new(GetItemData("테스트무기0"), 1)
+            new("테스트무기0", GameEnum.ItemType.Weapon, 100, new(1, 1, 1, 1)),
+            new("테스트소모품0", GameEnum.ItemType.Consumable, 100, new(1, 1, 1, 1))
+
+        };
+
+        ShopItems = new() // 병합 시 아이템 테스트무기0 빼고 다 삭제
+        {
+            new(GetItemData("테스트무기0"), 1),
+            new(GetItemData("테스트소모품0"), 5)
         };
     }
 
