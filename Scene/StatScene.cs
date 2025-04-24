@@ -38,10 +38,10 @@ namespace SprtaaaaDungeon
             DrawStatBar(playerdata.Stat.MaxHealth, playerdata.Stat.CurrentHealth, "red", 6);
             
             DrawString($"《x{layout.Right.X},y{StatRange + 7}》마  력 : ");
-            DrawStatBar(50, 100, "blue", 7);
+            DrawStatBar(100, 50, "blue", 7);
             
             DrawString($"《x{layout.Right.X},y{StatRange+8}》경험치 : ");
-            DrawStatBar(70, 100, "green", 8);
+            DrawStatBar(playerdata.maxExp, playerdata.currentExp, "green", 8);
 
             DrawString($"《x{layout.Right.X},y{StatRange+10}》Gold : {playerdata.Gold} G\n\n");
         }
@@ -55,9 +55,12 @@ namespace SprtaaaaDungeon
                 {
                     controller.ChangeScene<TownScene>();
                 }
+
+                // 스탯 증가 감소 테스트용
                 if (Keyinput.Key == ConsoleKey.UpArrow)
                 {
                     playerdata.Stat.CurrentHealth++;
+                    playerdata.addExp(1);
                 }
                 if (Keyinput.Key == ConsoleKey.DownArrow)
                 {
