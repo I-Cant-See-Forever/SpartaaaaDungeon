@@ -92,7 +92,7 @@ public class GameManager
     {
         var dp = new DungeonPlayer(PlayerData);
         dp.SetDungeonPlayer();
-        DungeonController = new DungeonController (dp);
+        DungeonController = new DungeonController (PlayerData);
         DungeonController.MakeMonsterLists();
 
         QuestController = new();
