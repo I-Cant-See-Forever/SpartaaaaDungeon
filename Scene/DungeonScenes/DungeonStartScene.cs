@@ -71,7 +71,7 @@ namespace SprtaaaaDungeon
                 case 2:
                     if (dungeonController.isPlayerAlive)
                     {
-                        dungeonController.EnterDungeon("1");
+                        dungeonController.EnterDungeon("2");
                         controller.ChangeScene<DungeonBattleScene>();
                     }
                     else
@@ -84,7 +84,7 @@ namespace SprtaaaaDungeon
                 case 3:
                     if (dungeonController.isPlayerAlive)
                     {
-                        dungeonController.EnterDungeon("1");
+                        dungeonController.EnterDungeon("3");
                         controller.ChangeScene<DungeonBattleScene>();
                     }
                     else

@@ -84,14 +84,8 @@ public class GameManager
 
     void InitComponents()
     {
-        QuestController = new(QuestDatas);
-        
-
-        //var dp = new DungeonPlayer(PlayerData);
-        //dp.SetDungeonPlayer();
+        QuestController = new(QuestDatas);      
         DungeonController = new DungeonController (PlayerData);
-        //DungeonController.MakeMonsterLists(); 
-
         SceneController = new();
     }
 }
