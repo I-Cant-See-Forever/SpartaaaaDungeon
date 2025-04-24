@@ -8,17 +8,16 @@ namespace SprtaaaaDungeon
 {
     public abstract class DungeonScene : Scene
     {
-        protected DungeonController dungeonController;
-        protected DungeonPlayer dungeonPlayer;
-        protected PlayerData playerData;
-        protected DungeonData monsters;
+        protected DungeonController dungeonController => GameManager.Instance.DungeonController;
+        protected DungeonPlayer dungeonPlayer => dungeonController.DungeonPlayerInstance;
+
+       
 
         public DungeonScene(SceneController controller) : base(controller)
         {
-            playerData = GameManager.Instance.PlayerData;
-            dungeonController = GameManager.Instance.DungeonController;
-            dungeonPlayer = dungeonController.DungeonPlayerInstance;
-            monsters = new DungeonData();
+
+
+            
         }
 
 
