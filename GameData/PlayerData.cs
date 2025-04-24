@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,8 +14,8 @@ namespace SprtaaaaDungeon
         public int Level { get; set; }
         public float Gold { get; set; }
 
-        public int currentExp { get; set; }
-        public int maxExp = 10;
+        public float CurrentExp { get; set; }
+        public float MaxExp { get; set; }
 
         public StatData Stat { get; set; }
 
@@ -25,16 +26,20 @@ namespace SprtaaaaDungeon
             Level = level; 
             Gold = gold; 
             Stat = statData;
+
+            MaxExp = level * 10;
         }
 
         public void addExp(float exp)
         {
-            currentExp++;
-            if(currentExp >= maxExp)
+            CurrentExp += exp;
+
+            if(CurrentExp >= MaxExp)
             {
                 Level++;
-                currentExp = 0;
-                maxExp += 10;
+                CurrentExp = 0;
+
+                MaxExp = Level * 10;
             }
         }
 
