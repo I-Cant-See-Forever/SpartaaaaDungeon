@@ -47,8 +47,11 @@ public class DungeonController
 
     public void ExitDungeon()
     {
-        dungeonplayer.ApplyResult();
-        dungeonplayer = null;
+        if (dungeonplayer != null)
+        {
+            dungeonplayer.ApplyResult();
+            dungeonplayer = null;
+        }
     }
 
 
