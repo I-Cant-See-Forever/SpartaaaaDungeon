@@ -41,7 +41,7 @@ namespace SprtaaaaDungeon
             DrawStatBar(100, 50, "blue", 7);
             
             DrawString($"《x{layout.Right.X},y{StatRange+8}》경험치 : ");
-            DrawStatBar(playerdata.maxExp, playerdata.currentExp, "green", 8);
+            DrawStatBar(playerdata.MaxExp, playerdata.CurrentExp, "green", 8);
 
             DrawString($"《x{layout.Right.X},y{StatRange+10}》Gold : {playerdata.Gold} G\n\n");
         }
