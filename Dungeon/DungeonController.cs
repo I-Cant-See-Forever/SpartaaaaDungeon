@@ -38,9 +38,11 @@ public class DungeonController
     }
     public void EnterDungeon(string difficulty)
     {
-        dungeonplayer = new DungeonPlayer(originalplayer);
-        dungeonplayer.SetDungeonPlayer();
-
+        if(dungeonplayer == null)
+        {
+            dungeonplayer = new DungeonPlayer(originalplayer);
+            dungeonplayer.SetDungeonPlayer();
+        }
         MakeMonsterLists(); // 던전 입장시 몬스터 리스트 생성
         SetDungeon(difficulty);
     }
