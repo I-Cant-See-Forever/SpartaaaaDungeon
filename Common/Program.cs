@@ -10,20 +10,22 @@ namespace SprtaaaaDungeon
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             Console.CursorVisible = false;
 
+            SaveManager saveManager = new SaveManager();
             GameManager gameManager = new GameManager();
 
-            gameManager.StartGame(true);
+            gameManager.StartGame();
 
-            SceneController sceneController = new SceneController();
+            var sceneController = gameManager.SceneController;
 
             //test
-            sceneController.ChangeScene<InventoryScene>();
+            /*sceneController.ChangeScene<TownScene>();
+
 
 
             while (true)
             {
                 sceneController.UpdateScene();
-            }
+            }*/
         }
     }
 }
