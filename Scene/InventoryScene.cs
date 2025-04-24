@@ -8,10 +8,22 @@ namespace SprtaaaaDungeon
 {
     public class InventoryScene : Scene
     {
+        int currentPage;
+        int maxPage;
+
+        List<GameEnum.ItemType> itemTypeList = new();
+
         private InventoryController inventoryController;
         public InventoryScene(SceneController controller) : base(controller)
         {
             inventoryController = new InventoryController();
+
+            maxPage = inventoryController.CategorizedItems.Count - 1;
+
+            foreach (var item in inventoryController.CategorizedItems)
+            {
+                itemTypeList.Add(item.Key);
+            }
         }
 
         public override void Start()
@@ -26,7 +38,7 @@ namespace SprtaaaaDungeon
             else
             {
                 Console.WriteLine("[아이템 목록]");
-                inventoryController.PrintItems();
+                inventoryController.PrintItems(itemTypeList[currentPage]);
             }
             Console.WriteLine("1. 장착 관리");
             Console.WriteLine("0. 나가기\n");
@@ -48,12 +60,23 @@ namespace SprtaaaaDungeon
                 case "0":
                     End();
                     break;
-
+                case "2":
+                    if(currentPage < maxPage)
+                    {
+                        currentPage++;
+                    }
+                    else
+                    {
+                        currentPage = 0;
+                    }
+                    Console.Clear();
+                    inventoryController.PrintItems(itemTypeList[currentPage]);
+                    break;
                 case "1":
                     while(true)
                     {
                         Console.Clear();
-                        inventoryController.PrintItems();
+                        inventoryController.PrintItems(itemTypeList[currentPage]);
                         Console.WriteLine("\n0. 나가기");
                         Console.Write("\n장착/해제할 아이템 번호를 입력하세요\n>> ");
                         string select = Console.ReadLine();
@@ -88,7 +111,7 @@ namespace SprtaaaaDungeon
                                     Console.ReadLine();
 
                                     Console.Clear();
-                                    inventoryController.PrintItems();
+                                    inventoryController.PrintItems(itemTypeList[currentPage]);
                                 }
                             }
                             else

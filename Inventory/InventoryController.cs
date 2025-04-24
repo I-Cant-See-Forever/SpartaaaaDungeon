@@ -38,24 +38,27 @@ namespace SprtaaaaDungeon
             }
         }
 
-        public void PrintItems()
+        public void PrintItems(GameEnum.ItemType targetType)
         {
             foreach (KeyValuePair<GameEnum.ItemType, List<InventoryItemData>> pair in typeItemDict)
             {
-                Console.WriteLine("[" + pair.Key + "]");
-                foreach (InventoryItemData item in pair.Value)
+                if(pair.Key == targetType)
                 {
-                    string prefix = IsEquipped(item) ? "[E] " : "   ";
-                    string effect = item.ItemData.Type switch
+                    Console.WriteLine("[" + pair.Key + "]");
+                    foreach (InventoryItemData item in pair.Value)
                     {
-                        GameEnum.ItemType.Weapon => "공격력 +" + item.ItemData.StatData.Attack,
-                        GameEnum.ItemType.Armor => "방어력 +" + item.ItemData.StatData.Defense,
-                        GameEnum.ItemType.Consumable => "회복력 +" + item.ItemData.StatData.Defense,
-                        _ => ""
-                    };
-                    Console.WriteLine("- " + prefix + item.ItemData.Name + " | " + effect);
+                        string prefix = IsEquipped(item) ? "[E] " : "   ";
+                        string effect = item.ItemData.Type switch
+                        {
+                            GameEnum.ItemType.Weapon => "공격력 +" + item.ItemData.StatData.Attack,
+                            GameEnum.ItemType.Armor => "방어력 +" + item.ItemData.StatData.Defense,
+                            GameEnum.ItemType.Consumable => "회복력 +" + item.ItemData.StatData.Defense,
+                            _ => ""
+                        };
+                        Console.WriteLine("- " + prefix + item.ItemData.Name + " | " + effect);
+                    }
+                    Console.WriteLine();
                 }
-                Console.WriteLine();
             }
         }
 
