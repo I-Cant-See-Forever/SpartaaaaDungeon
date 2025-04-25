@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace SprtaaaaDungeon
 {
-    public class MonsterData : CharacterData
+    public class CharacterData
     {
-     
+        public string Name { get; set; }
+        public int Level { get; set; }
+
+        public StatData StatData { get; set; }
     }
 }

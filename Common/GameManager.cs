@@ -2,17 +2,25 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
 public class GameManager
 {
-    public static GameManager Instance { get; set; }
-    
-    public GameManager()
+    static GameManager _instance;
+    public static GameManager Instance
     {
-        Instance = this;
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = new GameManager();
+            }
+            return _instance;
+        }
     }
+ 
 
 
     //Component
@@ -24,6 +32,9 @@ public class GameManager
     //data
     public List<ItemData> GameItems {get; private set;}
     public List<QuestData> GameQuestDatas { get; private set; }
+    public List<SkillData> SkillDatas { get; private set; }
+    public List<DungeonData> DungeonDatas { get; set; }
+    public List<MonsterData> MonsterDatas { get; set; }
 
     //save
     public List<PlayerQuestData> PlayerQuestDatas { get; private set; } = new();
@@ -53,15 +64,25 @@ public class GameManager
 
     void NewGame()
     {
-        PlayerData =
-            new("테스트이름", GameEnum.ClassType.Warrior, 1, 1500, new(100, 100, 10, 5));
+        PlayerData = new PlayerData
+        {
+            Level = 1,
+            Gold = 1500,
+            MaxExp = 10,
+            StatData = new StatData
+            {
+                MaxHealth = 100,
+                CurrentHealth = 100,
+                MaxMP = 50,
+                CurrentMP = 50,
+                Attack = 10,
+                Defense = 5
+            }
+        };
 
         InventoryItems = new();
 
-        ShopItems = new()
-        {
-            new(GetItemData("테스트무기0"), 1)
-        };
+        ShopItems = new();
     }
 
     public void SaveGame()
@@ -93,12 +114,9 @@ public class GameManager
     }
 
 
-
     void InitComponents()
     {
-
         DungeonController = new();
-
 
         QuestController = new();
 
@@ -111,7 +129,9 @@ public class GameManager
 
         GameItems = saveManager.LoadGameData<List<ItemData>>(GamePath.ItemDataPath);
         GameQuestDatas = saveManager.LoadGameData<List<QuestData>>(GamePath.QuestDataPath);
+        DungeonDatas = saveManager.LoadGameData<List<DungeonData>>(GamePath.DungeonDataPath);
+        MonsterDatas = saveManager.LoadGameData<List<MonsterData>>(GamePath.MonsterDataPath);
+        SkillDatas = saveManager.LoadGameData<List<SkillData>>(GamePath.SkillDataPath);
     }
 
-   
 }

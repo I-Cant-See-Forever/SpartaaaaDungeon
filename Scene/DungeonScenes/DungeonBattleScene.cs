@@ -5,12 +5,12 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using static SprtaaaaDungeon.DungeonBattleScene;
 
 namespace SprtaaaaDungeon
 {
     class DungeonBattleScene : Scene
     {
-
         DungeonLayout layout = new();
 
         DungeonController dungeonController;
@@ -26,7 +26,7 @@ namespace SprtaaaaDungeon
         SelectPhase selectPhase;
 
         bool isMonsterPhase = false;
-
+        SkillData currentSkill;
 
         public DungeonBattleScene(SceneController controller) : base(controller) 
         {
@@ -39,7 +39,8 @@ namespace SprtaaaaDungeon
         public override void Start()
         {
             currentDungeon = dungeonController.CurrentDungeon;
-
+            selectPhase = SelectPhase.Behavior;
+            isMonsterPhase = false;
 
             DrawPlayerInfo(true);
             DrawMonsterInfo(false);
@@ -60,10 +61,29 @@ namespace SprtaaaaDungeon
                         switch (selectPhase)
                         {
                             case SelectPhase.Behavior:
-                                SelectBehavior(selectNum); break;
-                            case SelectPhase.Monster:
-                                SelectMonster(selectNum, false); break;
 
+                                switch (selectNum)
+                                {
+                                    case 1:
+                                        SetSelectMonsterPhase();
+                                        break;
+                                    case 2:
+                                        SetSelectSkillPhase();
+                                        break;
+                                }
+                                break;
+
+                            case SelectPhase.Monster:
+
+                                SelectMonster(selectNum, currentSkill != null); 
+                                break;
+
+                            case SelectPhase.Skill:
+
+                                SelectSkill(selectNum);
+
+                                SetSelectMonsterPhase();
+                                break;
                         }
                     }
                 }
@@ -74,25 +94,84 @@ namespace SprtaaaaDungeon
         {
         }
 
+        void SelectSkill(int input)
+        {
+            var skillDatas = GameManager.Instance.SkillDatas;
 
-        void StartMonsterPhase()
+            for (int i = 0; i < skillDatas.Count; i++)
+            {
+                if (input == i + 1)
+                {
+                    currentSkill = skillDatas[i];
+                    break;
+                }
+            }
+        }
+
+        void SetSelectMonsterPhase()
+        {
+            selectPhase = SelectPhase.Monster;
+
+            DrawRemoveRect(layout.BattleInfo);
+            DrawRemoveRect(layout.MonsterInfo);
+            DrawRemoveRect(layout.PlayerInfo);
+
+            DrawMonsterInfo(true);
+            DrawPlayerInfo(false);
+        }
+
+        void SetSelectSkillPhase()
+        {
+            selectPhase = SelectPhase.Skill;
+
+            DrawRemoveRect(layout.PlayerInfo);
+
+            DrawMonsterInfo(false);
+            DrawSkillInfo();
+        }
+
+        void SetSelectBehaviorPhase()
+        {
+            selectPhase = SelectPhase.Behavior;
+
+            DrawRemoveRect(layout.MonsterInfo);
+            DrawRemoveRect(layout.PlayerInfo);
+
+            DrawPlayerInfo(true);
+            DrawMonsterInfo(false);
+        }
+
+
+        void SetMonsterPhase()
         {
             isMonsterPhase = true;
+
+            DrawRemoveRect(layout.MonsterInfo);
+
+            DrawMonsterInfo(false);
 
 
             Thread.Sleep(1000);
 
             DrawRemoveRect(layout.BattleInfo);
+            DrawRemoveRect(layout.PlayerInfo);
 
+            List<CharacterData> target = new()
+            {
+                playerData
+            };
 
             for (int i = 0; i < currentDungeon.Monsters.Count; i++)
             {
                 dungeonController.TakeDamage(currentDungeon.Monsters[i], out float attackDamage);
-                DrawBattleResult(playerData.Name, attackDamage, i);
+                DrawBattleResult(target, attackDamage, i);
+                DrawRemoveRect(layout.PlayerInfo);
+                DrawPlayerInfo(false);
 
-                if(dungeonController.IsPlayerDead())
+                if (dungeonController.IsPlayerDead())
                 {
                     GameManager.Instance.GameOver();
+                    return;
                 }
                 Thread.Sleep(1000);
             }
@@ -103,51 +182,50 @@ namespace SprtaaaaDungeon
             }
 
 
-            DrawPlayerInfo(true);
+            SetSelectBehaviorPhase();
 
             isMonsterPhase = false;
         }
 
-
-        void SelectBehavior(int input)
-        {
-            switch (input)
-            {
-                case 1:
-                    selectPhase = SelectPhase.Monster;
-
-                    DrawRemoveRect(layout.BattleInfo);
-                    DrawMonsterInfo(true);
-                    DrawPlayerInfo(false);
-                    break;
-            }
-        }
+     
 
         void SelectMonster(int input, bool isSkill)
         {
             if (input > 0 && input < currentDungeon.Monsters.Count + 1)
             {
-                selectPhase = SelectPhase.Behavior;
+                float attackDamage = 0;
 
-                MonsterData targetMonster = currentDungeon.Monsters[input - 1];
+                List<CharacterData> targets = new()
+                {
+                    currentDungeon.Monsters[input - 1]
+                };
 
                 if (isSkill)
                 {
+                    dungeonController.UseAttackSkill(targets, currentSkill, out float resultDamage);
 
+                    attackDamage = resultDamage;
+
+                    currentSkill = null;
                 }
                 else
                 {
-                    dungeonController.TryBasicAttack(input - 1, out float attackDamage);
+                    dungeonController.TryBasicAttack(targets, out float resultDamage);
 
-                    DrawBattleResult(targetMonster.Name, attackDamage);
+                    attackDamage = resultDamage;
                 }
 
-                dungeonController.IsMonsterDead(targetMonster, out bool isClear);
+                DrawBattleResult(targets, attackDamage);
 
+                dungeonController.CheckMonsterDead(targets);
+
+                DrawRemoveRect(layout.MonsterInfo);
                 DrawMonsterInfo(false);
 
-                if (isClear)
+                if (dungeonController.CurrentDungeon.Monsters.Count == 0)
                 {
+                    dungeonController.GetReward();
+
                     Thread.Sleep(1000);
 
                     DrawClearText();
@@ -158,37 +236,52 @@ namespace SprtaaaaDungeon
                 }
                 else
                 {
-                    StartMonsterPhase();
+                    SetMonsterPhase();
                 }
             }
         }
 
 
-        void DrawBattleResult(string targetName, float attackDamage, int deltaY = 0)
+
+        void DrawBattleResult(List<CharacterData> targets, float attackDamage, int deltaY = 0)
         {
-
-            if (attackDamage > 0)
+            for (int i = 0; i < targets.Count; i++)
             {
-                DrawString($"《x{layout.BattleInfo.X + 5},y{layout.BattleInfo.Y + 4 + deltaY}》{targetName} 에게 {attackDamage}의 데미지를 입혔습니다!");
+                if (attackDamage > 0)
+                {
+                    DrawString($"《x{layout.BattleInfo.X + 5},y{layout.BattleInfo.Y + 4 + i + deltaY}》{targets[i].Name} 에게 {attackDamage}의 데미지를 입혔습니다!");
 
+                }
+                else
+                {
+                    DrawString($"《x{layout.BattleInfo.X + 5},y{layout.BattleInfo.Y + 4 + i + deltaY}》{targets[i].Name}을 향한 공격은 실패했습니다..");
+                }
             }
-            else
+        }
+
+        void DrawSkillInfo()
+        {
+            var skillDatas = GameManager.Instance.SkillDatas;
+
+            DrawStatBar(playerData.StatData.MaxHealth, playerData.StatData.CurrentHealth, "green", layout.PlayerInfo.X + 2, layout.PlayerInfo.Y + 1);
+            DrawStatBar(playerData.StatData.MaxMP, playerData.StatData.CurrentMP, "cyan", layout.PlayerInfo.X + 2, layout.PlayerInfo.Y + 2);
+
+            for (int i = 0; i < skillDatas.Count; i++)
             {
-                DrawString($"《x{layout.BattleInfo.X + 5},y{layout.BattleInfo.Y + 4 + deltaY}》{targetName}을 향한 공격은 실패했습니다..");
+                DrawString($"《x{layout.PlayerInfo.X + 3},y{layout.PlayerInfo.Y + i * 2 + 4},tmagenta》[{i + 1}] 《》{skillDatas[i].Name} - {skillDatas[i].CostMP}");
+                DrawString($"《x{layout.PlayerInfo.X + 3},y{layout.PlayerInfo.Y + i * 2 + 5}》{skillDatas[i].Description}");
             }
         }
 
 
-
-
         void DrawMonsterInfo(bool isSelect)
         {
-            DrawRemoveRect(layout.MonsterInfo);
-
-
             for (int i = 0; i < currentDungeon.Monsters.Count; i++)
             {
+
                 var targetMonster = currentDungeon.Monsters[i];
+
+
 
                 if (isSelect)
                 {
@@ -199,17 +292,16 @@ namespace SprtaaaaDungeon
                     DrawString($"《x{layout.MonsterInfo.X + 2},y{layout.MonsterInfo.Y + i * 3 + 2}》{targetMonster.Name}");
                 }
 
-                DrawStatBar(targetMonster.MaxHealth, targetMonster.CurrentHealth, "red", layout.MonsterInfo.X + 2, layout.MonsterInfo.Y + i * 3 + 3);
+                DrawStatBar(targetMonster.StatData.MaxHealth, targetMonster.StatData.CurrentHealth, "red", layout.MonsterInfo.X + 2, layout.MonsterInfo.Y + i * 3 + 3);
             }
         }
 
         void DrawPlayerInfo(bool isSelect)
         {
-            DrawRemoveRect(layout.PlayerInfo);
-
             DrawString($"《x{layout.PlayerInfo.X + 2},y{layout.PlayerInfo.Y}》{playerData.Name}");
 
-            DrawStatBar(playerData.Stat.MaxHealth, playerData.Stat.CurrentHealth, "green", layout.PlayerInfo.X + 2, layout.PlayerInfo.Y + 1);
+            DrawStatBar(playerData.StatData.MaxHealth, playerData.StatData.CurrentHealth, "green", layout.PlayerInfo.X + 2, layout.PlayerInfo.Y + 1);
+            DrawStatBar(playerData.StatData.MaxMP, playerData.StatData.CurrentMP, "cyan", layout.PlayerInfo.X + 2, layout.PlayerInfo.Y + 2);
 
             if (isSelect)
             {
@@ -242,16 +334,16 @@ namespace SprtaaaaDungeon
 
             DrawRemoveRect(layout.BattleInfo);
 
-            DrawString($"《x{layout.BattleInfo.X + 5},y{layout.BattleInfo.Y}》{currentDungeon.Name} 을 클리어 하셨습니다!\n");
-            DrawString($"《x{layout.BattleInfo.X + 5},y{layout.BattleInfo.Y + 1}》축하합니다!\n");
-            DrawString($"《x{layout.BattleInfo.X + 5},y{layout.BattleInfo.Y + 2}》+ {reward.EXP} exp\n");
-            DrawString($"《x{layout.BattleInfo.X + 5},y{layout.BattleInfo.Y + 3}》+ {reward.Gold} gold\n");
+            DrawString($"《x{layout.BattleInfo.X + 5},y{layout.BattleInfo.Y + 2}》{currentDungeon.Name} 을 클리어 하셨습니다!\n");
+            DrawString($"《x{layout.BattleInfo.X + 5},y{layout.BattleInfo.Y + 3}》축하합니다!\n");
+            DrawString($"《x{layout.BattleInfo.X + 5},y{layout.BattleInfo.Y + 4}》+ {reward.EXP} exp\n");
+            DrawString($"《x{layout.BattleInfo.X + 5},y{layout.BattleInfo.Y + 5}》+ {reward.Gold} gold\n");
 
             int index = 0;
 
-            foreach (var item in reward.Items)
+            foreach (var item in reward.ItemsNameDict)
             {
-                DrawString($"《x{layout.BattleInfo.X + 5},y{layout.BattleInfo.Y + 4 + index}》+ {item.Key.Name} + {item.Value} \n");
+                DrawString($"《x{layout.BattleInfo.X + 5},y{layout.BattleInfo.Y + 4 + index}》+ {item.Key} + {item.Value} \n");
                 index++;
             }
         }

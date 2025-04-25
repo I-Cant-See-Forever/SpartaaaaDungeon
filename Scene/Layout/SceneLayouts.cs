@@ -42,10 +42,10 @@ namespace SprtaaaaDungeon
         public DungeonLayout()
         {
             MonsterInfo = new(0, 0, 30, 20);
-            PlayerInfo = new(0, 20, 30, 10);
+            PlayerInfo = new(0, 20, 50, 10);
 
             MonsterImage = new(31, 0, 89, 20);
-            BattleInfo = new(31, 20, 89, 6);
+            BattleInfo = new(50, 20, 69, 10);
         }
     }
 

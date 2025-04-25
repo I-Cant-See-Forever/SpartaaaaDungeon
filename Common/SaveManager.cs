@@ -8,11 +8,21 @@ public class SaveManager
 {
     JsonSerializerSettings settings;
 
-    public static SaveManager Instance;
+    static SaveManager _instance;
+    public static SaveManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = new SaveManager();
+            }
+            return _instance;
+        }
+    }
+
     public SaveManager() 
     {
-        Instance = this;
-
         settings = new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.Auto

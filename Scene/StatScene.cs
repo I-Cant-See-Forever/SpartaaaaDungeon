@@ -35,7 +35,7 @@ namespace SprtaaaaDungeon
             DrawAtkDef();
 
             DrawString($"《x{layout.Right.X},y{StatRange + 6}》체  력 : ");
-            DrawStatBar(playerdata.Stat.MaxHealth, playerdata.Stat.CurrentHealth, "red", 6);
+            DrawStatBar(playerdata.StatData.MaxHealth, playerdata.StatData.CurrentHealth, "red", 6);
             
             DrawString($"《x{layout.Right.X},y{StatRange + 7}》마  력 : ");
             DrawStatBar(100, 50, "blue", 7);
@@ -59,12 +59,12 @@ namespace SprtaaaaDungeon
                 // 스탯 증가 감소 테스트용
                 if (Keyinput.Key == ConsoleKey.UpArrow)
                 {
-                    playerdata.Stat.CurrentHealth++;
+                    playerdata.StatData.CurrentHealth++;
                     playerdata.addExp(1);
                 }
                 if (Keyinput.Key == ConsoleKey.DownArrow)
                 {
-                    playerdata.Stat.CurrentHealth--;
+                    playerdata.StatData.CurrentHealth--;
                 }
             }
         }
@@ -94,8 +94,8 @@ namespace SprtaaaaDungeon
             string bonusAtkStr = bonusAtk == 0 ? "" : $"(+{bonusAtk})";
             string bonusDefStr = bonusDef == 0 ? "" : $"(+{bonusDef})";
 
-            DrawString($"《x{layout.Right.X},y{StatRange + 3}》공격력 : {playerdata.Stat.Attack} {bonusAtkStr}");
-            DrawString($"《x{layout.Right.X},y{StatRange + 4}》방어력 : {playerdata.Stat.Defense} {bonusDefStr}");
+            DrawString($"《x{layout.Right.X},y{StatRange + 3}》공격력 : {playerdata.StatData.Attack} {bonusAtkStr}");
+            DrawString($"《x{layout.Right.X},y{StatRange + 4}》방어력 : {playerdata.StatData.Defense} {bonusDefStr}");
         }
 
         void DrawStatBar(float maxData, float curData, string color, int yNum)

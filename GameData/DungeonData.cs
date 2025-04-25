@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace SprtaaaaDungeon
@@ -12,6 +13,7 @@ namespace SprtaaaaDungeon
         public int Level { get; private set; }
         public DungeonReward Reward { get; private set; }
 
+        [JsonIgnore]
         public List<MonsterData> Monsters { get; private set; }
         public DungeonData(string name, int level, DungeonReward reward)
         {
