@@ -26,7 +26,8 @@ namespace SprtaaaaDungeon
                 new ShopScene(this),
                 new DungeonMainScene(this),
                 new DungeonBattleScene(this),
-                new GameEndScene(this)
+                new GameEndScene(this),
+                new TitleScene(this)
             };
         }
 
