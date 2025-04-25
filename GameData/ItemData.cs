@@ -15,12 +15,5 @@ namespace SprtaaaaDungeon
 
         public StatData StatData { get; set; }
 
-        public ItemData(string name,GameEnum.ItemType type, float price, StatData statData)
-        {
-            Name = name;
-            Type = type;
-            Price = price;
-            StatData = statData;
-        }
     }
 }

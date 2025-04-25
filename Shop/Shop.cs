@@ -157,7 +157,7 @@ public class Shop
 
                                             while (i < shopItemDatas.Count)
                                             {
-                                                Console.WriteLine($"[{i + 1}. {shopItemDatas[i].ItemData.Name}] {(inventoryItemData.Any(item => item.ItemData.Name == shopItemDatas[i].ItemData.Name) ? "- 보유중" : " ")}");
+                                                Console.WriteLine($"[{i + 1}. {shopItemDatas[i].ItemData.Name}] {(inventoryItemData.Any(item => item.Data.Name == shopItemDatas[i].ItemData.Name) ? "- 보유중" : " ")}");
                                                 i++;
                                                 limitPurPageCount++;
                                                 if (limitPurPageCount > 8)
@@ -224,7 +224,7 @@ public class Shop
 
                                                         while (i < shopItemDatas.Count)
                                                         {
-                                                            Console.WriteLine($"{sellsNum}. [{shopItemDatas[i].ItemData.Name}] {(inventoryItemData.Any(item => item.ItemData.Name == shopItemDatas[i].ItemData.Name) ? "- 보유중" : " ")}");
+                                                            Console.WriteLine($"{sellsNum}. [{shopItemDatas[i].ItemData.Name}] {(inventoryItemData.Any(item => item.Data.Name == shopItemDatas[i].ItemData.Name) ? "- 보유중" : " ")}");
                                                             i++;
                                                             sellsNum++;
                                                             limitPurPageCount++;
@@ -248,7 +248,7 @@ public class Shop
 
                                                                 int targetItem = purItemInput - 1 + (9 * (currentPurPage - 1));
 
-                                                                if (inventoryItemData.Any(item => item.ItemData.Name == shopItemDatas[targetItem].ItemData.Name))
+                                                                if (inventoryItemData.Any(item => item.Data.Name == shopItemDatas[targetItem].ItemData.Name))
                                                                 {
                                                                     Console.WriteLine("이미 구매한 아이템입니다!");
                                                                     Thread.Sleep(1000);

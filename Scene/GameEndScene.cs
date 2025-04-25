@@ -19,9 +19,12 @@ namespace SprtaaaaDungeon
 
         public override void Update()
         {
-            Console.ReadLine();
+            if(Console.KeyAvailable)
+            {
+                Console.ReadKey(true);
 
-            controller.ChangeScene<TownScene>();
+                controller.ChangeScene<TownScene>();
+            }
         }
 
 

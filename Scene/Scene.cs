@@ -138,17 +138,17 @@ namespace SprtaaaaDungeon
         }
 
 
-        protected int GetMoveSelectIndex(int targetIndex, int delta, int maxIndex)
+        protected int GetMoveSelectIndex(int targetIndex, int delta, int maxIndex, bool isLoop = false)
         {
             targetIndex += delta;
 
             if (targetIndex < 0)
             {
-                targetIndex = 0;
+                targetIndex = isLoop ? maxIndex : 0;
             }
             else if (targetIndex > maxIndex)
             {
-                targetIndex = maxIndex;
+                targetIndex = isLoop ? 0 : maxIndex;
             }
 
             return targetIndex;
