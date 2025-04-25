@@ -20,6 +20,7 @@ namespace SprtaaaaDungeon
 
         Stopwatch animWatch = new();
 
+        Rectangle rect = new Rectangle(40, 2, 70, 24);
 
         public QuestMainScene(SceneController controller) : base(controller)
         {
@@ -46,8 +47,10 @@ namespace SprtaaaaDungeon
         public override void Start()
         {
             questController.SelectQuestIndex = 0;
-
+            Frame();
             DrawTitle();
+            DrawImage(questController.SelectTypeIndex);
+
         }
 
         public override void Update()
@@ -64,7 +67,7 @@ namespace SprtaaaaDungeon
                     case ConsoleKey.UpArrow:
                         questController.SelectTypeIndex = GetMoveSelectIndex(questController.SelectTypeIndex, -1, menuTextRect.Length - 1);
                         isCorretInput = true;
-                     
+
                         break;
                     case ConsoleKey.DownArrow:
                         questController.SelectTypeIndex = GetMoveSelectIndex(questController.SelectTypeIndex, +1, menuTextRect.Length - 1);
@@ -81,8 +84,9 @@ namespace SprtaaaaDungeon
                 if (isCorretInput)
                 {
                     DrawRemoveRect(menuTextRect[tempSelectNum].Item2);
-
+                    DrawRemoveRect(rect);
                     DrawMenuText(questController.SelectTypeIndex);
+                    DrawImage(questController.SelectTypeIndex);
                 }
             }
         }
@@ -91,9 +95,122 @@ namespace SprtaaaaDungeon
         {
         }
 
+        void Frame() // 테두리 그리는 함수!
+        {
+            DrawString($"《x0,y0》┏━《l{Console.WindowWidth - 5}》━《》━┓");
+
+            for (int y = 1; y < Console.WindowHeight - 1; y++)
+            {
+                DrawString($"《x0,y{y}》┃《x{Console.WindowWidth - 2}》┃");
+            }
+
+            DrawString($"《x0,y{Console.WindowHeight - 1}》┗━《l{Console.WindowWidth - 5}》━《》━┛");
+        }
+
+        void DrawImage(int num)
+        {
+            if (num == 0)
+            {
+                string title = $"《x{layout.Image.X + 25},y{layout.Image.Y - 5},tyellow》" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀      \r\n" +
+                $"⠀⠀《twhite》⠀⢷⣗⢷⢦⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     \r\n" +
+                $"⠀⠀《twhite》⠀⠈⢻⣷⣍⠷⣿⢷⣤⠀⠀⠀⠀⠀⠀《tyellow》⠀⠀⠀⠀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⢀⠀⠀⠀⠀⠀\r\n" +
+                $"⠀⠀《twhite》⠀⠀⠀⢿⣽⣮⡘⢟⣿⢿⣦⡀⠀⠀⠀《tyellow》⠀⠀⣰⣟⣿⣻⣟⣿⣻⣟⣿⣻⣟⣿⣻⣟⣿⣻⣟⣿⣻⣿⣽⣟⣿⣻⣽⠫⢠⣲⣶⣖⡄⠀\r\n" +
+                $"⠀⠀《twhite》⠀⠀⠀⠐⣻⣽⣿⡔⠹⣻⣷⣷⣢⠀⠀《tyellow》⠀⢼⣟⣯⣿⣯⣿⣯⡿⣯⣿⣯⡿⣯⣿⣯⡿⣯⣿⣯⣿⡾⣯⣿⣽⣟⡇⢰⣟⣯⣷⣿⣻\r\n" +
+                $"⠀⠀《twhite》⠀⠀⠀⠀⠨⣷⢿⣻⣥⠘⢷⣟⣿⣖⡀《tyellow》⢀⡿⣿⣽⣾⢷⣿⢾⡿⣿⢾⣷⢿⣻⡷⣟⣿⢿⡾⣷⣟⣿⣻⣷⢿⣽⠀⠁⠉⠑⠉⠊⠉\r\n" +
+                $"⠀⠀《twhite》⠀⠀⠀⠀⠀⢺⣟⣿⣽⡮⡈⢿⣽⣯⣷⡀《tyellow》⠻⣯⣷⠙⠉⠊⠉⠋⠉⠙⠘⠉⢉⠩⠉⠉⠍⠋⠙⠘⢹⣽⣾⢿⡯⠀⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                $"⠀⠀《twhite》⠀⠀⠀⠀⠀⠀⢿⣯⣷⣿⣖⡈⢿⣾⣯⣷⡈《tyellow》⢹⣾⢷⡿⣾⢷⡿⣾⢷⣷⢿⣶⢷⡿⣾⣾⡾⣾⣾⢾⣷⢿⣿⡍⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                $"⠀⠀《twhite》⠀⠀⠀⠀⠀⠀⠩⣷⢿⡾⣟⣦⠈⡷⣿⡾⣧《tyellow》⠐⢽⡿⣟⡿⣟⣿⣟⣿⣻⡿⣽⢿⣻⡿⣾⢿⣻⡾⣿⣻⣟⣷⡃⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                $"⠀⠀《twhite》⠀⠀⠀⠀⠀⠀⠀⢹⣟⣿⣟⣿⢧⠘⣽⣿⣻⣅《tyellow》⠸⣻⡄⡁⡄⡠⡀⡄⡠⣈⣀⣁⣀⣈⣀⣁⡀⣌⣿⣯⣿⣻⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                $"⠀⠀《twhite》⠀⠀⠀⠀⠀⠀⠀⠀⢻⡷⣟⣿⣻⡥⠘⣯⣿⢷《tyellow》⠀⣫⡿⣿⢿⣿⣻⡿⣿⢷⣿⢾⣷⢿⣾⢷⣿⣻⣾⢷⣟⡯⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                $"⠀⠀《twhite》⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣟⣯⡿⣿⣅⠪⣿⢿⡅《tyellow》⢘⣿⡻⡿⡽⡯⡿⣟⢿⡻⡿⡽⣟⢿⡻⡽⣿⢾⣿⣻⡍⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                $"⠀⠀《twhite》⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠫⣿⣻⣯⣷⡌⢺⣿⡳《tyellow》⠐⣿⣌⣄⣠⣠⣠⣀⣄⣄⣄⣄⣄⣄⣄⣄⣿⣿⣽⢿⡂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                $"⠀⠀《twhite》⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⡽⣯⣯⡂⣻⡃《tyellow》⢬⣿⣽⣯⣿⣾⢷⡿⣷⡿⣾⡷⣿⣾⣻⣾⡷⣿⡾⣟⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ \r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⢑《twhite》⠙⠹⣷⡀《tyellow》⢺⣷⢟⠷⡻⢞⢟⢟⠯⢟⢟⢟⠿⡺⡻⢷⣿⣻⣟⡗⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ \r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣺⣟⣯⠄《twhite》⢹⣧《tyellow》⠐⣻⣧⣄⣤⣠⣠⣠⣄⣤⣠⣠⣠⣠⣄⣾⣯⡿⣯⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ \r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⣿⣽⣗⠄《twhite》⣻⡥《tyellow》⠘⣾⢿⣽⣿⣽⢿⣽⣯⣿⣯⣿⣯⡿⣷⣟⣿⣻⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ \r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠨⣾⡷⣟⣿⡥《twhite》⠐⠟《tyellow》⠄⢺⣻⣷⢿⣾⣟⣿⡾⣷⡿⣾⡷⣿⣻⣽⣯⡿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ \r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡸⣟⣿⣻⣯⣿⣦⢶⣵⡿⣯⡿⣟⣷⣿⣽⣟⣿⣻⣟⣿⣻⣯⣿⣾⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ \r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⢀⢄⡠⣀⡠⣀⣀⣈⣈⣈⣈⣀⣁⣈⣁⣈⣈⣈⣈⣈⣀⣁⢄⣁⢌⡀⢑⣽⣿⣽⣾⢷⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⢘⣿⣻⣯⣿⣻⣽⣿⣽⢿⣽⣿⣽⢿⣽⣿⣽⢿⣽⣿⣽⣟⣿⣻⣟⡧⠐⣿⢾⣻⣾⢿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⢟⣿⣽⣯⣿⢷⣿⢾⣟⣿⣾⣻⣿⣽⡾⣟⣿⣽⣾⢷⡿⣯⣿⣯⣿⢄⠘⠻⠯⠫⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠃⠋⠊⠋⠊⠋⠙⠘⠑⠙⠘⠑⠙⠉⠃⠋⠊⠋⠙⠉⠊⠊⠍⠋⠂⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ \r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⠀                                      ⠀⠀⠀⠀⠀ \r\n";
+
+                string replaceTitle = title.Replace("\r\n", $"\n《x{layout.Image.X + 25},tyellow》");
+
+                DrawString(replaceTitle);
+            }
+
+            else if (num == 1)
+            {
+                string title = $"《x{layout.Image.X + 30},y{layout.Image.Y - 5},tyellow》" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⢰⣶⢶⡶⣶⢶⡶⣶⢶⡶⣶⢶⡶⣶⢶⡶⣶⢶⡶⣶⢶⡶⣶⢶⡶⣖⣶⡆⠀⠀⠀\r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⢹⣟⣿⣟⣿⣟⣿⣟⣿⣟⣿⣟⣿⣟⣿⣟⣿⣟⣿⣟⣿⣟⣿⣟⣿⢿⣽⡗⠀⠀⠀\r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⣽⣯⣿⣽⣷⢿⣯⡿⣷⣟⣯⣿⢷⣟⣯⣿⢷⣟⣯⣿⢷⣟⣿⣻⣽⡗⠀⠀⠀\r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⢹⣷⢿⣷⡻⡷⡟⡿⢯⢿⢻⠽⡿⠾⡟⡿⡻⡾⡟⡿⡽⡟⡿⣻⣯⣿⣽⡧⠀⠀⠀\r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⣻⣽⣇⣄⣀⢄⣀⢄⣀⣄⡠⣀⣄⡠⣀⣀⣀⣀⣀⣠⢨⣿⣽⣷⢿⣇⠀⠀⠀\r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⢹⣯⣿⣽⡿⣾⣟⣿⣟⣿⣻⣾⢿⣻⣷⢿⣻⣟⣿⣯⣿⣻⣿⣽⡾⣟⣿⡇⠀⠀⠀\r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⣹⡿⣾⣯⡿⠯⡟⠷⢟⠯⠿⠽⡟⠯⢿⢻⠻⠽⠷⡟⠾⠯⢷⣟⣿⣻⣽⡏⠀⠀⠀\r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⢼⣿⣻⣾⣧⣠⣠⣠⣠⣠⣠⣄⣄⣄⣄⣄⣄⣔⣠⣠⣠⣐⣰⣟⣯⣿⣽⡗⠀⠀⠀\r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⢺⣯⡿⣷⣟⣯⣿⣯⣿⣻⣽⣾⣟⣯⣿⣯⣿⣽⣯⡿⣯⣿⣯⣿⣽⣷⢿⡧⠀⠀⠀\r\n" +
+                $"⠀《tWhite》⠀⠀⠀⠀⣠⣠⠀《tyellow》⢽⣟⣿⣯⡿⡻⡾⡷⣟⢯⢿⢾⡻⡽⡾⡷⡿⡽⡾⡿⢿⢾⢷⢿⡷⣿⣟⡧⠀⠀⠀\r\n" +
+                $"⠀《tWhite》⠀⠀⠀⣞⣿⣽⠀《tyellow》⢺⡿⣷⢿⣇⢄⢄⡠⣀⡠⣀⢄⡠⣀⢄⣀⢄⣀⢄⡠⣀⢄⣨⡿⣟⣿⣽⡧⠀⠀⠀\r\n" +
+                $"⠀《tWhite》⠀⠀⢨⣿⣯⡿⠀《tyellow》⣹⣿⣻⣿⣻⡿⣟⣿⣟⣿⣟⣿⣟⣿⣟⣿⣟⣿⣟⣿⣟⣿⢷⣿⣻⣯⣷⡧⠀⠀\r\n" +
+                $"⠀《tWhite》⠀⠀⢸⣷⢿⣻⠀《tyellow》⢺⣯⣿⡾⣟⣿⣻⢽⡯⡷⡿⣽⢯⡷⡿⣽⢯⡷⡿⡽⣯⢿⢿⣽⣯⣿⣾⠧⠀⠀\r\n" +
+                $"⠀《tWhite》⠀⠀⢸⣿⣻⡿⠀《tyellow》⣹⣿⢾⣿⣇⡀⣀⣀⢈⡀⣁⢀⣀⣀⢁⣀⣀⡀⣁⢈⢀⡈⡨⣾⢿⣾⣻⡏⠀⠀\r\n" +
+                $"⠀《tWhite》⠀⠀⢸⣿⣽⣿⠀《tyellow》⠺⡛⠏⠗⠫⢋⢃⠋⢟⣿⣽⡿⣾⡾⣿⡾⣾⣟⣿⣻⣟⣯⣿⣟⣿⣽⣟⡗⠀⠀\r\n" +
+                $"⠀《tWhite》⠀⠀⢸⣿⢾⣷⢀⣴⢶⡿⣾⣯⡿⣟⡧《tyellow》⠈⣿⡾⣿⣻⣟⣯⣿⣯⣿⣽⣿⣽⢿⣾⣻⣽⣷⢿⡗⠀⠀\r\n" +
+                $"⠀《tWhite》⠀⠀⢸⣿⣻⡿⣞⣿⣻⣟⣯⡷⡿⡛《tyellow》⢠⣸⣿⣻⣟⣯⣿⣻⣾⢷⡿⣷⢿⣾⣟⣯⣿⣽⣾⢿⣓⠀⠀\r\n" +
+                $"⠀《tWhite》⠀⠀⣱⡿⣯⣿⣟⣯⣿⡯⠃《tyellow》⢨⣤⣖⣯⣿⣽⣯⣿⣯⣿⣽⣟⣿⣟⣿⣟⣷⡿⣯⣷⣿⣽⢿⡇⠀⠀\r\n" +
+                $"⠀《tWhite》⠀⠀⣺⡿⣿⢾⣻⣽⣾⢿⡀《tyellow》⠹⡷⣟⡿⡾⡿⡾⣷⢿⢾⡯⡿⡷⣿⢽⡯⣷⢿⣟⡷⣿⢾⢿⡏⠀⠀\r\n" +
+                $"⠀《tWhite》⠀⠀⢸⡿⣟⣿⣻⣽⣾⢿⣯⣀⡡⣀⣁⣁⡁⠁⠀⠁⠁⠈⠈⠈⠀⠁⠈ ⠁⠈⠀⠁⠁⠁⠁⠀⠀⠀\r\n" +
+                $"⠀《tWhite》⠀⠀⠀⢟⣿⣻⣽⡿⣾⢿⣯⣿⣻⣿⣽⣟⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ \r\n" +
+                $"⠀《tWhite》⠀⠀⠀⠀⠉⠻⠳⢟⠟⠻⠝⢞⠟⠞⠃⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀  \r\n" +
+                $"⠀《tblue》⠀⠀⠀⢘⣾⣾⢾⣶⢷⡷⣷⡷⣾⡾⣾⡂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀  \r\n" +
+                $"⠀《tblue》⠀⠀⠀⠈⠙⠊⠋⠋⠋⠋⠋⠋⠋⠋⠋⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀  \r\n";
+
+                string replaceTitle = title.Replace("\r\n", $"\n《x{layout.Image.X + 30},tyellow》");
+
+                DrawString(replaceTitle);
+            }
+
+            else
+            {
+                string title = $"《x{layout.Image.X + 32},y{layout.Image.Y - 5},tyellow》" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀      \r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀  \r\n" +
+                $"⠀⠀⠀⠀⠀⢀⣾⣟⣿⣻⣟⣿⣻⣟⣿⣻⣟⣿⣻⣟⣿⣻⣟⣿⣻⣟⣿⣻⡿⣽⠃⣄⣶⣶⣦⡀⠀⠀⠀⠀ \r\n" +
+                $"⠀⠀⠀⠀⠀⣺⣯⣿⣽⣿⣽⢿⣽⣿⣽⢿⣽⣿⣽⢿⣽⣿⣽⢿⣽⣿⣽⣟⣿⡇⢰⣿⣽⡾⣿⣽⠀⠀⠀⠀ \r\n" +
+                $"⠀⠀⠀⠀⠀⣽⡿⣾⢷⣿⢾⣟⣿⣾⣻⣿⣽⡾⣟⣿⣽⡾⣟⣿⣽⣾⣯⡿⣷⡇⠀⠀⠀⠁⠁⠀⠀⠀⠀⠀  \r\n" +
+                $"⠀⠀⠀⠀⠀⢾⣿⣻⡯⠊⠉⠉⠁⠉⠁⠉⠈⠉⠉⠉⠈⠉⠉⠉⠈⠑⣿⣻⣯⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀  \r\n" +
+                $"⠀⠀⠀⠀⠀⣻⣽⣟⣿⡾⣷⢿⣯⡿⣟⣿⢿⣻⣯⣿⣻⣿⣽⣿⣽⣟⣿⣽⣯⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀  \r\n" +
+                $"⠀⠀⠀⠀⠀⣽⣯⣿⣽⢿⣻⣿⣽⢿⣻⣟⣿⣯⣿⣽⢿⡾⣷⢿⡾⣿⣽⣷⢿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀  \r\n" +
+                $"⠀⠀⠀⠀⠀⢷⡿⣷⡯⣀⢀⡀⣀⣀⣀⣀⢀⡀⣀⢀⣀⣀⣀⢁⣀⢠⡿⣾⢿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀  \r\n" +
+                $"⠀⠀⠀⠀⠀⢿⣻⣟⣿⣻⣟⣿⢿⡾⣷⡿⣟⣿⣻⣿⣽⡾⣟⣿⣽⢿⣻⣿⣻⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀  \r\n" +
+                $"⠀⠀⠀⠀⠀⣿⣻⣯⡿⣯⢿⣻⣟⣿⣻⣟⡿⣯⢿⢷⣟⡿⣟⡯⡿⣟⣯⣿⣽⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀  \r\n" +
+                $"⠀⠀⠀⠀⠀⣯⣿⣽⣯⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⡠⣟⣿⡾⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀  \r\n" +
+                $"⠀⠀⠀⠀⠀⣷⢿⣾⢷⣿⣻⣟⣯⣿⣯⡿⣯⣿⣻⣟⣯⣿⣟⣿⣻⣟⣿⢷⡿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀  \r\n" +
+                $"⠀⠀⠀⠀⠀⣟⣿⣽⡿⠹⠛⠝⠛⠞⢳⣿⠯⠋⣃⣉⠙⢑⠙⠙⢻⣽⣟⣿⣟⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀  \r\n" +
+                $"⠀⠀⠀⠀⠀⣿⣽⣷⣯⣦⣴⣴⣴⣴⣻⠅《tred》⣔⣿⢽⠻⠻⠻⢿⣻⡤《tyellow》⠘⣯⣿⣾⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀  \r\n" +
+                $"⠀⠀⠀⠀⠀⡿⣾⡷⣟⣷⣿⣽⡾⣟⠇《tred》⣰⡿⠁⣥⣶⢷⣶⣆⡉⢿⡆《tyellow》⠸⣿⢾⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀  \r\n" +
+                $"⠀⠀⠀⠀⠀⣿⣻⣟⣿⣽⣾⢷⣿⡏《tred》⢠⣿⠅⣸⢿⣻⡿⣷⢿⣧⢘⣿⡂《tyellow》⢹⡿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀  \r\n" +
+                $"⠀⠀⠀⠀⠀⣿⣽⣿⣽⣷⢿⡿⣷⣗《tred》⠀⢿⣇⠘⣿⣻⣟⣿⣻⠇⣰⡿⠁《tyellow》⣼⡿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀  \r\n" +
+                $"⠀⠀⠀⠀⠀⣷⡿⣾⡷⣿⣟⣿⢿⣽⣧《tred》⠘⣽⣦⣄⡉⡋⢋⣠⣶⡟《tyellow》⠠⣽⣯⣿⡇⢠⡤⣄⣤⢤⣄⠄⠀⠀⠀ \r\n" +
+                $"⠀⠀⠀⠀⠀⢳⣿⣻⣟⣯⣿⣽⣿⣽⣾⣦⣈《tred》⠚⠛⠟⠻⠻⠻⠓《tyellow》⣁⣾⣟⣷⡿⣧⠈⢿⣿⣽⢿⠯⠀⠀⠀⠀ \r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠛⢯⡿⣯⡷⣿⢾⡷⣿⢽⣟⣿⠂《tred》⣲⣶⢶⣴⠀《tyellow》⢾⣯⢿⡷⣿⣻⣦⡈⠚⠛⠉⠁⠀⠀⠀⠀ \r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀《tred》⣺⣟⣿⣽⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀      \r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀《tred》⣺⣿⡽⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀      \r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀《tred》⠺⠁⠈⠻⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀      \r\n";
+
+                string replaceTitle = title.Replace("\r\n", $"\n《x{layout.Image.X + 32},tyellow》");
+
+                DrawString(replaceTitle);
+            }
+
+        }
 
 
-     
 
         void DrawTitle()
         {
@@ -113,6 +230,7 @@ namespace SprtaaaaDungeon
 
         void DrawMenuText(int spotLightIndex)
         {
+
             string[] backSpotlight = new string[menuTextRect.Length];
             string[] selectSign = new string[menuTextRect.Length];
 
