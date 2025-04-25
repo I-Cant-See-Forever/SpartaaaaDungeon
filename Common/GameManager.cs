@@ -26,7 +26,8 @@ public class GameManager
     //Component
     public QuestController QuestController { get; private set; }
     public SceneController SceneController { get; private set; }
-    public DungeonController DungeonController { get; set; }
+    public DungeonController DungeonController { get; private set; }
+    public InventoryController InventoryController { get; private set; }
 
 
     //data
@@ -62,6 +63,15 @@ public class GameManager
     public QuestData GetQuestData(string findName) => GameQuestDatas.FirstOrDefault(item => item.Title == findName);
 
 
+
+    public void GameOver()
+    {
+        SaveManager.Instance.DeleteSaveFile(GamePath.SaveRoot);
+
+        SceneController.ChangeScene<GameEndScene>();
+    }
+
+
     void NewGame()
     {
         PlayerData = new PlayerData
@@ -74,7 +84,7 @@ public class GameManager
                 MaxHealth = 100,
                 CurrentHealth = 100,
                 MaxMP = 50,
-                CurrentMP = 50,
+                CurrentMP = 15,
                 Attack = 10,
                 Defense = 5
             }
@@ -82,10 +92,24 @@ public class GameManager
 
         InventoryItems = new()
         {
-            new InventoryItemData("테스트무기", GetItemData("테스트무기"), 1, false)
+            new InventoryItemData(GetItemData("테스트무기0"), 1, false),
+            new InventoryItemData(GetItemData("테스트무기1"), 1, false),
+            new InventoryItemData(GetItemData("테스트방어구0"), 1, false),
+            new InventoryItemData(GetItemData("HP포션"), 3, false)
         };
 
         ShopItems = new();
+    }
+
+    void InitGameData()
+    {
+        var saveManager = SaveManager.Instance;
+
+        GameItems = saveManager.LoadGameData<List<ItemData>>(GamePath.ItemDataPath);
+        GameQuestDatas = saveManager.LoadGameData<List<QuestData>>(GamePath.QuestDataPath);
+        DungeonDatas = saveManager.LoadGameData<List<DungeonData>>(GamePath.DungeonDataPath);
+        MonsterDatas = saveManager.LoadGameData<List<MonsterData>>(GamePath.MonsterDataPath);
+        SkillDatas = saveManager.LoadGameData<List<SkillData>>(GamePath.SkillDataPath);
     }
 
     public void SaveGame()
@@ -109,12 +133,7 @@ public class GameManager
         PlayerQuestDatas = saveManager.LoadGameData<List<PlayerQuestData>>(GamePath.PlayerQuestDataPath);
     }
 
-    public void GameOver()
-    {
-        SaveManager.Instance.DeleteSaveFile(GamePath.SaveRoot);
-
-        SceneController.ChangeScene<GameEndScene>();
-    }
+    
 
 
     void InitComponents()
@@ -124,17 +143,10 @@ public class GameManager
         QuestController = new();
 
         SceneController = new();
+
+        InventoryController = new();
     }
 
-    void InitGameData()
-    {
-        var saveManager = SaveManager.Instance;
-
-        GameItems = saveManager.LoadGameData<List<ItemData>>(GamePath.ItemDataPath);
-        GameQuestDatas = saveManager.LoadGameData<List<QuestData>>(GamePath.QuestDataPath);
-        DungeonDatas = saveManager.LoadGameData<List<DungeonData>>(GamePath.DungeonDataPath);
-        MonsterDatas = saveManager.LoadGameData<List<MonsterData>>(GamePath.MonsterDataPath);
-        SkillDatas = saveManager.LoadGameData<List<SkillData>>(GamePath.SkillDataPath);
-    }
+  
 
 }

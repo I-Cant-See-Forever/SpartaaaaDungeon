@@ -31,10 +31,10 @@ namespace SprtaaaaDungeon
             }
         }
 
+
         public override void Start()
         {
             targetList = questController.QuestTypeList[questController.SelectTypeIndex];
-
 
             if (targetList.Count > 0)
             {

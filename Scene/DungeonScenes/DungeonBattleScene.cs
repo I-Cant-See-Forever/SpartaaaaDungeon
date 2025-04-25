@@ -80,9 +80,15 @@ namespace SprtaaaaDungeon
 
                             case SelectPhase.Skill:
 
-                                SelectSkill(selectNum);
+                                if(TrySelectSkill(selectNum))
+                                {
+                                    SetSelectMonsterPhase();
+                                }
+                                else
+                                {
+                                    SetSelectBehaviorPhase();
+                                }
 
-                                SetSelectMonsterPhase();
                                 break;
                         }
                     }
@@ -94,7 +100,7 @@ namespace SprtaaaaDungeon
         {
         }
 
-        void SelectSkill(int input)
+        bool TrySelectSkill(int input)
         {
             var skillDatas = GameManager.Instance.SkillDatas;
 
@@ -105,6 +111,17 @@ namespace SprtaaaaDungeon
                     currentSkill = skillDatas[i];
                     break;
                 }
+            }
+
+            if(currentSkill.CostMP <= playerData.StatData.CurrentMP)
+            {
+                DrawString($"《x{layout.BattleInfo.X + 5},y{layout.BattleInfo.Y + 4}》대상을 선택하세요!");
+                return true;
+            }
+            else
+            {
+                DrawString($"《x{layout.BattleInfo.X + 5},y{layout.BattleInfo.Y + 4}》마나가 부족합니다!");
+                return false;
             }
         }
 
@@ -124,6 +141,7 @@ namespace SprtaaaaDungeon
         {
             selectPhase = SelectPhase.Skill;
 
+            DrawRemoveRect(layout.BattleInfo);
             DrawRemoveRect(layout.PlayerInfo);
 
             DrawMonsterInfo(false);
