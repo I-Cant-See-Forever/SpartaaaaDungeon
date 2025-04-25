@@ -62,13 +62,12 @@ public class GameManager
         {
             new("테스트무기0", GameEnum.ItemType.Weapon, 100, new(1, 1, 1, 1)),
             new("테스트소모품0", GameEnum.ItemType.Consumable, 100, new(1, 1, 1, 1))
-
         };
 
         ShopItems = new() // 병합 시 아이템 테스트무기0 빼고 다 삭제
         {
             new(GetItemData("테스트무기0"), 1),
-            new(GetItemData("테스트소모품0"), 5)
+            new(GetItemData("테스트소모품0"), 1)
         };
     }
 

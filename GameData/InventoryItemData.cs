@@ -9,7 +9,7 @@ namespace SprtaaaaDungeon
     public class InventoryItemData
     {
         public ItemData ItemData { get; set; }
-        public int Count { get; private set; }
+        public int Count { get; set; }
         public bool IsEquip { get; private set; }
 
 
