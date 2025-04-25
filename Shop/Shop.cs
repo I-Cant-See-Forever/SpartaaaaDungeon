@@ -84,11 +84,11 @@ public class Shop
     {
         foreach (var inventoryItem in inventoryItems)
         {
-            if (inventoryItem?.ItemData == null)
+            if (inventoryItem?.Data == null)
             {
                 continue;
             }
-            GameEnum.ItemType type = inventoryItem.ItemData.Type;
+            GameEnum.ItemType type = inventoryItem.Data.Type;
 
             if (inventoryItemDict.ContainsKey(type)) // inventoryItems의 inventoryItem의 type(enum)에 키가 있으면
             {
@@ -198,7 +198,7 @@ public class Shop
                                                 soldItemCount = (shopItemDatas[i].ItemData.Type == GameEnum.ItemType.Consumable) ? $" {shopItemDatas[i].Count}개 구매 가능" : " ";
 
                                                 Console.WriteLine($"[{i + 1}. {shopItemDatas[i].ItemData.Name}] -{soldItemCount}" +
-                                                    $" {(inventoryItems.Any(item => item.ItemData.Name == shopItemDatas[i].ItemData.Name) ? $"-{myinvenItemsCount}보유중" : " ")}");
+                                                    $" {(inventoryItems.Any(item => item.Data.Name == shopItemDatas[i].ItemData.Name) ? $"-{myinvenItemsCount}보유중" : " ")}");
                                                 i++;
                                                 limitPurPageCount++;
                                                 if (limitPurPageCount > 8)
@@ -269,7 +269,7 @@ public class Shop
                                                             soldItemCount = (shopItemDatas[i].ItemData.Type == GameEnum.ItemType.Consumable) ? $" {shopItemDatas[i].Count}개 구매 가능" : " ";
 
                                                             Console.WriteLine($"{buyNum}. [{shopItemDatas[i].ItemData.Name}] -{soldItemCount}" +
-                                                                $" {(inventoryItems.Any(item => item.ItemData.Name == shopItemDatas[i].ItemData.Name) ? $"-{myinvenItemsCount}보유중" : " ")}");
+                                                                $" {(inventoryItems.Any(item => item.Data.Name == shopItemDatas[i].ItemData.Name) ? $"-{myinvenItemsCount}보유중" : " ")}");
                                                             i++;
                                                             buyNum++;
                                                             limitPurPageCount++;
@@ -293,9 +293,9 @@ public class Shop
 
                                                                 int targetItem = purItemInput - 1 + (9 * (currentPurPage - 1));
 
-                                                                var newItem = new InventoryItemData( new(shopItemDatas[targetItem].ItemData.Name, currentType, shopItemDatas[targetItem].ItemData.Price, new(1, 1, 1, 1)), 1, false);
+                                                                //var newItem = new InventoryItemData( new(shopItemDatas[targetItem].ItemData.Name, currentType, shopItemDatas[targetItem].ItemData.Price, new(1, 1, 1, 1)), 1, false);
 
-                                                                if (inventoryItems.Any(item => item.ItemData.Name == shopItemDatas[targetItem].ItemData.Name))
+                                                                if (inventoryItems.Any(item => item.Data.Name == shopItemDatas[targetItem].ItemData.Name))
                                                                 {
                                                                     Console.WriteLine("이미 구매한 아이템입니다!");
                                                                     Thread.Sleep(1000);
@@ -310,7 +310,7 @@ public class Shop
                                                                     else
                                                                     {
                                                                         Console.WriteLine(shopItemDatas[targetItem].ItemData.Name + " 를 구매했습니다!");
-                                                                        inventoryItems.Add(newItem);
+                                                                        //inventoryItems.Add(newItem);
                                                                         playerData.Gold -= shopItemDatas[targetItem].ItemData.Price;
                                                                         Thread.Sleep(1500);
                                                                     }
@@ -410,10 +410,10 @@ public class Shop
 
                     while (i < inventoryItemDatas.Count)
                     {
-                        myinvenItemsCount = (inventoryItemDatas[i].ItemData.Type == GameEnum.ItemType.Consumable) ? $" {inventoryItemDatas[i].Count}개 " : " ";
+                        myinvenItemsCount = (inventoryItemDatas[i].Data.Type == GameEnum.ItemType.Consumable) ? $" {inventoryItemDatas[i].Count}개 " : " ";
 
-                        Console.WriteLine($"[{i + 1}. {inventoryItemDatas[i].ItemData.Name}] " +
-                            $"{(inventoryItems.Any(item => item.ItemData.Name == inventoryItemDatas[i].ItemData.Name) ? $"-{myinvenItemsCount}보유중" : " ")}");
+                        Console.WriteLine($"[{i + 1}. {inventoryItemDatas[i].Data.Name}] " +
+                            $"{(inventoryItems.Any(item => item.Data.Name == inventoryItemDatas[i].Data.Name) ? $"-{myinvenItemsCount}보유중" : " ")}");
                         i++;
                         limitSellPageCount++;
                         if (limitSellPageCount > 8)
@@ -480,8 +480,8 @@ public class Shop
 
                                 while (i < inventoryItemDatas.Count)
                                 {
-                                    Console.WriteLine($"{sellsNum}. [{inventoryItemDatas[i].ItemData.Name}] " +
-                                        $"{(inventoryItems.Any(item => item.ItemData.Name == inventoryItemDatas[i].ItemData.Name) ? $"-{myinvenItemsCount}보유중" : " ")}");
+                                    Console.WriteLine($"{sellsNum}. [{inventoryItemDatas[i].Data.Name}] " +
+                                        $"{(inventoryItems.Any(item => item.Data.Name == inventoryItemDatas[i].Data.Name) ? $"-{myinvenItemsCount}보유중" : " ")}");
                                     i++;
                                     sellsNum++;
                                     limitSellPageCount++;
@@ -505,10 +505,10 @@ public class Shop
 
                                         int targetItem = SellInput - 1 + (9 * (currentSellPage - 1));
 
-                                        Console.WriteLine(inventoryItemDatas[targetItem].ItemData.Name + " 를 판매했습니다!");
-                                        Console.WriteLine($"획득 골드 : {inventoryItemDatas[targetItem].ItemData.Price} G");
+                                        Console.WriteLine(inventoryItemDatas[targetItem].Data.Name + " 를 판매했습니다!");
+                                        Console.WriteLine($"획득 골드 : {inventoryItemDatas[targetItem].Data.Price} G");
 
-                                        playerData.Gold += inventoryItemDatas[targetItem].ItemData.Price;
+                                        playerData.Gold += inventoryItemDatas[targetItem].Data.Price;
                                         if (inventoryItemDatas[targetItem].Count > 1)
                                         {
                                             inventoryItemDatas[targetItem].Count--;
