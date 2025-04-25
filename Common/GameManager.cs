@@ -58,9 +58,9 @@ public class GameManager
 
         InventoryItems = new() // 병합 시 아이템들만 삭제(괄호도 지움)
         {
-            new(GetItemData("테스트무기0"), 1, false),
-            new(GetItemData("테스트방어구0"), 1, false),
-            new(GetItemData("테스트소모품0"), 3, false)
+            new InventoryItemData( new("테스트무기0", GameEnum.ItemType.Weapon, 100, new(1, 1, 1, 1)), 1, false),
+            new InventoryItemData( new("테스트소모품2", GameEnum.ItemType.Consumable, 500, new(1, 1, 1, 1)), 3, false),
+            new InventoryItemData( new("테스트방어구3", GameEnum.ItemType.Armor, 100, new(1, 1, 1, 1)), 1, false),
         };
         GameItems = new() // 병합 시 삭제
         {

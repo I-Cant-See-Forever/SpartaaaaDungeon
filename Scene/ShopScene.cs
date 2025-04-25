@@ -33,13 +33,14 @@ public class ShopScene : Scene
 
     public override void Update()// 계속 매프레임
     {
+        shop.InventoryItemByType();
         shop.EnterShop();
         
 
         //if(input == "")
         //{
         //    Console.Clear();
-            
+
         //    shop.currentType = shop.currentType == GameEnum.ItemType.Armor ?
         //        GameEnum.ItemType.Weapon :
         //        GameEnum.ItemType.Armor;
@@ -48,7 +49,7 @@ public class ShopScene : Scene
         //}
         //else if(input == "1")
         //{
-            
+
         //    Console.Write(shop.ShopItemDict[shop.currentType][int.Parse(input) -1].ItemData.Name);
         //    Console.WriteLine("이 구매되었습니다.");
         //    Console.WriteLine($"보유 골드 : {playerData.Gold}");

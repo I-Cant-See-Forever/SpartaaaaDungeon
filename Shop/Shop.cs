@@ -78,6 +78,10 @@ public class Shop
         playerData = GameManager.Instance.PlayerData;
         inventoryItems = GameManager.Instance.InventoryItems;
 
+        posShop = true;
+    }
+    public void InventoryItemByType()
+    {
         foreach (var inventoryItem in inventoryItems)
         {
             if (inventoryItem?.ItemData == null)
@@ -96,8 +100,6 @@ public class Shop
                 inventoryItemDict[type].Add(inventoryItem); // inventoryItemDict의 그 inventoryItem 추가(Add)
             }
         }
-
-        posShop = true;
     }
     int TestCheckInput(int min, int max)
     {
@@ -291,6 +293,8 @@ public class Shop
 
                                                                 int targetItem = purItemInput - 1 + (9 * (currentPurPage - 1));
 
+                                                                var newItem = new InventoryItemData( new(shopItemDatas[targetItem].ItemData.Name, currentType, shopItemDatas[targetItem].ItemData.Price, new(1, 1, 1, 1)), 1, false);
+
                                                                 if (inventoryItems.Any(item => item.ItemData.Name == shopItemDatas[targetItem].ItemData.Name))
                                                                 {
                                                                     Console.WriteLine("이미 구매한 아이템입니다!");
@@ -306,7 +310,7 @@ public class Shop
                                                                     else
                                                                     {
                                                                         Console.WriteLine(shopItemDatas[targetItem].ItemData.Name + " 를 구매했습니다!");
-                                                                        GameManager.Instance.InventoryItems.Add(new(GetItemData(shopItemDatas[targetItem].ItemData.Name), 1, false));
+                                                                        inventoryItems.Add(newItem);
                                                                         playerData.Gold -= shopItemDatas[targetItem].ItemData.Price;
                                                                         Thread.Sleep(1500);
                                                                     }
@@ -554,7 +558,7 @@ public class Shop
     private void ShowCategorySelect()
     {
         Console.Clear();
-        Console.WriteLine("                                        <구매 : 아이템 타입 선택>");
+        Console.WriteLine("                                        <아이템 타입 선택>");
         Console.WriteLine($"보유 골드 : {playerData.Gold}".PadLeft(totalWidth)); // PadLeft : 텍스트 오른쪽 이동
 
         for (categoryCount = 0; categoryCount < itemTypeLength; categoryCount++)
