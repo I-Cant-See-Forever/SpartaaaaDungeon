@@ -115,7 +115,7 @@ namespace SprtaaaaDungeon
 
             DrawAtkDefStats();
 
-            DrawStatBar("체  력", playerdata.Stat.MaxHealth, playerdata.Stat.CurrentHealth, "red", 6);
+            DrawStatBar("체  력", playerdata.StatData.MaxHealth, playerdata.StatData.CurrentHealth, "red", 6);
             DrawStatBar("마  력", 100, 50, "blue", 7);
             DrawStatBar("경험치", playerdata.MaxExp, playerdata.CurrentExp, "green", 8);
 
@@ -132,12 +132,12 @@ namespace SprtaaaaDungeon
                 {
                     bonusAtk += GameManager.Instance.InventoryItems[i].ItemData.StatData.Attack;
                     bonusDef += GameManager.Instance.InventoryItems[i].ItemData.StatData.Defense;
-                    playerdata.Stat.Attack += bonusAtk;
-                    playerdata.Stat.Defense += bonusDef;
+                    playerdata.StatData.Attack += bonusAtk;
+                    playerdata.StatData.Defense += bonusDef;
                 }
             }
-            DrawBonusStats("공격력", playerdata.Stat.Attack, bonusAtk, 3);
-            DrawBonusStats("방어력", playerdata.Stat.Defense, bonusDef, 4);
+            DrawBonusStats("공격력", playerdata.StatData.Attack, bonusAtk, 3);
+            DrawBonusStats("방어력", playerdata.StatData.Defense, bonusDef, 4);
         }
 
         void DrawBonusStats(string label, float value, float bonusValue, int yNum)
