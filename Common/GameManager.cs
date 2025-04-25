@@ -92,10 +92,6 @@ public class GameManager
 
         InventoryItems = new()
         {
-            new InventoryItemData(GetItemData("테스트무기0"), 1, false),
-            new InventoryItemData(GetItemData("테스트무기1"), 1, false),
-            new InventoryItemData(GetItemData("테스트방어구0"), 1, false),
-            new InventoryItemData(GetItemData("HP포션"), 3, false)
         };
 
         ShopItems = new();

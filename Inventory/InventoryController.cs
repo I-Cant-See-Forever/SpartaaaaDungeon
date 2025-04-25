@@ -88,7 +88,7 @@ namespace SprtaaaaDungeon
                 case GameEnum.ItemType.Weapon:
                 case GameEnum.ItemType.Armor:
 
-                    if(EquipItems.Contains(targetInveontroyItem.Data)) 
+                    if(EquipItems.Contains(targetInveontroyItem.Data)) //장착여부 판단
                     {
                         Unequip(targetInveontroyItem);
                     }
