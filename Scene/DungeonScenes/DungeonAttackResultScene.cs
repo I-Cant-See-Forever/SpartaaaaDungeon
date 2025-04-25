@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace SprtaaaaDungeon
 {
-    class DungeonAttackResultScene : DungeonScene
+    class DungeonAttackResultScene
     {
-        public DungeonAttackResultScene(SceneController controller) : base(controller)
+        /*public DungeonAttackResultScene(SceneController controller) : base(controller)
         {
         }
 
@@ -38,7 +38,7 @@ namespace SprtaaaaDungeon
             Console.WriteLine();
             Console.WriteLine($"{dungeonPlayer.Name}의 공격!");
             Console.WriteLine();
-            Console.WriteLine($"Lv.{m.Level} {m.Name} 을(를) 맞췄습니다.  [데미지 : {dmg}]");   
+            Console.WriteLine($"Lv.{m.Level} {m.Name} 을(를) 맞췄습니다.  [데미지 : {dmg}]");
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine($"Lv.{m.Level} {m.Name}");
@@ -62,10 +62,10 @@ namespace SprtaaaaDungeon
             {
                 case 0:
                     controller.ChangeScene<DungeonTakeHitScene>();
-                   break;
+                    break;
             }
             return this;
-        }
+        }*/
 
     }
 }

@@ -36,29 +36,29 @@ namespace SprtaaaaDungeon
 
         public void SetDungeonPlayer()
         {
-            dungeonStatData = new StatData(
+           /* dungeonStatData = new StatData(
 
-                originalPlayer.Stat.MaxHealth,
-                originalPlayer.Stat.CurrentHealth,
-                originalPlayer.Stat.Attack,
-                originalPlayer.Stat.Defense
-                );
+                originalPlayer.StatData.MaxHealth,
+                originalPlayer.StatData.CurrentHealth,
+                originalPlayer.StatData.Attack,
+                originalPlayer.StatData.Defense
+                );*/
 
-            dungeonPlayer = new PlayerData(
+            /*dungeonPlayer = new PlayerData(
 
                 originalPlayer.Name,
                 originalPlayer.ClassType,
                 originalPlayer.Level,
                 originalPlayer.Gold,
                 dungeonStatData
-                );
+                );*/
             //해당 PlayerData 참조 형태 복사본의 스탯들을 프로퍼티에 재할당, 값복사 두번함.
             Name = dungeonPlayer.Name;
             Level = dungeonPlayer.Level;
-            MaxHealth = dungeonPlayer.Stat.MaxHealth;
-            CurrentHealth = dungeonPlayer.Stat.CurrentHealth;
-            Attack = dungeonPlayer.Stat.Attack;
-            Defense = dungeonPlayer.Stat.Defense;
+            MaxHealth = dungeonPlayer.StatData.MaxHealth;
+            CurrentHealth = dungeonPlayer.StatData.CurrentHealth;
+            Attack = dungeonPlayer.StatData.Attack;
+            Defense = dungeonPlayer.StatData.Defense;
         }
 
         public void ApplyResult() // 던전플레이어 스탯을 원래 플레이어에게 돌려주기
@@ -66,16 +66,16 @@ namespace SprtaaaaDungeon
 
             dungeonPlayer.Level = this.Level;
             dungeonPlayer.Gold = this.Gold;
-            dungeonPlayer.Stat.Attack = this.Attack;
-            dungeonPlayer.Stat.Defense = this.Defense;
-            dungeonPlayer.Stat.MaxHealth = this.MaxHealth;
-            dungeonPlayer.Stat.CurrentHealth = this.CurrentHealth;
+            dungeonPlayer.StatData.Attack = this.Attack;
+            dungeonPlayer.StatData.Defense = this.Defense;
+            dungeonPlayer.StatData.MaxHealth = this.MaxHealth;
+            dungeonPlayer.StatData.CurrentHealth = this.CurrentHealth;
 
             originalPlayer.Name = dungeonPlayer.Name;
             originalPlayer.ClassType = dungeonPlayer.ClassType;
             originalPlayer.Level = dungeonPlayer.Level;
             originalPlayer.Gold = dungeonPlayer.Gold;
-            originalPlayer.Stat = dungeonStatData;
+            originalPlayer.StatData = dungeonStatData;
             //dungeonPlayer = null;
             //dungeonStatData = null;
         }
