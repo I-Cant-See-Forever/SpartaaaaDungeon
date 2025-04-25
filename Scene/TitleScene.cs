@@ -15,6 +15,8 @@ namespace SprtaaaaDungeon
 
         (string, Rectangle)[] menuTextRect;
 
+        private int PromptY => layout.Image.Y -5 + 12 + 5; // 그림 아래 press key 위치
+
         int currentSelectNum = 0;
 
         int animIndex = 0;
@@ -25,45 +27,17 @@ namespace SprtaaaaDungeon
 
         public TitleScene(SceneController controller) : base(controller) 
         {
-            menuTextRect = new (string, Rectangle)[]
-            {
-                new("상점", new()),
-                new("퀘스트", new()),
-                new("던전", new())
-            };
 
-            for (int i = 0; i < menuTextRect.Length; i++)
-            {
-                menuTextRect[i].Item2 = 
-                    new Rectangle(
-                        layout.Menu.X + 9, 
-                        layout.Menu.Y + 4 + i * 2, 
-                        layout.Menu.Width, 
-                        1);
-            }
         }
 
         public override void Start()
         {
-            SelectScenes = new()
-            {
-                controller.GetScene<ShopScene>(),
-                controller.GetScene<QuestMainScene>(),
-            };
-
-
-            //string title = $"《x{layout.Title.X},y{layout.Title.Y},tyellow》" +
-            //    $"████████╗ ██████╗ ██╗    ██╗███╗   ██╗\r\n" +
-            //    $"╚══██╔══╝██╔═══██╗██║    ██║████╗  ██║\r\n" +
-            //    $"   ██║   ██║   ██║██║ █╗ ██║██╔██╗ ██║\r\n" +
-            //    $"   ██║   ██║   ██║██║███╗██║██║╚██╗██║\r\n" +
-            //    $"   ██║   ╚██████╔╝╚███╔███╔╝██║ ╚████║\r\n" +
-            //    $"   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝";
-            //string replaceTitle = title.Replace("\r\n", $"\n《x{layout.Title.X},tyellow》");
-
-            //DrawString(replaceTitle);
-
-            //DrawMenuText(currentSelectNum);
+            //SelectScenes = new()
+            //{
+            //    controller.GetScene<NameScene>(),
+            //    controller.GetScene<ShopScene>(),
+            //    controller.GetScene<QuestMainScene>(),
+            //};
 
             DrawStore(animIndex);
         }
@@ -75,55 +49,23 @@ namespace SprtaaaaDungeon
                 animWatch.Start();
             }
 
-            if(animWatch.ElapsedMilliseconds > 1500)
+            if(animWatch.ElapsedMilliseconds > 800)
             {
-                if(animIndex < 4)
+                const int maxIndex = 7; 
+                if (animIndex < maxIndex)
                 {
                     animIndex ++;
+                    DrawStore(animIndex);
+                    animWatch.Restart();
                 }
                 else
                 {
-                    animIndex = 0;
+                    animWatch.Stop();
+                    ShowPressAnyKeyPrompt();
                 }
 
-                animWatch.Restart();
-
-                DrawStore(animIndex);
             }
 
-
-            if (Console.KeyAvailable)
-            {
-                ConsoleKeyInfo input = Console.ReadKey(true);
-
-                bool isCorretInput = false;
-                int tempSelectNum = currentSelectNum;
-
-                //switch (input.Key)
-                //{
-                //    case ConsoleKey.UpArrow:
-                //        currentSelectNum = GetMoveSelectIndex(currentSelectNum, -1, menuTextRect.Length - 1);
-                //        isCorretInput = true;
-                //        break;
-                //    case ConsoleKey.DownArrow:
-                //        currentSelectNum = GetMoveSelectIndex(currentSelectNum, +1, menuTextRect.Length - 1);
-                //        isCorretInput = true;
-                //        break;
-                //    case ConsoleKey.Enter:
-                //        controller.ChangeScene(SelectScenes[currentSelectNum]);
-                //        break;
-                //    case ConsoleKey.Escape:
-                //        controller.ChangeScene<StatScene>();
-                //        break;
-                //}
-               
-                //if(isCorretInput)
-                //{
-                //    DrawRemoveRect(menuTextRect[tempSelectNum].Item2);
-
-                //    DrawMenuText(currentSelectNum);
-                //}
-            }
         }
 
         public override void End()
@@ -133,12 +75,60 @@ namespace SprtaaaaDungeon
 
         void DrawStore(int currentIndex)
         {
-            int startPosX = layout.Image.X;
+            int startPosX = layout.Image.X - 5;
 
 
             string[] pictures = new string[]
             {
-              $"《x{startPosX},y{layout.Image.Y - 5}》" +
+              $"《x{startPosX},y{layout.Image.Y - 5},tRed》" +
+
+                $"\r\n ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
+                $"\r\n ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
+                $"\r\n ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀          " +
+                $"\r\n ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                          " +
+                $"\r\n ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                                                                      " +
+                $"\r\n ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                                                          " +
+                $"\r\n ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                                                 " +
+                $"\r\n ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                                                    " +
+                $"\r\n ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                                           " +
+                $"\r\n ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
+                $"\r\n ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
+                $"\r\n ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" ,
+
+
+              $"《x{startPosX},y{layout.Image.Y - 5},tRed》" +
+
+
+                $"\r\n ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
+                $"\r\n ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
+                $"\r\n ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
+                $"\r\n ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡄⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
+                $"\r\n ⠀⠀⠀⠀⠀⠀⢀⣀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠐⠁⠀⠀⠀⣀⠀⠀⠀⠘⠀⢀⣂⣂⠀⠀⢸⣷⠀⠀⠀⠀⠀⠀⢀⠃⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⢀⠀⠀⠀⠀⠀⠀⠀" +
+                $"\r\n ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠃⠀⠀⠀⠀⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠨⠀⠀⠀⠀⠀⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠀⠀⠀⠀⠀⠀⠀" +
+                $"\r\n ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⡀⠀⠀⠠⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠄⢠⠀⠀⠀⠀⠀⠀⠀" +
+                $"\r\n ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠇⠀⠀⠀⠇⠀⠀⠀⠀⠀⠀⠠⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠀⠀⠀⢠⠀⠀⠀" +
+                $"\r\n ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠃⠀⠀⠀⠀⠀⠀⠀⠄⠀⠀⠀⠀⠐⠀⠀⠀⠀⠀⠀⠀⠀⠘⠀⠀⠀" +
+                $"\r\n ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
+                $"\r\n ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
+                $"\r\n ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" ,
+
+
+              $"《x{startPosX},y{layout.Image.Y - 5},tRed》" +
+
+                $"\r\n  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⠀" +
+                $"\r\n  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
+                $"\r\n  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
+                $"\r\n  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣤⠀⠀⠀⠀⠀⠀⢀⡄⠀⠀⠒⠂⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠒⠀⠀⠀⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
+                $"\r\n  ⠀⠀⠀⠄⠀⣰⣶⣆⠂⠀⠀⠂⠸⢀⣀⡐⠂⠀⠀⡞⠃⠀⠀⠀⣀⡀⠀⠀⠟⠂⢀⣶⣆⠀⠀⢸⣿⡀⠀⠀⠀⠀⠀⢰⠓⡂⠀⠀⡀⠂⠀⠀⢀⣀⣀⣀⠀⠀⠀⠀⠀⠀⠀" +
+                $"\r\n  ⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⡀⠀⠀⠁⠀⠀⠀⠀⡀⠃⢀⠀⠀⠀⡇⠀⠀⠀⡇⠀⠀⠀⠁⠀⠀⢸⠀⠀⠀⠀⢸⠃⠀⠁⠀⡇⠀⠠⠀⠀⠀⠉⠁⠀⠀⠛⠀⠀⠀⠀⠀⠀⠀" +
+                $"\r\n  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇⠀⠀⠀⡧⠀⠀⠠⢄⠀⠀⢸⠀⠀⠀⠀⢸⠀⠀⠀⠀⡇⠀⠀⠀⠀⠀⠀⠀⠀⡤⣤⠀⠀⠀⠀⠀⠀⠀" +
+                $"\r\n  ⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠁⠀⠀⢀⠀⠀⡀⠘⠀⠀⠀⡇⠀⠀⠀⣇⠀⠀⢠⡔⠀⠀⢸⠤⡄⠀⠀⠸⠀⠀⠀⠀⡇⠀⠰⠀⠀⢀⠀⠀⠀⡧⠛⠀⠀⠀⢠⠀⠀⠀" +
+                $"\r\n  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠀⠀⠀⠀⠀⠀⠀⠇⠀⠀⠀⠀⠀⠀⢀⠈⠉⠀⠀⠀⢀⡀⠀⠀⠸⠇⠀⠀⢀⠂⠀⠀⠀⠇⠀⠀⠀⠀⠸⠀⠀⠀⠀⣀⡀⠀⢀⠘⠀⠀⠀" +
+                $"\r\n  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⠒⠀⠀⠀⠀⠀⠂⠒⠂⠀⢈⠀⠀⠀⡆⠀⠀⠀⠀⠀⠀⠀⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠂⠀⠀⠀⠒⠒⠒⠀⠀⠒⠂⠀⠀⠀⠀" +
+                $"\r\n  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
+                $"\r\n  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
+
+              $"《x{startPosX},y{layout.Image.Y - 5},tRed》" +
 
                 $"\r\n                                                                                   " +
                 $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡰⠁⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
@@ -153,7 +143,7 @@ namespace SprtaaaaDungeon
                 $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⠂⠀⣰⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
                 $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠛⠒⠒⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
 
-              $"《x{startPosX},y{layout.Image.Y - 5}》" +
+              $"《x{startPosX},y{layout.Image.Y - 5},tRed》" +
 
                 $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
                 $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡰⠃⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
@@ -169,7 +159,7 @@ namespace SprtaaaaDungeon
                 $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠛⠒⠚⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
 
 
-              $"《x{startPosX},y{layout.Image.Y - 5}》" +
+              $"《x{startPosX},y{layout.Image.Y - 5},tRed》" +
                 $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
                 $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⠛⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
                 $"\r\n⠀⠀⠀⠀⠀⢀⣀⣀⣀⣀⣀⣀⣀⣀⡀⣀⣀⣀⣀⣀⣀⣀⡀⠀⣀⠀⣀⣀⣀⠀⠀⠀⢀⣀⣀⣀⠀⠀⠀⠀⣀⡀⢀⣀⣀⣀⣀⡇⢰⣿⣇⣀⡀⠀⠀⢀⣀⣀⡀⠀⠀⠀⠀⠀⠀" +
@@ -183,7 +173,7 @@ namespace SprtaaaaDungeon
                 $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⠏⢁⣾⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
                 $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠛⠛⠛⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
 
-              $"《x{startPosX},y{layout.Image.Y - 5}》" +
+              $"《x{startPosX},y{layout.Image.Y - 5},tRed》" +
 
                 $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
                 $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⢿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
@@ -199,7 +189,7 @@ namespace SprtaaaaDungeon
                 $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⠛⠛⠛⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
 
 
-              $"《x{startPosX},y{layout.Image.Y - 5}》" +
+              $"《x{startPosX},y{layout.Image.Y - 5},tRed》" +
 
                 $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
                 $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
@@ -212,15 +202,75 @@ namespace SprtaaaaDungeon
                 $"\r\n⠀⠀⠀⠀⣀⣟⣶⣿⣿⣿⣿⣿⣿⣿⣳⣿⣿⣿⣿⣿⣿⠇⢸⡇⣿⣿⣿⣿⣿⠟⢻⣿⣿⣿⣿⣿⣿⣿⡿⣿⣿⣿⣿⠿⠀⠀⠸⢷⣿⣿⣿⣿⠿⢿⣿⣿⣿⣿⣿⣿⣿⡿⠀⠀⠀" +
                 $"\r\n⠀⠀⠀⠀⠛⠛⠛⠛⠛⠛⠛⠛⠛⠙⠛⠛⠛⠛⠛⠛⠛⠀⢸⡇⣿⣿⡟⠛⠋⠀⠈⠙⠛⠛⠋⠙⠛⠛⠁⠛⠛⠛⠋⠀⠀⠀⠀⠈⠛⠛⠛⠉⠀⠈⠛⠛⠛⠉⠙⠛⠋⠀⠀⠀⠀" +
                 $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣟⣿⣿⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
-                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠛⠛⠛⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
+                $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠛⠛⠛⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
 
+
+
+              //$"《x{startPosX},y{layout.Image.Y - 5},tRed》" +
+              //  $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
+              //  $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
+              //  $"\r\n⠀⠀⠀⠀⠀⢀⣀⣀⣀⣀⣀⣀⣀⣀⡀⣀⣀⣀⣀⣀⣀⣀⡀⠀⣀⡀⣀⣀⣀⠀⠀⠀⢀⣀⣀⣀⠀⠀⠀⠀⣀⣀⢀⣀⣀⣀⣸⣏⣿⣿⣇⣀⣀⠀⠀⢀⣀⣀⡀⠀⠀⠀⠀⠀⠀" +
+              //  $"\r\n⠀⠀⠀⠀⠀⡎⣯⣯⣿⣯⣭⣿⣿⣿⣷⣻⣭⣭⣿⣿⣿⣿⣷⡖⣿⣷⣿⣭⣿⣦⡄⣴⣿⣯⣽⣿⣶⣤⣠⣾⣿⣿⣾⣫⣿⣿⣿⣯⣿⣿⣿⣿⣿⣠⣶⣯⣿⣿⣷⣶⣄⠀⠀⠀⠀" +
+              //  $"\r\n⠀⠀⠀⠀⠀⡗⣿⣿⣿⣿⣿⣿⣿⠟⢹⣿⣿⣿⣿⣿⣿⣿⢿⡇⣿⣿⣿⣿⣿⣿⡿⣿⣿⣿⣿⡿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⡏⣿⣿⣿⠋⠀⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀" +
+              //  $"\r\n⠀⠀⠀⠀⠀⠿⠿⠁⡶⣿⣿⣿⡏⠀⠈⠁⣸⣿⣾⣿⣿⠏⢸⡇⣿⣿⡇⣿⣿⣿⡇⢈⣵⣶⣿⣧⣿⣿⡇⣿⣿⣿⣿⠿⠿⠁⢸⡇⣿⣿⡇⠀⠀⠉⣁⣴⣶⣿⣾⣿⣿⠀⠀⠀⠀" +
+              //  $"\r\n⠀⠀⠀⠀⠀⠀⢀⣰⣻⣿⣿⡟⠀⠀⠀⣠⣿⣿⣿⣿⠃⠀⢸⡇⣿⣿⡇⣿⣿⣿⣷⣿⣿⣿⢿⡟⣿⣿⡇⣿⣿⣿⣿⠀⠀⠀⢸⡗⣿⣿⡇⠀⣀⡞⣿⣿⡿⣿⣻⣿⣿⠀⠀⠀⠀" +
+              //  $"\r\n⠀⠀⠀⠀⠀⢀⣾⣷⣿⣿⣿⣃⣶⣆⢰⣿⣿⣿⣿⣏⣰⡆⢸⡇⣿⣿⣇⣿⣿⣿⣿⣿⣿⣿⣾⣿⣿⣿⣧⣿⣿⣿⣿⠀⠀⠀⢸⣷⣿⣿⣇⣾⣿⣿⣿⣿⣷⣿⣿⣿⣿⣦⠀⠀⠀" +
+              //  $"\r\n⠀⠀⠀⠀⣀⣿⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇⢸⡗⣿⣿⣿⣿⣿⠟⢻⣿⣿⣿⣿⣿⣿⣿⡿⣿⣿⣿⣿⠿⠀⠀⠸⢿⣿⣿⣿⣿⡿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠀⠀⠀" +
+              //  $"\r\n⠀⠀⠀⠀⠛⠛⠛⠛⠛⠛⠛⠛⠛⠙⠛⠛⠛⠛⠛⠛⠛⠀⢸⣗⣿⣿⡟⠛⠋⠀⠈⠙⠛⠛⠋⠙⠛⠛⠁⠛⠛⠛⠋⠀⠀⠀⠀⠈⠛⠛⠛⠉⠀⠈⠛⠛⠛⠉⠙⠛⠋⠀⠀⠀⠀" +
+              //  $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣟⣿⣿⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
+              //  $"\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠛⠛⠛⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
 
             };
-            string input = pictures[currentIndex].Replace("\r\n", $"\n《x{startPosX}》");
+            string input = pictures[currentIndex].Replace("\r\n", $"\n《x{startPosX},tRed》");
 
 
             DrawString(input);
         }
+
+
+        private void ShowPressAnyKeyPrompt()
+        {
+            // 1) 메시지와 위치 계산
+            string prompt = "Press any key to continue...";
+            int promptWidth = prompt.Length;
+            int x = (Console.WindowWidth - promptWidth) / 2;
+            int y = PromptY;
+
+            // 깜빡일 사각 영역
+            var promptRect = new Rectangle(x, y, promptWidth, 1);
+
+            // 2) 깜빡임을 위한 타이머
+            var blinkWatch = new Stopwatch();
+            blinkWatch.Start();
+            bool visible = true;
+
+            // 3) 키 입력 대기 + 깜빡임 루프
+            while (!Console.KeyAvailable)
+            {
+                if (blinkWatch.ElapsedMilliseconds > 500)  // 0.5초마다 토글
+                {
+                    if (visible)
+                    {
+                        // 사각 지우기 (DrawRemoveRect 사용)
+                        DrawRemoveRect(promptRect);
+                    }
+                    else
+                    {
+                        // 메시지 그리기
+                        DrawString($"《x{x},y{y},tYellow》{prompt}");
+                    }
+                    visible = !visible;
+                    blinkWatch.Restart();
+                }
+            }
+
+            // 4) 키를 실제로 읽고 씬 전환
+            Console.ReadKey(true);
+            controller.ChangeScene<NameScene>();
+        }
+
+
+
     }
 }
     
