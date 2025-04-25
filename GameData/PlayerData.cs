@@ -1,27 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SprtaaaaDungeon
 {
-    public class PlayerData
+    public class PlayerData : CharacterData
     {
-        public string Name { get; set; }
         public GameEnum.ClassType ClassType { get; set; }
-        public int Level { get; set; }
         public float Gold { get; set; }
 
-        public StatData Stat { get; set; }
+        public float CurrentExp { get; set; }
+        public float MaxExp { get; set; }
 
-        public PlayerData(string name, GameEnum.ClassType classType, int level, float gold, StatData statData)
+
+        public void addExp(float exp)
         {
-            Name = name;
-            ClassType = classType;
-            Level = level; 
-            Gold = gold; 
-            Stat = statData;
+            CurrentExp += exp;
+
+            if(CurrentExp >= MaxExp)
+            {
+                Level++;
+                CurrentExp = 0;
+
+                MaxExp = Level * 10;
+            }
         }
 
     }

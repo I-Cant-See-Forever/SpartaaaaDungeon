@@ -8,20 +8,23 @@ namespace SprtaaaaDungeon
 {
     public class DungeonStartScene : DungeonScene
     {
-        
+        int currentSelectNum = 0;
+
         public DungeonStartScene(SceneController controller) : base(controller)
         {
         }
 
         public override void Start()
         {
-
+            dungeonController.IsPlayerAliveCheck(); // 체력 0 되면 false로 바꿈
         }
         public override void Update()
         {
             show();
             int input = int.Parse(Console.ReadLine());
             HandleInput(input);
+
+            
         }
         public override void End()
         {
@@ -29,7 +32,7 @@ namespace SprtaaaaDungeon
         }
         public override void show()
         {
-            Console.Clear();
+            Console.Clear();           
             Console.WriteLine("[던전입구]");
             Console.WriteLine();
             Console.WriteLine("던전을 고르시오");
@@ -47,25 +50,61 @@ namespace SprtaaaaDungeon
         }
         public override DungeonScene HandleInput(int input)
         {
+
+
             switch (input)
             {
                 case 1:
-                    dungeonController.SetDungeon("1");
-                    controller.ChangeScene<DungeonBattleScene>();
+                    if (dungeonController.isPlayerAlive)
+                    {
+                        dungeonController.EnterDungeon("1");
+                        controller.ChangeScene<DungeonBattleScene>();
+                    }
+                    else
+
+                    {
+                        Console.WriteLine("플레이어 탈진상태. 공략불가");
+                        Thread.Sleep(1000);
+                    }
+
+
                     break;
 
                 case 2:
-                    dungeonController.SetDungeon("2");
-                    controller.ChangeScene<DungeonBattleScene>();
+                    if (dungeonController.isPlayerAlive)
+                    {
+                        dungeonController.EnterDungeon("2");
+                        controller.ChangeScene<DungeonBattleScene>();
+                    }
+                    else
+
+                    {
+                        Console.WriteLine("플레이어 탈진상태. 공략불가");
+                        Thread.Sleep(1000);
+                    }
                     break;
                 case 3:
-                    dungeonController.SetDungeon("3");
-                    controller.ChangeScene<DungeonBattleScene>();
+                    if (dungeonController.isPlayerAlive)
+                    {
+                        dungeonController.EnterDungeon("3");
+                        controller.ChangeScene<DungeonBattleScene>();
+                    }
+                    else
+
+                    {
+                        Console.WriteLine("플레이어 탈진상태. 공략불가");
+                        Thread.Sleep(1000);
+                    }
                     break;
                 case 0:
+                    dungeonController.ExitDungeon();
                     controller.ChangeScene<TownScene>();
                     break;
+
             }
+
+
+
             return this;
         }
 
