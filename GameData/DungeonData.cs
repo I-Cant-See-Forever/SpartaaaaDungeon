@@ -9,19 +9,11 @@ namespace SprtaaaaDungeon
 {
     public class DungeonData
     {
-        public string Name { get; private set; }
-        public int Level { get; private set; }
-        public DungeonReward Reward { get; private set; }
+        public string Name { get; set; }
+        public int Level { get; set; }
+        public DungeonReward Reward { get; set; }
 
         [JsonIgnore]
-        public List<MonsterData> Monsters { get; private set; }
-        public DungeonData(string name, int level, DungeonReward reward)
-        {
-            Name = name;
-            Level = level;
-            Reward = reward;
-
-            Monsters = new();
-        }
+        public List<MonsterData> Monsters { get; private set; } = new();
     }
 }
