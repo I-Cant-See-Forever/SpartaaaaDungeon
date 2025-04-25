@@ -31,12 +31,10 @@ namespace SprtaaaaDungeon
             }
         }
 
-        
-
         public override void Start()
         {
             Frame();
-            DrawTitle(questController.SelectTypeIndex);
+            DrawTitles();
 
             targetList = questController.QuestTypeList[questController.SelectTypeIndex];
 
@@ -108,50 +106,37 @@ namespace SprtaaaaDungeon
         {
         }
 
-        void DrawTitle(int num)
+        void DrawTitles()
         {
-            if (num == 0)
+            string[] titles = new string[]
             {
-                string title = $"《x{layout.Title.X},y{layout.Title.Y},tyellow》" +
+                $"《x{layout.Title.X},y{layout.Title.Y},tyellow》" +
                 $"███╗   ██╗███████╗██╗    ██╗   ██████╗ ██╗   ██╗███████╗███████╗████████╗ \r\n" +
                 $"████╗  ██║██╔════╝██║    ██║  ██╔═══██╗██║   ██║██╔════╝██╔════╝╚══██╔══╝ \r\n" +
                 $"██╔██╗ ██║█████╗  ██║ █╗ ██║  ██║   ██║██║   ██║█████╗  ███████╗   ██║    \r\n" +
                 $"██║╚██╗██║██╔══╝  ██║███╗██║  ██║▄▄ ██║██║   ██║██╔══╝  ╚════██║   ██║    \r\n" +
                 $"██║ ╚████║███████╗╚███╔███╔╝  ╚██████╔╝╚██████╔╝███████╗███████║   ██║    \r\n" +
-                $"╚═╝  ╚═══╝╚══════╝ ╚══╝╚══╝    ╚══▀▀═╝  ╚═════╝ ╚══════╝╚══════╝   ╚═╝    ";
-                string replaceTitle = title.Replace("\r\n", $"\n《x{layout.Title.X},tyellow》");
+                $"╚═╝  ╚═══╝╚══════╝ ╚══╝╚══╝    ╚══▀▀═╝  ╚═════╝ ╚══════╝╚══════╝   ╚═╝    ",
 
-                DrawString(replaceTitle);
-            }
-            else if (num == 1)
-            {
-                string title = $"《x{layout.Title.X},y{layout.Title.Y},tyellow》" +
+                $"《x{layout.Title.X},y{layout.Title.Y},tyellow》" +
                 $"██████╗ ██╗      █████╗ ██╗   ██╗   ██████╗ ██╗   ██╗███████╗███████╗████████╗ \r\n" +
                 $"██╔══██╗██║     ██╔══██╗╚██╗ ██╔╝  ██╔═══██╗██║   ██║██╔════╝██╔════╝╚══██╔══╝ \r\n" +
                 $"██████╔╝██║     ███████║ ╚████╔╝   ██║   ██║██║   ██║█████╗  ███████╗   ██║    \r\n" +
                 $"██╔═══╝ ██║     ██╔══██║  ╚██╔╝    ██║▄▄ ██║██║   ██║██╔══╝  ╚════██║   ██║    \r\n" +
                 $"██║     ███████╗██║  ██║   ██║     ╚██████╔╝╚██████╔╝███████╗███████║   ██║    \r\n" +
-                $"╚═╝     ╚══════╝╚═╝  ╚═╝   ╚═╝      ╚══▀▀═╝  ╚═════╝ ╚══════╝╚══════╝   ╚═╝    ";
-                string replaceTitle = title.Replace("\r\n", $"\n《x{layout.Title.X},tyellow》");
+                $"╚═╝     ╚══════╝╚═╝  ╚═╝   ╚═╝      ╚══▀▀═╝  ╚═════╝ ╚══════╝╚══════╝   ╚═╝    ",
 
-                DrawString(replaceTitle);
-            }
-            else
-            {
-                string title = $"《x{layout.Title.X},y{layout.Title.Y},tyellow》" +
+                $"《x{layout.Title.X},y{layout.Title.Y},tyellow》" +
                 $"███████╗███╗   ██╗██████╗    ██████╗ ██╗   ██╗███████╗███████╗████████╗ \r\n" +
                 $"██╔════╝████╗  ██║██╔══██╗  ██╔═══██╗██║   ██║██╔════╝██╔════╝╚══██╔══╝ \r\n" +
                 $"█████╗  ██╔██╗ ██║██║  ██║  ██║   ██║██║   ██║█████╗  ███████╗   ██║    \r\n" +
                 $"██╔══╝  ██║╚██╗██║██║  ██║  ██║▄▄ ██║██║   ██║██╔══╝  ╚════██║   ██║    \r\n" +
                 $"███████╗██║ ╚████║██████╔╝  ╚██████╔╝╚██████╔╝███████╗███████║   ██║    \r\n" +
-                $"╚══════╝╚═╝  ╚═══╝╚═════╝    ╚══▀▀═╝  ╚═════╝ ╚══════╝╚══════╝   ╚═╝    ";
-                string replaceTitle = title.Replace("\r\n", $"\n《x{layout.Title.X},tyellow》");
+                $"╚══════╝╚═╝  ╚═══╝╚═════╝    ╚══▀▀═╝  ╚═════╝ ╚══════╝╚══════╝   ╚═╝    "
+            };
+            string replaceTitle = titles[questController.SelectTypeIndex].Replace("\r\n", $"\n《x{layout.Title.X},tyellow》");
 
-                DrawString(replaceTitle);
-            }
-
-
-
+            DrawString(replaceTitle);
         }
 
         void Frame() // 테두리 그리는 함수!
@@ -177,7 +162,7 @@ namespace SprtaaaaDungeon
 
             for (int i = 0; i < targetList.Count; i++)
             {
-                DrawString($"《x{layout.Left.X + 1},y{menuListRects[i].Y},{backSpotlight[i]}》{targetList[i].Title} \n");
+                DrawString($"《x{layout.Left.X + 3},y{menuListRects[i].Y},{backSpotlight[i]}》{targetList[i].Title} \n");
             }
 
             DrawInfo(targetList[spotLightIndex]);
@@ -227,8 +212,8 @@ namespace SprtaaaaDungeon
 
             switch (questController.SelectTypeIndex)
             {
-                case 0: DrawString($"《x{posX},y{posY+ 17},tgray》 수락 : Enter \n"); break;
-                case 1: DrawString($"《x{posX},y{posY+ 17},tgray》 보상 받기 : Enter \n"); break;
+                case 0: DrawString($"《x{posX},y{posY+ 17},tgreen》 수락 : Enter \n"); break;
+                case 1: DrawString($"《x{posX},y{posY+ 17},tgreen》 보상 받기 : Enter \n"); break;
             }
         }
     }

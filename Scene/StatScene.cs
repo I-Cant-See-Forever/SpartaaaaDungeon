@@ -110,8 +110,8 @@ namespace SprtaaaaDungeon
 
             DrawAtkDefStats();
 
-            DrawStatBar("체  력", playerdata.StatData.MaxHealth, playerdata.StatData.CurrentHealth, "red", 6);
-            DrawStatBar("마  력", playerdata.StatData.MaxMP, playerdata.StatData.CurrentMP, "blue", 7);
+            DrawStatBar("체  력", playerdata.StatData.MaxHealth, playerdata.StatData.CurrentHealth, "green", 6);
+            DrawStatBar("마  력", playerdata.StatData.MaxMP, playerdata.StatData.CurrentMP, "cyan", 7);
             DrawStatBar("경험치", playerdata.MaxExp, playerdata.CurrentExp, "yellow", 8);
 
             DrawString($"《x{layout.Left.X + StatLayoutX},y{StatLayoutY + 10}》Gold : 《tGreen》{playerdata.Gold} 《tYellow》G\n\n");
