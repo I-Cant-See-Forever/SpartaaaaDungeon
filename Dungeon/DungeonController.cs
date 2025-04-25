@@ -82,8 +82,6 @@ public class DungeonController
     }
 
 
-
-
     MonsterData GetLeveledMonsterData(DungeonData targetDungeon, List<MonsterData> monsterDatas)
     {
         List<MonsterData> leveledMonsterData = new();
@@ -167,11 +165,13 @@ public class DungeonController
 
 
 
-    public void TryBasicAttack(List<CharacterData> targets, out float attackDamage)
+    public void TryBasicAttack(List<CharacterData> targets, out float attackDamage, out bool isCritical)
     {
         Random rand = new Random();
 
         bool isEvade = rand.Next(100) < 10;
+
+        isCritical = false;
 
         attackDamage = 0;
 
@@ -181,9 +181,16 @@ public class DungeonController
             {
                 CharacterData targetMonster = targets[0];
 
-                bool isCrit = rand.Next(100) < 15;
+                isCritical = rand.Next(100) < 15;
 
-                attackDamage = isCrit ? playerData.StatData.Attack * 1.6f : playerData.StatData.Attack;
+
+                var tempDamage = isCritical ? playerData.StatData.Attack * 1.6f : playerData.StatData.Attack;
+
+                int minDamage = (int)(tempDamage * 0.9f);
+                int maxDamage = (int)(tempDamage * 1.1f);
+
+
+                attackDamage = rand.Next(minDamage, maxDamage);
 
                 targetMonster.StatData.CurrentHealth -= attackDamage;
             }
@@ -197,8 +204,14 @@ public class DungeonController
         playerData.StatData.CurrentHealth -= attackDamage;
     }
 
+
     public void GetReward()
     {
+        if(playerData.DungeonClearedLevel < dungeonIndex)
+        {
+            playerData.DungeonClearedLevel++;
+        }
+
         playerData.Gold += CurrentDungeon.Reward.Gold;
         playerData.addExp(CurrentDungeon.Reward.EXP);
         //인벤토리 아이템 추가
@@ -208,6 +221,8 @@ public class DungeonController
             GameManager.Instance.QuestController.UpdateHuntQuest("");
         }
     }
+
+
     public void CheckMonsterDead(List<CharacterData> monsters)
     {
         for (int i = 0; i < monsters.Count; i++)

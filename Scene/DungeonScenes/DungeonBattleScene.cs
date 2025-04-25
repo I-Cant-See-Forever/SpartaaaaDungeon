@@ -54,6 +54,8 @@ namespace SprtaaaaDungeon
 
             DrawPlayerInfo(true);
             DrawMonsterInfo(false);
+
+            battInfoList.Clear();
         }
 
         public override void Update()
@@ -123,16 +125,24 @@ namespace SprtaaaaDungeon
                 }
             }
 
-            if(currentSkill.CostMP <= playerData.StatData.CurrentMP)
+            bool isSuccess = false;
+
+            string resultText = "";
+
+            if (currentSkill.CostMP <= playerData.StatData.CurrentMP)
             {
-                DrawString($"《x{layout.BattleInfo.X + 5},y{layout.BattleInfo.Y + 4}》대상을 선택하세요!");
-                return true;
+                resultText = "대상을 선택하세요!";
+                isSuccess = true;
             }
             else
             {
-                DrawString($"《x{layout.BattleInfo.X + 5},y{layout.BattleInfo.Y + 4}》마나가 부족합니다!");
-                return false;
+                resultText = "마나가 부족합니다!";
+                isSuccess = false;
             }
+
+            DrawBattleInfo(resultText);
+
+            return isSuccess;
         }
 
         void SetSelectMonsterPhase()
@@ -229,12 +239,19 @@ namespace SprtaaaaDungeon
                     attackDamage = resultDamage;
 
                     currentSkill = null;
+
                 }
                 else
                 {
-                    dungeonController.TryBasicAttack(targets, out float resultDamage);
+                    dungeonController.TryBasicAttack(targets, out float resultDamage, out bool isCrit);
 
                     attackDamage = resultDamage;
+
+                    if(isCrit)
+                    {
+                        DrawBattleInfo("치명타!");
+                        Thread.Sleep(1000);
+                    }
                 }
 
                 for (int i = 0; i < targets.Count; i++)
@@ -275,33 +292,14 @@ namespace SprtaaaaDungeon
 
             if(attackDamage >0)
             {
-                infoText = $"{target.Name} 에게 {attackDamage}의 데미지를 입혔습니다!";
+                infoText = $"{target.Name} 은 {attackDamage}의 데미지를 입었습니다!";
             }
             else
             {
-                infoText = $"《x{layout.BattleInfo.X + 5}》{target.Name} 에게 향한 공격은 실패했습니다..";
+                infoText = $"{target.Name} 은 회피했습니다!";
             }
 
-            battInfoList.Add(infoText);
-
-            if(battInfoList.Count > 5)
-            {
-                battInfoList.RemoveAt(0);
-            }
-
-            DrawRemoveRect(layout.BattleInfo);
-
-            for (int i = battInfoList.Count; i > 0; i--)
-            {
-                if(i == battInfoList.Count)
-                {
-                    DrawString($"《x{layout.BattleInfo.X + 5}》《y{layout.BattleInfo.Y + 4 + battInfoList.Count - i},tRed》" + battInfoList[i - 1]);
-                }
-                else
-                {
-                    DrawString($"《x{layout.BattleInfo.X + 5}》《y{layout.BattleInfo.Y + 4 + battInfoList.Count - i}》" + battInfoList[i -1]);
-                }
-            }
+            DrawBattleInfo(infoText);
         }
 
         void DrawSkillInfo()
@@ -340,20 +338,20 @@ namespace SprtaaaaDungeon
 
         void DrawPlayerInfo(bool isSelect)
         {
-            DrawString($"《x{layout.PlayerInfo.X + 2},y{layout.PlayerInfo.Y}》{playerData.Name}《tyellow》Lv.{playerData.Level}");
+            DrawString($"《x{layout.PlayerInfo.X + 2},y{layout.PlayerInfo.Y + 1}》{playerData.Name}《tyellow》Lv.{playerData.Level}");
 
-            DrawStatBar(playerData.StatData.MaxHealth, playerData.StatData.CurrentHealth, "green", layout.PlayerInfo.X + 2, layout.PlayerInfo.Y + 1);
-            DrawStatBar(playerData.StatData.MaxMP, playerData.StatData.CurrentMP, "cyan", layout.PlayerInfo.X + 2, layout.PlayerInfo.Y + 2);
+            DrawStatBar(playerData.StatData.MaxHealth, playerData.StatData.CurrentHealth, "green", layout.PlayerInfo.X + 2, layout.PlayerInfo.Y + 2);
+            DrawStatBar(playerData.StatData.MaxMP, playerData.StatData.CurrentMP, "cyan", layout.PlayerInfo.X + 2, layout.PlayerInfo.Y + 3);
 
             if (isSelect)
             {
-                DrawString($"《x{layout.PlayerInfo.X + 3},y{layout.PlayerInfo.Y + 4},tmagenta》[1] 《》공격");
-                DrawString($"《x{layout.PlayerInfo.X + 3},y{layout.PlayerInfo.Y + 6},tmagenta》[2] 《》스킬");
+                DrawString($"《x{layout.PlayerInfo.X + 3},y{layout.PlayerInfo.Y + 5},tmagenta》[1] 《》공격");
+                DrawString($"《x{layout.PlayerInfo.X + 3},y{layout.PlayerInfo.Y + 7},tmagenta》[2] 《》스킬");
             }
             else
             {
-                DrawString($"《x{layout.PlayerInfo.X + 3},y{layout.PlayerInfo.Y + 4}》공격");
-                DrawString($"《x{layout.PlayerInfo.X + 3},y{layout.PlayerInfo.Y + 6}》스킬");
+                DrawString($"《x{layout.PlayerInfo.X + 3},y{layout.PlayerInfo.Y + 5}》공격");
+                DrawString($"《x{layout.PlayerInfo.X + 3},y{layout.PlayerInfo.Y + 7}》스킬");
             }
         }
 
@@ -376,17 +374,41 @@ namespace SprtaaaaDungeon
 
             DrawRemoveRect(layout.BattleInfo);
 
-            DrawString($"《x{layout.BattleInfo.X + 5},y{layout.BattleInfo.Y + 2}》{currentDungeon.Name} 을 클리어 하셨습니다!\n");
+            DrawString($"《x{layout.BattleInfo.X + 5},y{layout.BattleInfo.Y + 2},tred》{currentDungeon.Name}《》 을 《tgreen》클리어《》하셨습니다!\n");
             DrawString($"《x{layout.BattleInfo.X + 5},y{layout.BattleInfo.Y + 3}》축하합니다!\n");
-            DrawString($"《x{layout.BattleInfo.X + 5},y{layout.BattleInfo.Y + 4}》+ {reward.EXP} exp\n");
-            DrawString($"《x{layout.BattleInfo.X + 5},y{layout.BattleInfo.Y + 5}》+ {reward.Gold} gold\n");
+            DrawString($"《x{layout.BattleInfo.X + 5},y{layout.BattleInfo.Y + 4},tyellow》+ {reward.EXP} exp\n");
+            DrawString($"《x{layout.BattleInfo.X + 5},y{layout.BattleInfo.Y + 5},tyellow》+ {reward.Gold} gold\n");
 
             int index = 0;
 
             foreach (var item in reward.ItemsNameDict)
             {
-                DrawString($"《x{layout.BattleInfo.X + 5},y{layout.BattleInfo.Y + 4 + index}》+ {item.Key} + {item.Value} \n");
+                DrawString($"《x{layout.BattleInfo.X + 5},y{layout.BattleInfo.Y + 4 + index}》+ {item.Key} + 《tmagenta》{item.Value} \n");
                 index++;
+            }
+        }
+
+        void DrawBattleInfo(string infoText)
+        {
+            battInfoList.Add(infoText);
+
+            if (battInfoList.Count > 6)
+            {
+                battInfoList.RemoveAt(0);
+            }
+
+            DrawRemoveRect(layout.BattleInfo);
+
+            for (int i = battInfoList.Count; i > 0; i--)
+            {
+                if (i == battInfoList.Count)
+                {
+                    DrawString($"《x{layout.BattleInfo.X + 5}》《y{layout.BattleInfo.Y + 2 + battInfoList.Count - i},tRed》" + battInfoList[i - 1]);
+                }
+                else
+                {
+                    DrawString($"《x{layout.BattleInfo.X + 5}》《y{layout.BattleInfo.Y + 2 + battInfoList.Count - i}》" + battInfoList[i - 1]);
+                }
             }
         }
     }

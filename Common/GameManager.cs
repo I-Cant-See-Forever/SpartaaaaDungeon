@@ -79,6 +79,7 @@ public class GameManager
             Level = 1,
             Gold = 1500,
             MaxExp = 10,
+            DungeonClearedLevel = 0,
             StatData = new StatData
             {
                 MaxHealth = 100,

@@ -15,6 +15,8 @@ namespace SprtaaaaDungeon
         public float CurrentExp { get; set; }
         public float MaxExp { get; set; }
 
+        public int DungeonClearedLevel { get; set; }
+
 
         public void addExp(float exp)
         {

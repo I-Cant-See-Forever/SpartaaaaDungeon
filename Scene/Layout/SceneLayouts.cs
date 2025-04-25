@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace SprtaaaaDungeon
 {
@@ -72,9 +73,11 @@ namespace SprtaaaaDungeon
         public Rectangle Right { get; private set; }
         public QuestMenuInfoLayout()
         {
-            Title = new(0, 0, Console.WindowWidth, 8);
-            Left = new(0, 8, 30, Console.WindowHeight);
-            Right = new(Left.Width + 1, 8, Console.WindowWidth - Left.Width, Console.WindowHeight);
+            Title = new(0, 0, 120, 8);
+
+            Left = new(0, 8, 30, 22);
+
+            Right = new(30, 8, 88, 22);
         }
     }
 

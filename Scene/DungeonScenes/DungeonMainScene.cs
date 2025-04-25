@@ -17,8 +17,11 @@ namespace SprtaaaaDungeon
         List<(string, Rectangle)> menuTextRects = new();
         List<(string, Rectangle)> imageRects = new();
 
+        PlayerData playerData;
+
         public DungeonMainScene(SceneController controller) : base(controller)
         {
+            playerData = GameManager.Instance.PlayerData;
             dungeonController = GameManager.Instance.DungeonController;
 
             for (int i = 0; i < dungeonController.DungeonDatas.Count; i++)
@@ -83,23 +86,33 @@ namespace SprtaaaaDungeon
                         dungeonController.dungeonIndex = GetMoveSelectIndex(dungeonController.dungeonIndex, -1, menuTextRects.Count - 1);
                         isCorretInput = true;
                         break;
+
                     case ConsoleKey.DownArrow:
                         dungeonController.dungeonIndex = GetMoveSelectIndex(dungeonController.dungeonIndex, +1, menuTextRects.Count - 1);
                         isCorretInput = true;
                         break;
+
                     case ConsoleKey.Enter:
-                        dungeonController.SetDungeon(dungeonController.dungeonIndex);
-                        controller.ChangeScene<DungeonBattleScene>();
+
+                        if(playerData.DungeonClearedLevel >= dungeonController.dungeonIndex)
+                        {
+                            dungeonController.SetDungeon(dungeonController.dungeonIndex);
+                            controller.ChangeScene<DungeonBattleScene>();
+                        }
                         break;
+
                     case ConsoleKey.Escape:
                         controller.ChangeScene<TownScene>();
                         break;
+
                     case ConsoleKey.P:
                         controller.ChangeScene<StatScene>();
                         break;
+
                     case ConsoleKey.I:
                         controller.ChangeScene<InventoryScene>();
                         break;
+
                 }
 
                 if (isCorretInput)
@@ -124,8 +137,8 @@ namespace SprtaaaaDungeon
             string[] backSpotlight = new string[menuTextRects.Count];
             string[] selectSign = new string[menuTextRects.Count];
 
-
-            backSpotlight[spotLightIndex] = "tmagenta";
+         
+            backSpotlight[spotLightIndex] = dungeonController.dungeonIndex > playerData.DungeonClearedLevel ? "tdarkgray" : "tmagenta";
             selectSign[spotLightIndex] = "▶ ";
 
 
