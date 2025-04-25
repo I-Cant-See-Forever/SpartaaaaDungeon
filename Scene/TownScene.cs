@@ -24,6 +24,7 @@ namespace SprtaaaaDungeon
 
         public TownScene(SceneController controller) : base(controller) 
         {
+
             menuTextRect = new (string, Rectangle)[]
             {
                 new("상점", new()),
@@ -48,6 +49,7 @@ namespace SprtaaaaDungeon
             {
                 controller.GetScene<ShopScene>(),
                 controller.GetScene<QuestMainScene>(),
+                controller.GetScene<DungeonMainScene>(),
             };
 
 
@@ -111,8 +113,11 @@ namespace SprtaaaaDungeon
                     case ConsoleKey.Enter:
                         controller.ChangeScene(SelectScenes[currentSelectNum]);
                         break;
-                    case ConsoleKey.Escape:
+                    case ConsoleKey.P:
                         controller.ChangeScene<StatScene>();
+                        break;
+                     case ConsoleKey.I:
+                        controller.ChangeScene<InventoryScene>();
                         break;
                 }
                

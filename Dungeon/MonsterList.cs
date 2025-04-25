@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SprtaaaaDungeon
 {
-    class GoblinWizard : DungeonData
+    /*class GoblinWizard : MonsterData
     {
         //몬스터 밸런싱 및 추가하는곳
         //초기값 전부 같음.
@@ -14,11 +14,10 @@ namespace SprtaaaaDungeon
         public GoblinWizard(int levelup) : base
             (name: "고블린마법사", level: 0 + levelup, attack: 2 + levelup * 2, currentHealth: 10 + levelup * 2, maxHealth : 10 + levelup *2)
         {
-
         }
     }
 
-    class Dragon : DungeonData
+    class Dragon : MonsterData
     {
 
         public Dragon(int levelup) : base
@@ -27,7 +26,7 @@ namespace SprtaaaaDungeon
 
         }
     }
-    class Golem : DungeonData
+    class Golem : MonsterData
     {
 
         public Golem(int levelup) : base
@@ -36,7 +35,7 @@ namespace SprtaaaaDungeon
 
         }
     }
-    class Banddit : DungeonData
+    class Banddit : MonsterData
     {
 
 
@@ -46,7 +45,7 @@ namespace SprtaaaaDungeon
 
         }
     }
-    class Rich : DungeonData
+    class Rich : MonsterData
     {
 
         public Rich(int levelup) : base
@@ -55,7 +54,7 @@ namespace SprtaaaaDungeon
 
         }
     }
-    class Vampire : DungeonData
+    class Vampire : MonsterData
     {
 
 
@@ -65,7 +64,7 @@ namespace SprtaaaaDungeon
 
         }
     }
-    class WareWolf : DungeonData
+    class WareWolf : MonsterData
     {
 
         public WareWolf(int levelup) : base
@@ -74,7 +73,7 @@ namespace SprtaaaaDungeon
 
         }
     }
-    class Zombie : DungeonData
+    class Zombie : MonsterData
     {
 
 
@@ -84,7 +83,7 @@ namespace SprtaaaaDungeon
 
         }
     }
-    class SkeletonArchor : DungeonData
+    class SkeletonArchor : MonsterData
     {
 
         public SkeletonArchor(int levelup) : base
@@ -93,7 +92,7 @@ namespace SprtaaaaDungeon
 
         }
     }
-    class SkeletonWarrior : DungeonData
+    class SkeletonWarrior : MonsterData
     {
 
 
@@ -103,6 +102,6 @@ namespace SprtaaaaDungeon
 
         }
     }
-
+*/
 
 }

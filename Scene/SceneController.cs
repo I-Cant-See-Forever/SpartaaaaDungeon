@@ -8,30 +8,30 @@ namespace SprtaaaaDungeon
 {
     public class SceneController
     {
+        Scene previousScene;
         Scene currentScene;
         Scene[] sceneContainer;
-     
+
+        public Scene PreviousScene => previousScene;
+        public Scene CurrentScene => currentScene;
+
         public SceneController()
         {
             sceneContainer = new Scene[]
             {
                 new TemplateScene(this),
-                new DungeonStartScene(this),
-                new DungeonBattleScene(this),
-                new DungeonAttackScene(this),
-                new DungeonAttackResultScene(this),
-                new DungeonTakeHitScene(this),
                 new TownScene(this),
                 new StatScene(this),
                 new QuestMainScene(this),
                 new QuestListScene(this),
-                new QuestInfoScene(this),
                 new NameScene(this),
                 new ClassScene(this),
                 new InventoryScene(this),
                 new ShopScene(this),
-                new DungeonWinResultScene(this),
-                new DungeonLoseResultScene(this),
+                new DungeonMainScene(this),
+                new DungeonBattleScene(this),
+                new GameEndScene(this),
+                new TitleScene(this)
             };
         }
 
@@ -45,15 +45,15 @@ namespace SprtaaaaDungeon
             {
                 if (item is T changedScene)
                 {
-                    currentScene?.End();
+                    previousScene = currentScene;
+
+                    previousScene?.End();
 
                     currentScene = changedScene;
 
                     Console.Clear();
 
                     changedScene.Start();
-
-                    //GameManager.Instance.SaveGame();
 
                     return;
                 }
@@ -66,7 +66,9 @@ namespace SprtaaaaDungeon
             {
                 if (item is T)
                 {
-                    currentScene?.End();
+                    previousScene = currentScene;
+
+                    previousScene?.End();
 
                     currentScene = scene;
 

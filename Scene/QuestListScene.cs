@@ -11,25 +11,32 @@ namespace SprtaaaaDungeon
     {
         private QuestController questController;
 
-        List<(string, Rectangle)> menuTextRectList = new();
+        //List<(string, Rectangle)> menuTextRectList = new();
+        List<Rectangle> menuListRects = new();
 
         List<QuestData> targetList;
+
+        MenuInfoLayout layout = new();
 
         public QuestListScene(SceneController controller) : base(controller)
         {
             questController = GameManager.Instance.QuestController;
+
+
+            menuListRects = new();
+
+            for (int i = 0; i < layout.Left.Height; i++)
+            {
+                menuListRects.Add(new(1, i * 2, layout.Left.Width, 1));
+            }
         }
+
 
         public override void Start()
         {
             targetList = questController.QuestTypeList[questController.SelectTypeIndex];
 
-            for (int i = 0; i < targetList.Count; i++)
-            {
-                menuTextRectList.Add((targetList[i].Title, new(1, i * 2, 100, 1)));
-            }
-
-            if(targetList.Count > 0)
+            if (targetList.Count > 0)
             {
                 DrawQuestList(targetList, questController.SelectQuestIndex);
             }
@@ -47,16 +54,34 @@ namespace SprtaaaaDungeon
                 switch (input.Key)
                 {
                     case ConsoleKey.UpArrow:
-                        questController.SelectQuestIndex = GetMoveSelectIndex(questController.SelectQuestIndex, -1, menuTextRectList.Count - 1);
+                        questController.SelectQuestIndex = GetMoveSelectIndex(questController.SelectQuestIndex, -1, targetList.Count - 1);
                         isCorretInput = true;
 
                         break;
                     case ConsoleKey.DownArrow:
-                        questController.SelectQuestIndex = GetMoveSelectIndex(questController.SelectQuestIndex, +1, menuTextRectList.Count - 1);
+                        questController.SelectQuestIndex = GetMoveSelectIndex(questController.SelectQuestIndex, +1, targetList.Count - 1);
                         isCorretInput = true;
                         break;
                     case ConsoleKey.Enter:
-                        controller.ChangeScene<QuestInfoScene>();
+                        var targetQuest = questController.QuestTypeList[questController.SelectTypeIndex][questController.SelectQuestIndex];
+
+                        if (questController.SelectTypeIndex < 2)
+                        {
+                            switch (questController.SelectTypeIndex)
+                            {
+                                case 0:
+                                    questController.Accept(targetQuest);
+                                    controller.ChangeScene<QuestListScene>();
+                                    break;
+                                case 1:
+                                    if (questController.TryClear(targetQuest))
+                                    {
+                                        controller.ChangeScene<QuestListScene>();
+                                    }
+                                    break;
+                            }
+                        }
+
                         break;
                     case ConsoleKey.Escape:
                         controller.ChangeScene<QuestMainScene>();
@@ -65,7 +90,7 @@ namespace SprtaaaaDungeon
 
                 if (isCorretInput)
                 {
-                    DrawRemoveRect(menuTextRectList[tempSelectNum].Item2);
+                    DrawRemoveRect(menuListRects[tempSelectNum]);
 
                     if (targetList.Count > 0)
                     {
@@ -82,8 +107,8 @@ namespace SprtaaaaDungeon
 
         void DrawQuestList(List<QuestData> targetList, int spotLightIndex)
         {
-            string[] backSpotlight = new string[menuTextRectList.Count];
-            string[] selectSign = new string[menuTextRectList.Count];
+            string[] backSpotlight = new string[targetList.Count];
+            string[] selectSign = new string[targetList.Count];
 
 
             backSpotlight[spotLightIndex] = "tmagenta";
@@ -91,7 +116,58 @@ namespace SprtaaaaDungeon
 
             for (int i = 0; i < targetList.Count; i++)
             {
-                DrawString($"《x{menuTextRectList[i].Item2.X},y{menuTextRectList[i].Item2.Y},{backSpotlight[i]}》{targetList[i].Title} \n");
+                DrawString($"《x{layout.Left.X + 1},y{menuListRects[i].Y + 5},{backSpotlight[i]}》{targetList[i].Title} \n");
+            }
+
+            DrawInfo(targetList[spotLightIndex]);
+        }
+
+        void DrawInfo(QuestData targetQuest)
+        {
+            var title = targetQuest.Title;
+            var description = targetQuest.Description;
+            var condition = targetQuest.Condition;
+            var conditionProgress = condition.ProgressText();
+            var reward = targetQuest.Reward;
+
+            int posX = layout.Right.X;
+            int posY = layout.Right.Y + 4;
+
+            DrawString($"《x{posX},y{posY},tgray》{title}\n\n");
+
+            DrawString($"《x{posX},y{posY + 2},tgray》{description}\n\n");
+
+            DrawString($"《x{posX},y{posY + 4},tgray》{condition.Description}\n\n");
+
+            DrawString($"《x{posX},y{posY + 6},tgray》{conditionProgress}\n\n");
+
+            DrawString($"《x{posX},y{posY + 8},tgray》보상\n");
+
+            int rewardDeltaY = 0;
+            if (reward.Gold > 0)
+            {
+                DrawString($"《x{posX},y{posY + 10},tgray》 + {reward.Gold} G\n");
+                rewardDeltaY++;
+            }
+
+            if (reward.Exp > 0)
+            {
+                DrawString($"《x{posX},y{posY + 10 + rewardDeltaY},tgray》 + {reward.Exp} G\n");
+                rewardDeltaY++;
+            }
+
+            int itemIndex = 0;
+            foreach (var item in reward.ItemCountDict)
+            {
+                DrawString($"《x{posX},y{posY + 10 + itemIndex + rewardDeltaY},tgray》{item.Key} + {item.Value}\n");
+
+                itemIndex++;
+            }
+
+            switch (questController.SelectTypeIndex)
+            {
+                case 0: DrawString($"《x{posX},y{posY+ 20},tgray》 수락 : Enter \n"); break;
+                case 1: DrawString($"《x{posX},y{posY+ 20},tgray》 보상 받기 : Enter \n"); break;
             }
         }
     }
