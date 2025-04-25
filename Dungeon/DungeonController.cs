@@ -63,7 +63,13 @@ public class DungeonController
 
 
         //현재던전을 깨끗한던전으로 초기화
-        CurrentDungeon = dungeonDatas[input];
+        CurrentDungeon = new DungeonData
+        {
+             Name = dungeonDatas[input].Name,
+             Level = dungeonDatas[input].Level,
+             Reward = dungeonDatas[input].Reward,
+        }
+       ;
 
         for (int i = 0; i < randCount; i++)
         {
@@ -117,14 +123,16 @@ public class DungeonController
     {
         attackDamage = 0;
 
-
         if (skillData.TargetCount > 1)
         {
             targets.Clear();
 
             List<int> useRandList = new List<int>();
-            
-            for (int i = 0; i < skillData.TargetCount; i++)
+
+            int targetCount = CurrentDungeon.Monsters.Count < skillData.TargetCount ?  CurrentDungeon.Monsters.Count : skillData.TargetCount;
+
+
+            for (int i = 0; i < targetCount; i++)
             {
                 int randTempCount = 0;
 
@@ -142,8 +150,10 @@ public class DungeonController
                 targets.Add(CurrentDungeon.Monsters[randTempCount]);
             }
         }
+       
 
-        switch(skillData)
+
+        switch (skillData)
         {
             case AttackSkillData attackSkillData:
                 attackSkillData.UseSkill(playerData, targets, out float resultValue);
