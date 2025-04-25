@@ -24,6 +24,12 @@ namespace SprtaaaaDungeon
 
             foreach (InventoryItemData item in items)
             {
+                if (item.ItemData == null)
+                {
+                    Console.WriteLine("[경고] ItemData가 null인 InventoryItemData가 감지됨. 무시합니다.");
+                    continue;
+                }
+
                 GameEnum.ItemType type = item.ItemData.Type;
 
                 if (typeItemDict.ContainsKey(type))
@@ -48,6 +54,13 @@ namespace SprtaaaaDungeon
                     Console.WriteLine("[" + pair.Key + "]");
                     foreach (InventoryItemData item in pair.Value)
                     {
+                        if (item.ItemData == null)
+                        {
+                            Console.WriteLine($"{index}. [잘못된 아이템 데이터]");
+                            index++;
+                            continue;
+                        }
+
                         string prefix = IsEquipped(item) ? "[E] " : "   ";
                         string effect = item.ItemData.Type switch
                         {
@@ -75,14 +88,53 @@ namespace SprtaaaaDungeon
         }
         public bool ToggleEquipState(InventoryItemData item)
         {
+            if (item.ItemData == null)
+            {
+                Console.WriteLine("[경고] 장착 시도한 아이템에 ItemData가 없습니다.");
+                return false;
+            }
+
             if (!itemEquipStates.ContainsKey(item)) return false;
 
-            itemEquipStates[item] = !itemEquipStates[item];
-            return itemEquipStates[item];
+            bool newState = !itemEquipStates[item];
+            itemEquipStates[item] = newState;
+
+            UpdatePlayerStats();
+
+            return newState;
         }
         public bool IsEquipped(InventoryItemData item)
         {
             return itemEquipStates.TryGetValue(item, out var isEquip) && isEquip;
+        }
+
+        private void UpdatePlayerStats()
+        {
+            PlayerData player = GameManager.Instance.PlayerData;
+
+            player.StatData.Attack = 0;
+            player.StatData.Defense = 0;
+
+            foreach (KeyValuePair<InventoryItemData, bool> entry in itemEquipStates)
+            {
+                if (!entry.Value) continue;
+
+                InventoryItemData equippedItem = entry.Key;
+
+                if (equippedItem.ItemData == null) continue;
+
+                GameEnum.ItemType type = equippedItem.ItemData.Type;
+                StatData stats = equippedItem.ItemData.StatData;
+
+                if (type == GameEnum.ItemType.Weapon)
+                {
+                    player.StatData.Attack += stats.Attack;
+                }
+                else if (type == GameEnum.ItemType.Armor)
+                {
+                    player.StatData.Defense += stats.Defense;
+                }
+            }
         }
     }
 }

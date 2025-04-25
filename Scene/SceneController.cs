@@ -49,7 +49,7 @@ namespace SprtaaaaDungeon
 
                     changedScene.Start();
 
-                    //GameManager.Instance.SaveGame();
+                    GameManager.Instance.SaveGame();
 
                     return;
                 }

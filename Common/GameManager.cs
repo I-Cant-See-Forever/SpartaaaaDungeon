@@ -80,7 +80,10 @@ public class GameManager
             }
         };
 
-        InventoryItems = new();
+        InventoryItems = new()
+        {
+            new InventoryItemData("테스트무기", GetItemData("테스트무기"), 1, false)
+        };
 
         ShopItems = new();
     }

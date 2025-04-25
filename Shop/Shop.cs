@@ -264,7 +264,7 @@ public class Shop
                                                                     {
                                                                         Console.WriteLine(shopItemDatas[targetItem].ItemData.Name + " 를 구매했습니다!");
                                                                         Thread.Sleep(1500);
-                                                                        GameManager.Instance.InventoryItems.Add(new(GetItemData(shopItemDatas[targetItem].ItemData.Name), 1, false));
+                                                                        //GameManager.Instance.InventoryItems.Add(new(GetItemData(shopItemDatas[targetItem].ItemData.Name), 1, false));
                                                                         playerData.Gold -= shopItemDatas[targetItem].ItemData.Price;
                                                                     }
                                                                 }
