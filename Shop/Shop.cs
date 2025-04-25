@@ -80,6 +80,10 @@ public class Shop
 
         foreach (var inventoryItem in inventoryItems)
         {
+            if (inventoryItem?.ItemData == null)
+            {
+                continue;
+            }
             GameEnum.ItemType type = inventoryItem.ItemData.Type;
 
             if (inventoryItemDict.ContainsKey(type)) // inventoryItems의 inventoryItem의 type(enum)에 키가 있으면
@@ -259,7 +263,7 @@ public class Shop
 
                                                         while (i < shopItemDatas.Count)
                                                         {
-                                                            myinvenItemsCount = (shopItemDatas[i].ItemData.Type == GameEnum.ItemType.Consumable) ? $" {inventoryItemDatas[i].Count}개 " : " ";
+                                                            myinvenItemsCount = (shopItemDatas[i].ItemData.Type == GameEnum.ItemType.Consumable) ? $" {inventoryItems[i].Count}개 " : " ";
                                                             soldItemCount = (shopItemDatas[i].ItemData.Type == GameEnum.ItemType.Consumable) ? $" {shopItemDatas[i].Count}개 구매 가능" : " ";
 
                                                             Console.WriteLine($"{buyNum}. [{shopItemDatas[i].ItemData.Name}] -{soldItemCount}" +

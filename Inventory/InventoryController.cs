@@ -22,20 +22,20 @@ namespace SprtaaaaDungeon
 
             typeItemDict = new Dictionary<GameEnum.ItemType, List<InventoryItemData>>();
 
-            foreach (InventoryItemData item in items)
-            {
-                GameEnum.ItemType type = item.ItemData.Type;
+            //foreach (InventoryItemData item in items)
+            //{
+            //    GameEnum.ItemType type = item.ItemData.Type;
 
-                if (typeItemDict.ContainsKey(type))
-                {
-                    typeItemDict[type].Add(item);
-                }
-                else
-                {
-                    typeItemDict[type] = new List<InventoryItemData> { item };
-                }
-                itemEquipStates[item] = false;
-            }
+            //    if (typeItemDict.ContainsKey(type))
+            //    {
+            //        typeItemDict[type].Add(item);
+            //    }
+            //    else
+            //    {
+            //        typeItemDict[type] = new List<InventoryItemData> { item };
+            //    }
+            //    itemEquipStates[item] = false;
+            //}
         }
 
         public void PrintItems(GameEnum.ItemType targetType)

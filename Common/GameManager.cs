@@ -56,18 +56,40 @@ public class GameManager
         PlayerData =
             new("테스트이름", GameEnum.ClassType.Warrior, 1, 1500, new(100, 100, 10, 5));
 
-        InventoryItems = new(); // 병합 시 아이템들만 삭제(괄호도 지움)
-
+        InventoryItems = new() // 병합 시 아이템들만 삭제(괄호도 지움)
+        {
+            new(GetItemData("테스트무기0"), 1, false),
+            new(GetItemData("테스트방어구0"), 1, false),
+            new(GetItemData("테스트소모품0"), 3, false)
+        };
         GameItems = new() // 병합 시 삭제
         {
             new("테스트무기0", GameEnum.ItemType.Weapon, 100, new(1, 1, 1, 1)),
-            new("테스트소모품0", GameEnum.ItemType.Consumable, 100, new(1, 1, 1, 1))
+            new("테스트무기1", GameEnum.ItemType.Weapon, 100, new(1, 1, 1, 1)),
+            new("테스트무기2", GameEnum.ItemType.Weapon, 100, new(1, 1, 1, 1)),
+            new("테스트무기3", GameEnum.ItemType.Weapon, 100, new(1, 1, 1, 1)),
+            new("테스트무기4", GameEnum.ItemType.Weapon, 100, new(1, 1, 1, 1)),
+            new("테스트방어구0", GameEnum.ItemType.Armor, 100, new(1, 1, 1, 1)),
+            new("테스트방어구1", GameEnum.ItemType.Armor, 100, new(1, 1, 1, 1)),
+            new("테스트방어구2", GameEnum.ItemType.Armor, 100, new(1, 1, 1, 1)),
+            new("테스트방어구3", GameEnum.ItemType.Armor, 100, new(1, 1, 1, 1)),
+            new("테스트소모품0", GameEnum.ItemType.Consumable, 100, new(1, 1, 1, 1)),
+            new("테스트소모품1", GameEnum.ItemType.Consumable, 100, new(1, 1, 1, 1))
         };
 
         ShopItems = new() // 병합 시 아이템 테스트무기0 빼고 다 삭제
         {
             new(GetItemData("테스트무기0"), 1),
-            new(GetItemData("테스트소모품0"), 1)
+            new(GetItemData("테스트무기1"), 1),
+            new(GetItemData("테스트무기2"), 1),
+            new(GetItemData("테스트무기3"), 1),
+            new(GetItemData("테스트무기4"), 1),
+            new(GetItemData("테스트방어구0"), 1),
+            new(GetItemData("테스트방어구1"), 1),
+            new(GetItemData("테스트방어구2"), 1),
+            new(GetItemData("테스트방어구3"), 1),
+            new(GetItemData("테스트소모품0"), 10),
+            new(GetItemData("테스트소모품1"), 1)
         };
     }
 
