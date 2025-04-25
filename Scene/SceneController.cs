@@ -8,9 +8,13 @@ namespace SprtaaaaDungeon
 {
     public class SceneController
     {
+        Scene previousScene;
         Scene currentScene;
         Scene[] sceneContainer;
-     
+
+        public Scene PreviousScene => previousScene;
+        public Scene CurrentScene => currentScene;
+
         public SceneController()
         {
             sceneContainer = new Scene[]
@@ -40,15 +44,15 @@ namespace SprtaaaaDungeon
             {
                 if (item is T changedScene)
                 {
-                    currentScene?.End();
+                    previousScene = currentScene;
+
+                    previousScene?.End();
 
                     currentScene = changedScene;
 
                     Console.Clear();
 
                     changedScene.Start();
-
-                    GameManager.Instance.SaveGame();
 
                     return;
                 }
@@ -61,7 +65,9 @@ namespace SprtaaaaDungeon
             {
                 if (item is T)
                 {
-                    currentScene?.End();
+                    previousScene = currentScene;
+
+                    previousScene?.End();
 
                     currentScene = scene;
 

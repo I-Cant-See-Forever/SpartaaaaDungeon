@@ -34,7 +34,7 @@ namespace SprtaaaaDungeon
                 ConsoleKeyInfo Keyinput = Console.ReadKey(true);
                 if (Keyinput.Key == ConsoleKey.Escape)
                 {
-                    controller.ChangeScene<TownScene>();
+                    controller.ChangeScene(controller.PreviousScene);
                 }
 
                 // 스탯 증가 감소 테스트용

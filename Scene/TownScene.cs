@@ -113,8 +113,11 @@ namespace SprtaaaaDungeon
                     case ConsoleKey.Enter:
                         controller.ChangeScene(SelectScenes[currentSelectNum]);
                         break;
-                    case ConsoleKey.Escape:
+                    case ConsoleKey.P:
                         controller.ChangeScene<StatScene>();
+                        break;
+                     case ConsoleKey.I:
+                        controller.ChangeScene<InventoryScene>();
                         break;
                 }
                

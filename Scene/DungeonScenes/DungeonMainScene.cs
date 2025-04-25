@@ -76,6 +76,12 @@ namespace SprtaaaaDungeon
                     case ConsoleKey.Escape:
                         controller.ChangeScene<TownScene>();
                         break;
+                    case ConsoleKey.P:
+                        controller.ChangeScene<StatScene>();
+                        break;
+                    case ConsoleKey.I:
+                        controller.ChangeScene<InventoryScene>();
+                        break;
                 }
 
                 if (isCorretInput)

@@ -67,7 +67,6 @@ namespace SprtaaaaDungeon
         public override void End()
         {
             Console.Clear();
-            
         }
 
         public override void Update()
@@ -77,7 +76,8 @@ namespace SprtaaaaDungeon
             switch (input)
             {
                 case "0":
-                    End();
+                    controller.ChangeScene(controller.PreviousScene);
+
                     break;
                 case "2":
                     if(currentPage < maxPage)
