@@ -226,7 +226,16 @@ namespace SprtaaaaDungeon
             switch (questController.SelectTypeIndex)
             {
                 case 0: DrawString($"《x{posX},y{posY+ 19},tgreen》 수락 : Enter "); break;
-                case 1: DrawString($"《x{posX},y{posY+ 19},tgreen》 보상 받기 : Enter "); break;
+                case 1: 
+                    if(condition.IsAchive())
+                    {
+                        DrawString($"《x{posX},y{posY + 19},tgreen》 보상 받기 : Enter "); 
+                    }
+                    else
+                    {
+                        DrawString($"《x{posX},y{posY + 19},tdarkgray》 보상 받기 : Enter ");
+                    }
+                    break;
             }
         }
     }

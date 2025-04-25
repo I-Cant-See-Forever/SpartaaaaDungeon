@@ -11,28 +11,30 @@ namespace SprtaaaaDungeon
 {
     class DungeonBattleScene : Scene
     {
+        bool isMonsterPhase = false;
+
+
+        public enum SelectPhase
+        {
+            Behavior,
+            Skill,
+            Monster
+        }
+        SelectPhase selectPhase;
+
+
+
         DungeonLayout layout = new();
 
         DungeonController dungeonController;
 
         DungeonData currentDungeon;
         PlayerData playerData;
-        public enum SelectPhase
-        {
-            Behavior,
-            Skill, 
-            Monster
-        }
-        SelectPhase selectPhase;
-
-        bool isMonsterPhase = false;
-        SkillData currentSkill;
-
-        int battleInfoTextCount;
-
-        Rectangle battleInfoCutRect;
 
         List<string> battInfoList = new();
+
+        SkillData currentSkill;
+       
 
 
         public DungeonBattleScene(SceneController controller) : base(controller) 
@@ -40,20 +42,18 @@ namespace SprtaaaaDungeon
             dungeonController = GameManager.Instance.DungeonController;
 
             playerData = GameManager.Instance.PlayerData;
+
         }
 
 
         public override void Start()
         {
-            battleInfoTextCount = 0;
-            battleInfoCutRect = new Rectangle(layout.BattleInfo.X, layout.BattleInfo.Height, layout.BattleInfo.Width, 1);
-
             currentDungeon = dungeonController.CurrentDungeon;
             selectPhase = SelectPhase.Behavior;
             isMonsterPhase = false;
 
             DrawPlayerInfo(true);
-            DrawMonsterInfo(false);
+            DrawMonsterImage(false);
 
             battInfoList.Clear();
         }
@@ -125,34 +125,32 @@ namespace SprtaaaaDungeon
                 }
             }
 
-            bool isSuccess = false;
 
             string resultText = "";
 
             if (currentSkill.CostMP <= playerData.StatData.CurrentMP)
             {
                 resultText = "대상을 선택하세요!";
-                isSuccess = true;
             }
             else
             {
                 resultText = "마나가 부족합니다!";
-                isSuccess = false;
+                currentSkill = null;
             }
 
             DrawBattleInfo(resultText);
 
-            return isSuccess;
+            return currentSkill != null;
         }
 
         void SetSelectMonsterPhase()
         {
             selectPhase = SelectPhase.Monster;
 
-            DrawRemoveRect(layout.MonsterInfo);
+            DrawRemoveRect(layout.MonsterImage);
             DrawRemoveRect(layout.PlayerInfo);
 
-            DrawMonsterInfo(true);
+            DrawMonsterImage(true);
             DrawPlayerInfo(false);
         }
 
@@ -162,7 +160,7 @@ namespace SprtaaaaDungeon
 
             DrawRemoveRect(layout.PlayerInfo);
 
-            DrawMonsterInfo(false);
+            DrawMonsterImage(false);
             DrawSkillInfo();
         }
 
@@ -170,11 +168,12 @@ namespace SprtaaaaDungeon
         {
             selectPhase = SelectPhase.Behavior;
 
-            DrawRemoveRect(layout.MonsterInfo);
+            DrawRemoveRect(layout.MonsterImage);
             DrawRemoveRect(layout.PlayerInfo);
 
             DrawPlayerInfo(true);
-            DrawMonsterInfo(false);
+            DrawMonsterImage(false);
+
         }
 
 
@@ -182,8 +181,8 @@ namespace SprtaaaaDungeon
         {
             isMonsterPhase = true;
 
-            DrawRemoveRect(layout.MonsterInfo);
-            DrawMonsterInfo(false);
+            DrawRemoveRect(layout.MonsterImage);
+            DrawMonsterImage(false);
 
             List<CharacterData> target = new()
             {
@@ -192,6 +191,8 @@ namespace SprtaaaaDungeon
 
             for (int i = 0; i < currentDungeon.Monsters.Count; i++)
             {
+                Thread.Sleep(1000);
+
                 dungeonController.TakeDamage(currentDungeon.Monsters[i], out float attackDamage);
 
                 DrawBattleResult(target[0], attackDamage);
@@ -199,7 +200,6 @@ namespace SprtaaaaDungeon
                 DrawRemoveRect(layout.PlayerInfo);
                 DrawPlayerInfo(false);
 
-                Thread.Sleep(1000);
 
                 if (dungeonController.IsPlayerDead())
                 {
@@ -257,13 +257,15 @@ namespace SprtaaaaDungeon
                 for (int i = 0; i < targets.Count; i++)
                 {
                     DrawBattleResult(targets[i], attackDamage);
+                    DrawMonsterImage(false);
+                    
                     Thread.Sleep(1000);
                 }
 
                 dungeonController.CheckMonsterDead(targets);
 
-                DrawRemoveRect(layout.MonsterInfo);
-                DrawMonsterInfo(false);
+                DrawRemoveRect(layout.MonsterImage);
+
 
                 if (dungeonController.CurrentDungeon.Monsters.Count == 0)
                 {
@@ -306,52 +308,60 @@ namespace SprtaaaaDungeon
         {
             var skillDatas = GameManager.Instance.SkillDatas;
 
-            DrawStatBar(playerData.StatData.MaxHealth, playerData.StatData.CurrentHealth, "green", layout.PlayerInfo.X + 2, layout.PlayerInfo.Y + 1);
-            DrawStatBar(playerData.StatData.MaxMP, playerData.StatData.CurrentMP, "cyan", layout.PlayerInfo.X + 2, layout.PlayerInfo.Y + 2);
+            DrawString($"《x{layout.PlayerInfo.X + 2},y{layout.PlayerInfo.Y + 2}》{playerData.Name}《tyellow》Lv.{playerData.Level}");
+
+            DrawStatBar(playerData.StatData.MaxHealth, playerData.StatData.CurrentHealth, "green", layout.PlayerInfo.X + 2, layout.PlayerInfo.Y + 3);
+            DrawStatBar(playerData.StatData.MaxMP, playerData.StatData.CurrentMP, "cyan", layout.PlayerInfo.X + 2, layout.PlayerInfo.Y + 4);
 
             for (int i = 0; i < skillDatas.Count; i++)
             {
-                DrawString($"《x{layout.PlayerInfo.X + 3},y{layout.PlayerInfo.Y + i * 2 + 4},tmagenta》[{i + 1}] 《》{skillDatas[i].Name} - {skillDatas[i].CostMP}");
-                DrawString($"《x{layout.PlayerInfo.X + 3},y{layout.PlayerInfo.Y + i * 2 + 5}》{skillDatas[i].Description}");
+                DrawString($"《x{layout.PlayerInfo.X + 1},y{layout.PlayerInfo.Y + i * 3 + 10},tmagenta》[{i + 1}] 《》{skillDatas[i].Name} - {skillDatas[i].CostMP}");
+                DrawString($"《x{layout.PlayerInfo.X + 1},y{layout.PlayerInfo.Y + i * 3 + 11}》{skillDatas[i].Description}\n");
             }
         }
-
-
-        void DrawMonsterInfo(bool isSelect)
+        void DrawMonsterImage(bool isSelect)
         {
-            for (int i = 0; i < currentDungeon.Monsters.Count; i++)
+            var targetMonsters = currentDungeon.Monsters;
+
+            int posX = (layout.MonsterImage.Width / targetMonsters.Count)/2 + 14;
+
+            for (int i = 0; i < targetMonsters.Count; i++)
             {
                 var targetMonster = currentDungeon.Monsters[i];
 
                 if (isSelect)
                 {
-                    DrawString($"《x{layout.MonsterInfo.X + 2},y{layout.MonsterInfo.Y + i * 3 + 2},tmagenta》[{i + 1}] 《》{targetMonster.Name} 《tyellow》Lv.{targetMonster.Level}");
+                    DrawString($"《x{posX * (i + 1) + 4},y{layout.MonsterImage.Y + 2},tmagenta》[{i + 1}] 《》{targetMonster.Name} 《tyellow》Lv.{targetMonster.Level}");
                 }
                 else
                 {
-                    DrawString($"《x{layout.MonsterInfo.X + 2},y{layout.MonsterInfo.Y + i * 3 + 2}》{targetMonster.Name} 《tyellow》Lv.{targetMonster.Level}");
+                    DrawString($"《x{posX * (i + 1) + 4},y{layout.MonsterImage.Y + 2}》    {targetMonster.Name} 《tyellow》Lv.{targetMonster.Level}");
                 }
 
-                DrawStatBar(targetMonster.StatData.MaxHealth, targetMonster.StatData.CurrentHealth, "red", layout.MonsterInfo.X + 2, layout.MonsterInfo.Y + i * 3 + 3);
+                DrawStatBar(targetMonster.StatData.MaxHealth, targetMonster.StatData.CurrentHealth, "red", posX * (i + 1) + 4, layout.MonsterImage.Y + 3);
+
+
+                string replaceMosnterImage = SetMonsterImage(targetMonsters[i], posX * (i + 1)).Replace("\r\n", $"\n《x{posX * (i + 1)},tdarkgray》");
+                DrawString(replaceMosnterImage);
             }
         }
 
         void DrawPlayerInfo(bool isSelect)
         {
-            DrawString($"《x{layout.PlayerInfo.X + 2},y{layout.PlayerInfo.Y + 1}》{playerData.Name}《tyellow》Lv.{playerData.Level}");
+            DrawString($"《x{layout.PlayerInfo.X + 2},y{layout.PlayerInfo.Y + 2}》{playerData.Name}《tyellow》Lv.{playerData.Level}");
 
-            DrawStatBar(playerData.StatData.MaxHealth, playerData.StatData.CurrentHealth, "green", layout.PlayerInfo.X + 2, layout.PlayerInfo.Y + 2);
-            DrawStatBar(playerData.StatData.MaxMP, playerData.StatData.CurrentMP, "cyan", layout.PlayerInfo.X + 2, layout.PlayerInfo.Y + 3);
+            DrawStatBar(playerData.StatData.MaxHealth, playerData.StatData.CurrentHealth, "green", layout.PlayerInfo.X + 2, layout.PlayerInfo.Y + 3);
+            DrawStatBar(playerData.StatData.MaxMP, playerData.StatData.CurrentMP, "cyan", layout.PlayerInfo.X + 2, layout.PlayerInfo.Y + 4);
 
             if (isSelect)
             {
-                DrawString($"《x{layout.PlayerInfo.X + 3},y{layout.PlayerInfo.Y + 5},tmagenta》[1] 《》공격");
-                DrawString($"《x{layout.PlayerInfo.X + 3},y{layout.PlayerInfo.Y + 7},tmagenta》[2] 《》스킬");
+                DrawString($"《x{layout.PlayerInfo.X + 1},y{layout.PlayerInfo.Y + 10},tmagenta》[1] 《》공격");
+                DrawString($"《x{layout.PlayerInfo.X + 1},y{layout.PlayerInfo.Y + 12},tmagenta》[2] 《》스킬");
             }
             else
             {
-                DrawString($"《x{layout.PlayerInfo.X + 3},y{layout.PlayerInfo.Y + 5}》공격");
-                DrawString($"《x{layout.PlayerInfo.X + 3},y{layout.PlayerInfo.Y + 7}》스킬");
+                DrawString($"《x{layout.PlayerInfo.X + 1},y{layout.PlayerInfo.Y + 10}》    공격");
+                DrawString($"《x{layout.PlayerInfo.X + 1},y{layout.PlayerInfo.Y + 12}》    스킬");
             }
         }
 
@@ -364,7 +374,7 @@ namespace SprtaaaaDungeon
             {
                 currentBar = maxBar;
             }
-            DrawString($"《x{posX},y{posY}》《bWhite,l{maxBar}》 《》 {curData}/{maxData}\n");
+            DrawString($"《x{posX},y{posY}》《bdarkgray,l{maxBar}》 《》 {curData}/{maxData}\n");
             DrawString($"《x{posX},y{posY}》《b{color},l{currentBar}》 ");
         }
 
@@ -374,16 +384,16 @@ namespace SprtaaaaDungeon
 
             DrawRemoveRect(layout.BattleInfo);
 
-            DrawString($"《x{layout.BattleInfo.X + 5},y{layout.BattleInfo.Y + 2},tred》{currentDungeon.Name}《》 을 《tgreen》클리어《》하셨습니다!\n");
-            DrawString($"《x{layout.BattleInfo.X + 5},y{layout.BattleInfo.Y + 3}》축하합니다!\n");
-            DrawString($"《x{layout.BattleInfo.X + 5},y{layout.BattleInfo.Y + 4},tyellow》+ {reward.EXP} exp\n");
-            DrawString($"《x{layout.BattleInfo.X + 5},y{layout.BattleInfo.Y + 5},tyellow》+ {reward.Gold} gold\n");
+            DrawString($"《x{layout.BattleInfo.X + 40},y{layout.BattleInfo.Y + 2},tred》{currentDungeon.Name}《》 을 《tgreen》클리어《》하셨습니다!\n");
+            DrawString($"《x{layout.BattleInfo.X + 40},y{layout.BattleInfo.Y + 3}》축하합니다!\n");
+            DrawString($"《x{layout.BattleInfo.X + 40},y{layout.BattleInfo.Y + 4},tyellow》+ {reward.EXP} exp\n");
+            DrawString($"《x{layout.BattleInfo.X + 40},y{layout.BattleInfo.Y + 5},tyellow》+ {reward.Gold} gold\n");
 
             int index = 0;
 
             foreach (var item in reward.ItemsNameDict)
             {
-                DrawString($"《x{layout.BattleInfo.X + 5},y{layout.BattleInfo.Y + 4 + index}》+ {item.Key} + 《tmagenta》{item.Value} \n");
+                DrawString($"《x{layout.BattleInfo.X + 40},y{layout.BattleInfo.Y + 4 + index}》+ {item.Key} + 《tmagenta》{item.Value} \n");
                 index++;
             }
         }
@@ -403,13 +413,112 @@ namespace SprtaaaaDungeon
             {
                 if (i == battInfoList.Count)
                 {
-                    DrawString($"《x{layout.BattleInfo.X + 5}》《y{layout.BattleInfo.Y + 2 + battInfoList.Count - i},tRed》" + battInfoList[i - 1]);
+                    DrawString($"《x{layout.BattleInfo.X + 40}》《y{layout.BattleInfo.Y + 2 + battInfoList.Count - i},tRed》" + battInfoList[i - 1]);
                 }
                 else
                 {
-                    DrawString($"《x{layout.BattleInfo.X + 5}》《y{layout.BattleInfo.Y + 2 + battInfoList.Count - i}》" + battInfoList[i - 1]);
+                    DrawString($"《x{layout.BattleInfo.X + 40}》《y{layout.BattleInfo.Y + 2 + battInfoList.Count - i}》" + battInfoList[i - 1]);
                 }
             }
+        }
+
+       
+
+
+        string SetMonsterImage(MonsterData targetMonster, int startPosX)
+        {
+            int startPosY = layout.MonsterImage.Y + 4;
+
+            switch (targetMonster.Name)
+            {
+                case "임상엽":
+                    return
+                        $"《x{startPosX},y{startPosY}》" +
+                        "\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡠⢤⠤⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
+                        "\r\n⠀⠀⠀⠀⠀⠀⠀⣠⠞⣥⠛⠬⠓⢦⢣⡝⡳⣄⠀⠀⠀⠀⠀⠀⠀" +
+                        "\r\n⠀⠀⠀⠀⠀⢠⡚⣥⢛⡴⡉⠀⠀⢈⢧⡚⡵⣊⣧⠀⠀⠀⠀⠀⠀" +
+                        "\r\n⠀⠀⠀⠀⠀⣞⡷⣌⡳⣼⡱⡞⢦⣫⢖⣹⢲⣱⣻⡆⠀⠀⠀⠀⠀" +
+                        "\r\n⠀⠀⠀⠀⠀⣿⢞⣷⡙⢦⡅⠈⠀⣀⠯⣙⢷⣏⡷⡇⠀⠀⠀⠀⠀" +
+                        "\r\n⠀⠀⠀⠀⠀⢻⣻⢮⣝⡲⡜⡭⢳⣌⠳⣍⣾⡽⣾⠁⠀⠀⠀⠀⠀" +
+                        "\r\n⠀⠀⠀⠀⠀⠀⠻⣯⣟⣷⣽⣞⣷⣞⣿⡽⣾⡝⠁⠀⠀⠀⠀⠀⠀" +
+                        "\r\n⠀⠀⠀⠀⠀⠀⠀⠈⢺⣽⣞⣯⣟⣾⣽⡿⠁⠀⠀⠀⠀⠀⠀⠀⠀" +
+                        "\r\n⠀⠀⠀⠀⠀⠀⠀⢀⣤⣿⣛⢿⡻⢏⣿⡿⣦⡀⠀⠀⠀⠀⠀⠀⠀" +
+                        "\r\n⠀⠀⠀⠀⠀⠀⣰⣏⣾⡷⣍⠾⣍⣏⢾⣷⣱⢷⡀⠀⠀⠀⠀⠀⠀" +
+                        "\r\n⠀⠀⠀⠀⠀⠀⠳⣎⣿⣟⣯⣿⣟⡾⣟⣿⣥⡏⠃⠀⠀⠀⠀⠀⠀" +
+                        "\r\n⠀⠀⠀⠀⠀⠀⠀⠈⠘⣯⣼⡭⢹⣝⣾⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀" +
+                        "\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠯⠃⠘⠯⠟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀";
+
+                case "최지안":
+                    return
+                        $"《x{startPosX},y{startPosY}》" +
+                        "\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠜⠒⠌⠒⢤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                        "⠀⠀⠀⠀⠀⠀⠀⢀⠞⠀⡈⠀⠄⠠⠀⠌⠧⡀⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                        "⠀⠀⠀⠀⠀⠀⢠⠃⢠⠖⣬⠳⣌⠼⡱⣄⠠⢱⡀⠀⠀⠀⠀⠀⠀\r\n" +
+                        "⠀⠀⠀⠀⠀⠀⢸⠀⠏⠚⠀⠁⠈⠁⠓⠸⡒⢤⡃⠀⠀⠀⠀⠀⠀\r\n" +
+                        "⠀⠀⠀⠀⠀⠀⢸⣜⣂⣖⣤⡃⡜⣨⣑⣣⣜⣤⠇⠀⠀⠀⠀⠀⠀\r\n" +
+                        "⠀⠀⠀⠀⠀⠀⡟⣾⡟⣏⠻⣽⢿⣟⡻⣝⣻⢮⢳⠀⠀⠀⠀⠀⠀\r\n" +
+                        "⠀⠀⠀⠀⠀⠀⠘⠲⣙⠚⠛⢤⣂⡙⠳⠣⡭⠚⠁⠀⠀⠀⠀⠀⠀\r\n" +
+                        "⠀⠀⠀⠀⠀⠀⠀⠀⠈⢳⣭⢦⡱⣤⣷⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                        "⠀⠀⠀⠀⠀⠀⠀⠀⡤⢋⡔⠃⠳⠡⢌⠳⣄⠀⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                        "⠀⠀⠀⠀⠀⠀⠀⠞⡐⣯⠀⠀⡀⠀⢨⡗⡠⢧⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                        "⠀⠀⠀⠀⠀⠀⠘⣀⢸⡇⢢⢁⡎⡐⠢⢽⣀⡠⠃⠀⠀⠀⠀⠀⠀\r\n" +
+                        "⠀⠀⠀⠀⠀⠀⠀⠀⠉⢶⣡⢾⣹⢧⣩⠞⠁⠀⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                        "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠄⡙⠘⢁⠠⠃⠀⠀⠀⠀⠀⠀";
+
+                case "이수민":
+                    return
+                        $"《x{startPosX},y{startPosY}》" +
+                        "\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣶⢻⣏⠿⣶⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                        "⠀⠀⠀⠀⠀⠀⠀⣀⣶⣟⣧⡿⣼⢯⣗⣯⣷⣄⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                        "⠀⠀⠀⠀⠀⠀⢠⣿⣷⢻⡼⣣⢝⡺⣼⢳⣟⣿⡆⠀⠀⠀⠀⠀⠀\r\n" +
+                        "⠀⠀⠀⠀⠀⠀⣿⣻⢮⡷⠽⠳⢎⠷⢏⢧⡀⢛⣿⠀⠀⠀⠀⠀⠀\r\n" +
+                        "⠀⠀⠀⠀⠀⠨⣷⣟⡋⣖⡲⠃⠈⠐⢲⣒⡛⢿⣿⡇⠀⠀⠀⠀⠀\r\n" +
+                        "⠀⠀⠀⠀⠀⠈⣟⠰⠛⢹⡷⠃⠀⠘⣷⡏⠙⠎⣽⠁⠀⠀⠀⠀⠀\r\n" +
+                        "⠀⠀⠀⠀⠀⠀⢈⠷⣀⠂⠄⠀⠀⠀⠀⠐⣠⠞⡅⠀⠀⠀⠀⠀⠀\r\n" +
+                        "⠀⠀⠀⠀⠀⠐⠮⢔⣩⣷⣤⡄⠀⠤⣴⣞⡥⡦⢉⠂⠀⠀⠀⠀⠀\r\n" +
+                        "⠀⠀⠀⠀⠀⠀⠀⠀⡄⠉⢃⠀⠁⠀⣙⠈⠡⡀⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                        "⠀⠀⠀⠀⠀⠀⠀⠜⠀⢠⡏⠀⠈⠀⢸⡄⠀⠱⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                        "⠀⠀⠀⠀⠀⠀⠀⢀⣐⡿⣜⢲⣓⡎⢧⢿⣂⠀⠁⠀⠀⠀⠀⠀⠀\r\n" +
+                        "⠀⠀⠀⠀⠀⠀⠀⠀⠉⢻⡤⢫⣏⡏⢶⡹⠁⠁⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                        "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠷⠿⠃⠿⠷⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀";
+
+                case "장유현":
+                    return
+                       $"《x{startPosX},y{startPosY}》" +
+                       "\r\n⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡖⣲⠞⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                       "⠀⠀⠀⠀⠀⠀⠀⢀⣠⡶⢶⣿⣽⢿⡶⣶⢤⡀⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                       "⠀⠀⠀⠀⠀⠀⣴⢋⠵⣺⡙⡞⣽⣋⢶⢣⢏⡹⢦⠀⠀⠀⠀⠀⠀\r\n" +
+                       "⠀⠀⠀⠀⢀⡼⢣⡏⡖⣤⣿⣽⡷⣾⣌⢢⡇⣖⣫⣇⠀⠀⠀⠀⠀\r\n" +
+                       "⠀⠀⠀⠀⠙⣿⢧⣛⡼⣽⡃⠈⠈⢙⣯⠶⣽⢦⣻⢼⡀⠀⠀⠀⠀\r\n" +
+                       "⠀⠀⠀⠀⠀⠹⣿⣟⣾⣳⡟⠂⠁⠺⢭⣛⡽⣾⣽⠃⠀⠀⠀⠀⠀\r\n" +
+                       "⠀⠀⠀⠀⠀⠀⠏⡹⠈⢹⢟⠂⠄⠑⠿⡏⠑⡹⢸⠀⠀⠀⠀⠀⠀\r\n" +
+                       "⠀⠀⠀⠀⠀⠀⠈⠒⢄⠁⠀⢀⣀⠀⠀⠀⡤⠓⠁⠀⠀⠀⠀⠀⠀\r\n" +
+                       "⠀⠀⠀⠀⠀⠀⠀⠀⠀⢑⡦⡤⠀⠴⣼⡊⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                       "⠀⠀⠀⠀⠀⠀⠀⠀⠄⠛⣆⢀⡉⣀⣰⠋⠢⡀⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                       "⠀⠀⠀⠀⠀⠀⠀⡌⠀⢼⣶⢫⠟⡵⣦⡗⠀⢡⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                       "⠀⠀⠀⠀⠀⠀⠘⢀⣸⣟⣮⣟⣻⡽⣧⣿⣆⡠⠃⠀⠀⠀⠀⠀⠀\r\n" +
+                       "⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣷⣻⣭⣿⣳⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                       "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠂⠉⠂⠃⠌⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀";
+
+                case "이민혁":
+                    return
+                       $"《x{startPosX},y{startPosY}》" +
+                       "\r\n⠀⠀⠀⠀⠀⠀⠀⠀⣀⡀⠤⠒⠔⠢⠤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                       "⠀⠀⠀⠀⠀⠀⢀⠆⠁⠀⠀⠀⠀⠀⠀⠀⠈⠡⡄⠀⠀⠀⠀⠀⠀\r\n" +
+                       "⠀⠀⠀⠀⠀⢠⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⡄⠀⠀⠀⠀⠀\r\n" +
+                       "⠀⠀⠀⠀⠀⣎⠐⡀⢀⡀⣀⢀⢀⡀⣀⢀⠀⠀⡌⢳⠀⠀⠀⠀⠀\r\n" +
+                       "⠀⠀⠀⠀⠀⡇⢌⠰⣂⠡⠄⡀⠀⠀⢠⠉⢒⠥⠘⣸⠀⠀⠀⠀⠀\r\n" +
+                       "⠀⠀⠀⠀⠀⠱⡌⠲⡄⢒⡈⠤⠑⠨⠄⡊⡌⢆⠱⠎⠀⠀⠀⠀⠀\r\n" +
+                       "⠀⠀⠀⠀⠀⠀⠣⣑⠸⢥⢲⣡⢋⠶⣡⠳⡘⢤⠛⠀⠀⠀⠀⠀⠀\r\n" +
+                       "⠀⠀⠀⠀⠀⠀⠀⠈⠳⣦⡁⢆⣉⠒⡡⣶⠙⠀⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                       "⠀⠀⠀⠀⠀⠀⠀⡠⠂⠀⢀⡀⡀⢄⠀⠀⠑⢄⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                       "⠀⠀⠀⠀⠀⠀⢘⠄⡀⡌⠀⡐⠐⠈⡀⢡⠀⠤⡃⠀⠀⠀⠀⠀⠀\r\n" +
+                       "⠀⠀⠀⠀⠀⠀⠈⢄⣰⣯⠴⣤⣦⡥⣔⣻⣄⡠⠁⠀⠀⠀⠀⠀⠀\r\n" +
+                       "⠀⠀⠀⠀⠀⠀⠀⠀⠀⢋⠙⠺⡵⠛⠈⠟⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                       "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠤⠜⠁⠣⠤⠃⠀⠀⠀";
+            }
+
+            return "";
         }
     }
 }

@@ -36,17 +36,14 @@ namespace SprtaaaaDungeon
 
     public class DungeonLayout
     {
-        public Rectangle MonsterInfo { get; private set; }
         public Rectangle PlayerInfo { get; private set; }
         public Rectangle MonsterImage { get; private set; }
         public Rectangle BattleInfo { get; private set; }
         public DungeonLayout()
         {
-            MonsterInfo = new(0, 0, 30, 20);
-            PlayerInfo = new(0, 20, 50, 10);
-
+            PlayerInfo = new(0, 0, 30, 20);
             MonsterImage = new(31, 0, 89, 20);
-            BattleInfo = new(50, 20, 69, 10);
+            BattleInfo = new(0, 20, 120, 10);
         }
     }
 
