@@ -46,8 +46,10 @@ namespace SprtaaaaDungeon
         public override void Start()
         {
             questController.SelectQuestIndex = 0;
-
+            Frame();
             DrawTitle();
+            DrawImage(questController.SelectTypeIndex);
+
         }
 
         public override void Update()
@@ -64,7 +66,7 @@ namespace SprtaaaaDungeon
                     case ConsoleKey.UpArrow:
                         questController.SelectTypeIndex = GetMoveSelectIndex(questController.SelectTypeIndex, -1, menuTextRect.Length - 1);
                         isCorretInput = true;
-                     
+
                         break;
                     case ConsoleKey.DownArrow:
                         questController.SelectTypeIndex = GetMoveSelectIndex(questController.SelectTypeIndex, +1, menuTextRect.Length - 1);
@@ -81,8 +83,9 @@ namespace SprtaaaaDungeon
                 if (isCorretInput)
                 {
                     DrawRemoveRect(menuTextRect[tempSelectNum].Item2);
-
+                    DrawRemoveRect(layout.Image);
                     DrawMenuText(questController.SelectTypeIndex);
+                    DrawImage(questController.SelectTypeIndex);
                 }
             }
         }
@@ -91,9 +94,88 @@ namespace SprtaaaaDungeon
         {
         }
 
+        void Frame() // 테두리 그리는 함수!
+        {
+            DrawString($"《x0,y0》┏━《l{Console.WindowWidth - 5}》━《》━┓");
+
+            for (int y = 1; y < Console.WindowHeight - 1; y++)
+            {
+                DrawString($"《x0,y{y}》┃《x{Console.WindowWidth - 2}》┃");
+            }
+
+            DrawString($"《x0,y{Console.WindowHeight - 1}》┗━《l{Console.WindowWidth - 5}》━《》━┛");
+        }
+
+        void DrawImage(int num)
+        {
+            if (num == 1)
+            {
+                string title = $"《x{layout.Image.X + 25},y{layout.Image.Y - 5},tgray》" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀      \r\n" +
+                $"⠀⠀⠀⢷⣗⢷⢦⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     \r\n" +
+                $"⠀⠀⠀⠈⢻⣷⣍⠷⣿⢷⣤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⢀⠀⠀⠀⠀⠀\r\n" +
+                $"⠀⠀⠀⠀⠀⢿⣽⣮⡘⢟⣿⢿⣦⡀⠀⠀⠀⠀⠀⣰⣟⣿⣻⣟⣿⣻⣟⣿⣻⣟⣿⣻⣟⣿⣻⣟⣿⣻⣿⣽⣟⣿⣻⣽⠫⢠⣲⣶⣖⡄⠀\r\n" +
+                $"⠀⠀⠀⠀⠀⠐⣻⣽⣿⡔⠹⣻⣷⣷⣢⠀⠀⠀⢼⣟⣯⣿⣯⣿⣯⡿⣯⣿⣯⡿⣯⣿⣯⡿⣯⣿⣯⣿⡾⣯⣿⣽⣟⡇⢰⣟⣯⣷⣿⣻\r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠨⣷⢿⣻⣥⠘⢷⣟⣿⣖⡀⢀⡿⣿⣽⣾⢷⣿⢾⡿⣿⢾⣷⢿⣻⡷⣟⣿⢿⡾⣷⣟⣿⣻⣷⢿⣽⠀⠁⠉⠑⠉⠊⠉\r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⢺⣟⣿⣽⡮⡈⢿⣽⣯⣷⡀⠻⣯⣷⠙⠉⠊⠉⠋⠉⠙⠘⠉⢉⠩⠉⠉⠍⠋⠙⠘⢹⣽⣾⢿⡯⠀⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⢿⣯⣷⣿⣖⡈⢿⣾⣯⣷⡈⢹⣾⢷⡿⣾⢷⡿⣾⢷⣷⢿⣶⢷⡿⣾⣾⡾⣾⣾⢾⣷⢿⣿⡍⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⠩⣷⢿⡾⣟⣦⠈⡷⣿⡾⣧⠐⢽⡿⣟⡿⣟⣿⣟⣿⣻⡿⣽⢿⣻⡿⣾⢿⣻⡾⣿⣻⣟⣷⡃⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣟⣿⣟⣿⢧⠘⣽⣿⣻⣅⠸⣻⡄⡁⡄⡠⡀⡄⡠⣈⣀⣁⣀⣈⣀⣁⡀⣌⣿⣯⣿⣻⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⡷⣟⣿⣻⡥⠘⣯⣿⢷⠀⣫⡿⣿⢿⣿⣻⡿⣿⢷⣿⢾⣷⢿⣾⢷⣿⣻⣾⢷⣟⡯⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣟⣯⡿⣿⣅⠪⣿⢿⡅⢘⣿⡻⡿⡽⡯⡿⣟⢿⡻⡿⡽⣟⢿⡻⡽⣿⢾⣿⣻⡍⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠫⣿⣻⣯⣷⡌⢺⣿⡳⠐⣿⣌⣄⣠⣠⣠⣀⣄⣄⣄⣄⣄⣄⣄⣄⣿⣿⣽⢿⡂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⡽⣯⣯⡂⣻⡃⢬⣿⣽⣯⣿⣾⢷⡿⣷⡿⣾⡷⣿⣾⣻⣾⡷⣿⡾⣟⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ \r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⢑⠙⠹⣷⡀⢺⣷⢟⠷⡻⢞⢟⢟⠯⢟⢟⢟⠿⡺⡻⢷⣿⣻⣟⡗⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ \r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣺⣟⣯⠄⢹⣧⠐⣻⣧⣄⣤⣠⣠⣠⣄⣤⣠⣠⣠⣠⣄⣾⣯⡿⣯⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ \r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⣿⣽⣗⠄⣻⡥⠘⣾⢿⣽⣿⣽⢿⣽⣯⣿⣯⣿⣯⡿⣷⣟⣿⣻⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ \r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠨⣾⡷⣟⣿⡥⠐⠟⠄⢺⣻⣷⢿⣾⣟⣿⡾⣷⡿⣾⡷⣿⣻⣽⣯⡿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ \r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡸⣟⣿⣻⣯⣿⣦⢶⣵⡿⣯⡿⣟⣷⣿⣽⣟⣿⣻⣟⣿⣻⣯⣿⣾⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ \r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⢀⢄⡠⣀⡠⣀⣀⣈⣈⣈⣈⣀⣁⣈⣁⣈⣈⣈⣈⣈⣀⣁⢄⣁⢌⡀⢑⣽⣿⣽⣾⢷⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⢘⣿⣻⣯⣿⣻⣽⣿⣽⢿⣽⣿⣽⢿⣽⣿⣽⢿⣽⣿⣽⣟⣿⣻⣟⡧⠐⣿⢾⣻⣾⢿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⢟⣿⣽⣯⣿⢷⣿⢾⣟⣿⣾⣻⣿⣽⡾⣟⣿⣽⣾⢷⡿⣯⣿⣯⣿⢄⠘⠻⠯⠫⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠃⠋⠊⠋⠊⠋⠙⠘⠑⠙⠘⠑⠙⠉⠃⠋⠊⠋⠙⠉⠊⠊⠍⠋⠂⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ \r\n";
+
+                string replaceTitle = title.Replace("\r\n", $"\n《x{layout.Image.X + 25},tgray》");
+
+                DrawString(replaceTitle);
+            }
+
+            else if (num == 0)
+            {
+                string title = $"《x{layout.Image.X + 25},y{layout.Image.Y - 5},tgray》" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⢰⣶⢶⡶⣶⢶⡶⣶⢶⡶⣶⢶⡶⣶⢶⡶⣶⢶⡶⣶⢶⡶⣶⢶⡶⣖⣶⡆⠀⠀⠀\r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⢹⣟⣿⣟⣿⣟⣿⣟⣿⣟⣿⣟⣿⣟⣿⣟⣿⣟⣿⣟⣿⣟⣿⣟⣿⢿⣽⡗⠀⠀⠀\r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⣽⣯⣿⣽⣷⢿⣯⡿⣷⣟⣯⣿⢷⣟⣯⣿⢷⣟⣯⣿⢷⣟⣿⣻⣽⡗⠀⠀⠀\r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⢹⣷⢿⣷⡻⡷⡟⡿⢯⢿⢻⠽⡿⠾⡟⡿⡻⡾⡟⡿⡽⡟⡿⣻⣯⣿⣽⡧⠀⠀⠀\r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⣻⣽⣇⣄⣀⢄⣀⢄⣀⣄⡠⣀⣄⡠⣀⣀⣀⣀⣀⣠⢨⣿⣽⣷⢿⣇⠀⠀⠀\r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⢹⣯⣿⣽⡿⣾⣟⣿⣟⣿⣻⣾⢿⣻⣷⢿⣻⣟⣿⣯⣿⣻⣿⣽⡾⣟⣿⡇⠀⠀⠀\r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⣹⡿⣾⣯⡿⠯⡟⠷⢟⠯⠿⠽⡟⠯⢿⢻⠻⠽⠷⡟⠾⠯⢷⣟⣿⣻⣽⡏⠀⠀⠀\r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⢼⣿⣻⣾⣧⣠⣠⣠⣠⣠⣠⣄⣄⣄⣄⣄⣄⣔⣠⣠⣠⣐⣰⣟⣯⣿⣽⡗⠀⠀⠀\r\n" +
+                $"⠀⠀⠀⠀⠀⠀⠀⠀⢺⣯⡿⣷⣟⣯⣿⣯⣿⣻⣽⣾⣟⣯⣿⣯⣿⣽⣯⡿⣯⣿⣯⣿⣽⣷⢿⡧⠀⠀⠀\r\n" +
+                $"⠀⠀⠀⠀⠀⣠⣠⠀⢽⣟⣿⣯⡿⡻⡾⡷⣟⢯⢿⢾⡻⡽⡾⡷⡿⡽⡾⡿⢿⢾⢷⢿⡷⣿⣟⡧⠀⠀⠀\r\n" +
+                $"⠀⠀⠀⠀⣞⣿⣽⠀⢺⡿⣷⢿⣇⢄⢄⡠⣀⡠⣀⢄⡠⣀⢄⣀⢄⣀⢄⡠⣀⢄⣨⡿⣟⣿⣽⡧⠀⠀⠀\r\n" +
+                $"⠀⠀⠀⢨⣿⣯⡿⠀⣹⣿⣻⣿⣻⡿⣟⣿⣟⣿⣟⣿⣟⣿⣟⣿⣟⣿⣟⣿⣟⣿⢷⣿⣻⣯⣷⡧⠀⠀\r\n" +
+                $"⠀⠀⠀⢸⣷⢿⣻⠀⢺⣯⣿⡾⣟⣿⣻⢽⡯⡷⡿⣽⢯⡷⡿⣽⢯⡷⡿⡽⣯⢿⢿⣽⣯⣿⣾⠧⠀⠀\r\n" +
+                $"⠀⠀⠀⢸⣿⣻⡿⠀⣹⣿⢾⣿⣇⡀⣀⣀⢈⡀⣁⢀⣀⣀⢁⣀⣀⡀⣁⢈⢀⡈⡨⣾⢿⣾⣻⡏⠀⠀\r\n" +
+                $"⠀⠀⠀⢸⣿⣽⣿⠀⠺⡛⠏⠗⠫⢋⢃⠋⢟⣿⣽⡿⣾⡾⣿⡾⣾⣟⣿⣻⣟⣯⣿⣟⣿⣽⣟⡗⠀⠀\r\n" +
+                $"⠀⠀⠀⢸⣿⢾⣷⢀⣴⢶⡿⣾⣯⡿⣟⡧⠈⣿⡾⣿⣻⣟⣯⣿⣯⣿⣽⣿⣽⢿⣾⣻⣽⣷⢿⡗⠀⠀\r\n" +
+                $"⠀⠀⠀⢸⣿⣻⡿⣞⣿⣻⣟⣯⡷⡿⡛⢠⣸⣿⣻⣟⣯⣿⣻⣾⢷⡿⣷⢿⣾⣟⣯⣿⣽⣾⢿⣓⠀⠀\r\n" +
+                $"⠀⠀⠀⣱⡿⣯⣿⣟⣯⣿⡯⠃⢨⣤⣖⣯⣿⣽⣯⣿⣯⣿⣽⣟⣿⣟⣿⣟⣷⡿⣯⣷⣿⣽⢿⡇⠀⠀\r\n" +
+                $"⠀⠀⠀⣺⡿⣿⢾⣻⣽⣾⢿⡀⠹⡷⣟⡿⡾⡿⡾⣷⢿⢾⡯⡿⡷⣿⢽⡯⣷⢿⣟⡷⣿⢾⢿⡏⠀⠀\r\n" +
+                $"⠀⠀⠀⢸⡿⣟⣿⣻⣽⣾⢿⣯⣀⡡⣀⣁⣁⡁⠁⠀⠁⠁⠈⠈⠈⠀⠁⠈⠀⠁⠀⠈⠀⠁⠁⠀⠀⠀⠀\r\n" +
+                $"⠀⠀⠀⠀⢟⣿⣻⣽⡿⣾⢿⣯⣿⣻⣿⣽⣟⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ \r\n" +
+                $"⠀⠀⠀⠀⠀⠉⠻⠳⢟⠟⠻⠝⢞⠟⠞⠃⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀  \r\n" +
+                $"⠀⠀⠀⠀⢘⣾⣾⢾⣶⢷⡷⣷⡷⣾⡾⣾⡂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀  \r\n" +
+                $"⠀⠀⠀⠀⠈⠙⠊⠋⠋⠋⠋⠋⠋⠋⠋⠋⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀  \r\n";
+
+                string replaceTitle = title.Replace("\r\n", $"\n《x{layout.Image.X + 25},tgray》");
+
+                DrawString(replaceTitle);
+            }
+
+        }
 
 
-     
 
         void DrawTitle()
         {
@@ -113,6 +195,7 @@ namespace SprtaaaaDungeon
 
         void DrawMenuText(int spotLightIndex)
         {
+
             string[] backSpotlight = new string[menuTextRect.Length];
             string[] selectSign = new string[menuTextRect.Length];
 

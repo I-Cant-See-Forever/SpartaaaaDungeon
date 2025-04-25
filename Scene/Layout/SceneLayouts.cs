@@ -49,4 +49,17 @@ namespace SprtaaaaDungeon
         }
     }
 
+    public class QuestMenuInfoLayout
+    {
+        public Rectangle Title { get; private set; }
+        public Rectangle Left { get; private set; }
+        public Rectangle Right { get; private set; }
+        public QuestMenuInfoLayout()
+        {
+            Title = new(0, 0, Console.WindowWidth, 8);
+            Left = new(0, 8, 30, Console.WindowHeight);
+            Right = new(Left.Width + 1, 8, Console.WindowWidth - Left.Width, Console.WindowHeight);
+        }
+    }
+
 }
