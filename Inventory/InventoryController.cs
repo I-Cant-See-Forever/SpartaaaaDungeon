@@ -112,8 +112,8 @@ namespace SprtaaaaDungeon
         {
             PlayerData player = GameManager.Instance.PlayerData;
 
-            player.Stat.Attack = 0;
-            player.Stat.Defense = 0;
+            player.StatData.Attack = 0;
+            player.StatData.Defense = 0;
 
             foreach (KeyValuePair<InventoryItemData, bool> entry in itemEquipStates)
             {
@@ -128,11 +128,11 @@ namespace SprtaaaaDungeon
 
                 if (type == GameEnum.ItemType.Weapon)
                 {
-                    player.Stat.Attack += stats.Attack;
+                    player.StatData.Attack += stats.Attack;
                 }
                 else if (type == GameEnum.ItemType.Armor)
                 {
-                    player.Stat.Defense += stats.Defense;
+                    player.StatData.Defense += stats.Defense;
                 }
             }
         }
