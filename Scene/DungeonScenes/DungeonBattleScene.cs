@@ -28,6 +28,13 @@ namespace SprtaaaaDungeon
         bool isMonsterPhase = false;
         SkillData currentSkill;
 
+        int battleInfoTextCount;
+
+        Rectangle battleInfoCutRect;
+
+        List<string> battInfoList = new();
+
+
         public DungeonBattleScene(SceneController controller) : base(controller) 
         {
             dungeonController = GameManager.Instance.DungeonController;
@@ -38,6 +45,9 @@ namespace SprtaaaaDungeon
 
         public override void Start()
         {
+            battleInfoTextCount = 0;
+            battleInfoCutRect = new Rectangle(layout.BattleInfo.X, layout.BattleInfo.Height, layout.BattleInfo.Width, 1);
+
             currentDungeon = dungeonController.CurrentDungeon;
             selectPhase = SelectPhase.Behavior;
             isMonsterPhase = false;
@@ -129,7 +139,6 @@ namespace SprtaaaaDungeon
         {
             selectPhase = SelectPhase.Monster;
 
-            DrawRemoveRect(layout.BattleInfo);
             DrawRemoveRect(layout.MonsterInfo);
             DrawRemoveRect(layout.PlayerInfo);
 
@@ -141,7 +150,6 @@ namespace SprtaaaaDungeon
         {
             selectPhase = SelectPhase.Skill;
 
-            DrawRemoveRect(layout.BattleInfo);
             DrawRemoveRect(layout.PlayerInfo);
 
             DrawMonsterInfo(false);
@@ -165,14 +173,7 @@ namespace SprtaaaaDungeon
             isMonsterPhase = true;
 
             DrawRemoveRect(layout.MonsterInfo);
-
             DrawMonsterInfo(false);
-
-
-            Thread.Sleep(1000);
-
-            DrawRemoveRect(layout.BattleInfo);
-            DrawRemoveRect(layout.PlayerInfo);
 
             List<CharacterData> target = new()
             {
@@ -182,16 +183,19 @@ namespace SprtaaaaDungeon
             for (int i = 0; i < currentDungeon.Monsters.Count; i++)
             {
                 dungeonController.TakeDamage(currentDungeon.Monsters[i], out float attackDamage);
-                DrawBattleResult(target, attackDamage, i);
+
+                DrawBattleResult(target[0], attackDamage);
+
                 DrawRemoveRect(layout.PlayerInfo);
                 DrawPlayerInfo(false);
+
+                Thread.Sleep(1000);
 
                 if (dungeonController.IsPlayerDead())
                 {
                     GameManager.Instance.GameOver();
                     return;
                 }
-                Thread.Sleep(1000);
             }
 
             while (Console.KeyAvailable)
@@ -233,7 +237,11 @@ namespace SprtaaaaDungeon
                     attackDamage = resultDamage;
                 }
 
-                DrawBattleResult(targets, attackDamage);
+                for (int i = 0; i < targets.Count; i++)
+                {
+                    DrawBattleResult(targets[i], attackDamage);
+                    Thread.Sleep(1000);
+                }
 
                 dungeonController.CheckMonsterDead(targets);
 
@@ -261,18 +269,37 @@ namespace SprtaaaaDungeon
 
 
 
-        void DrawBattleResult(List<CharacterData> targets, float attackDamage, int deltaY = 0)
+        void DrawBattleResult(CharacterData target, float attackDamage)
         {
-            for (int i = 0; i < targets.Count; i++)
-            {
-                if (attackDamage > 0)
-                {
-                    DrawString($"《x{layout.BattleInfo.X + 5},y{layout.BattleInfo.Y + 4 + i + deltaY}》{targets[i].Name} 에게 {attackDamage}의 데미지를 입혔습니다!");
+            string infoText = "";
 
+            if(attackDamage >0)
+            {
+                infoText = $"{target.Name} 에게 {attackDamage}의 데미지를 입혔습니다!";
+            }
+            else
+            {
+                infoText = $"《x{layout.BattleInfo.X + 5}》{target.Name} 에게 향한 공격은 실패했습니다..";
+            }
+
+            battInfoList.Add(infoText);
+
+            if(battInfoList.Count > 5)
+            {
+                battInfoList.RemoveAt(0);
+            }
+
+            DrawRemoveRect(layout.BattleInfo);
+
+            for (int i = battInfoList.Count; i > 0; i--)
+            {
+                if(i == battInfoList.Count)
+                {
+                    DrawString($"《x{layout.BattleInfo.X + 5}》《y{layout.BattleInfo.Y + 4 + battInfoList.Count - i},tRed》" + battInfoList[i - 1]);
                 }
                 else
                 {
-                    DrawString($"《x{layout.BattleInfo.X + 5},y{layout.BattleInfo.Y + 4 + i + deltaY}》{targets[i].Name}을 향한 공격은 실패했습니다..");
+                    DrawString($"《x{layout.BattleInfo.X + 5}》《y{layout.BattleInfo.Y + 4 + battInfoList.Count - i}》" + battInfoList[i -1]);
                 }
             }
         }
@@ -296,18 +323,15 @@ namespace SprtaaaaDungeon
         {
             for (int i = 0; i < currentDungeon.Monsters.Count; i++)
             {
-
                 var targetMonster = currentDungeon.Monsters[i];
-
-
 
                 if (isSelect)
                 {
-                    DrawString($"《x{layout.MonsterInfo.X + 2},y{layout.MonsterInfo.Y + i * 3 + 2},tmagenta》[{i + 1}] 《》{targetMonster.Name}");
+                    DrawString($"《x{layout.MonsterInfo.X + 2},y{layout.MonsterInfo.Y + i * 3 + 2},tmagenta》[{i + 1}] 《》{targetMonster.Name} 《tyellow》Lv.{targetMonster.Level}");
                 }
                 else
                 {
-                    DrawString($"《x{layout.MonsterInfo.X + 2},y{layout.MonsterInfo.Y + i * 3 + 2}》{targetMonster.Name}");
+                    DrawString($"《x{layout.MonsterInfo.X + 2},y{layout.MonsterInfo.Y + i * 3 + 2}》{targetMonster.Name} 《tyellow》Lv.{targetMonster.Level}");
                 }
 
                 DrawStatBar(targetMonster.StatData.MaxHealth, targetMonster.StatData.CurrentHealth, "red", layout.MonsterInfo.X + 2, layout.MonsterInfo.Y + i * 3 + 3);
@@ -316,7 +340,7 @@ namespace SprtaaaaDungeon
 
         void DrawPlayerInfo(bool isSelect)
         {
-            DrawString($"《x{layout.PlayerInfo.X + 2},y{layout.PlayerInfo.Y}》{playerData.Name}");
+            DrawString($"《x{layout.PlayerInfo.X + 2},y{layout.PlayerInfo.Y}》{playerData.Name}《tyellow》Lv.{playerData.Level}");
 
             DrawStatBar(playerData.StatData.MaxHealth, playerData.StatData.CurrentHealth, "green", layout.PlayerInfo.X + 2, layout.PlayerInfo.Y + 1);
             DrawStatBar(playerData.StatData.MaxMP, playerData.StatData.CurrentMP, "cyan", layout.PlayerInfo.X + 2, layout.PlayerInfo.Y + 2);

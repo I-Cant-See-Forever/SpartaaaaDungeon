@@ -122,16 +122,19 @@ namespace SprtaaaaDungeon
         }
 
 
+        
         protected void DrawRemoveRect(Rectangle rectangle)
         {
-            string removeString = "";
+            string removeString = $"《x{rectangle.Left},y{rectangle.Top}》";
 
-            for (int y = 0; y < rectangle.Height; y++)
+            for (int y = 0; y < rectangle.Height ; y++)
             {
-                for (int x = 0; x < rectangle.Width; x++)
+                for (int x = 0; x < rectangle.Width ; x++)
                 {
-                    removeString += $"《x{x + rectangle.Left},y{y + rectangle.Top}》 ";
+                    removeString += " ";
                 }
+
+                removeString += $"《x{rectangle.Left},y{rectangle.Top + y}》";
             }
 
             DrawString(removeString);

@@ -25,7 +25,15 @@ namespace SprtaaaaDungeon
                 Level++;
                 CurrentExp = 0;
 
-                MaxExp = Level * 10;
+                StatData.Attack += 0.5f;
+                StatData.Defense += 1f;
+
+                switch(Level)
+                {
+                   case 2:MaxExp = 35;break;
+                   case 3:MaxExp = 65;break;
+                   case 4:MaxExp = 100;break;
+                }
             }
         }
 
