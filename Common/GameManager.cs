@@ -56,7 +56,10 @@ public class GameManager
         PlayerData =
             new("테스트이름", GameEnum.ClassType.Warrior, 1, 1500, new(100, 100, 10, 5));
 
-        InventoryItems = new();
+        InventoryItems = new()
+        {
+            new InventoryItemData("테스트무기", GetItemData("테스트무기"), 1, false)
+        };
 
         ShopItems = new()
         {

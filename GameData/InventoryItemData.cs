@@ -13,7 +13,7 @@ namespace SprtaaaaDungeon
         public bool IsEquip { get; private set; }
 
 
-        public InventoryItemData(ItemData itemData, int count, bool isEquip) 
+        public InventoryItemData(string v, ItemData itemData, int count, bool isEquip) 
         {
             ItemData = itemData;
             Count = count;
