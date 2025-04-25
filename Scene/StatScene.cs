@@ -159,7 +159,7 @@ namespace SprtaaaaDungeon
             }
 
             DrawString($"《x{layout.Left.X + StatLayoutX},y{StatLayoutY + yNum}》{label} : ");
-            DrawString($"《x{layout.Left.X + StatLayoutX + 7},y{StatLayoutY + yNum}》《bWhite,l{maxBar}》 《tGreen》 {curData}/{maxData}\n");
+            DrawString($"《x{layout.Left.X + StatLayoutX + 7},y{StatLayoutY + yNum}》《bWhite,l{maxBar}》 《tGreen》 {curData}《》/《tGreen》{maxData}\n");
             DrawString($"《x{layout.Left.X + StatLayoutX + 7},y{StatLayoutY + yNum}》《b{color},l{currentBar}》 ");
         }
     }
