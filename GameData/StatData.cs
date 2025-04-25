@@ -14,5 +14,36 @@ namespace SprtaaaaDungeon
         public float CurrentMP { get; set; }
         public float Attack { get; set; }
         public float Defense { get; set; }
+
+        public void AddStat(StatData targetStat)
+        {
+            MaxHealth += targetStat.MaxHealth;
+            MaxMP += targetStat.MaxMP;
+            CurrentHealth += targetStat.CurrentHealth;
+            CurrentMP += targetStat.CurrentMP;
+            Attack += targetStat.Attack;
+            Defense += targetStat.Defense;
+
+
+            if (MaxHealth < CurrentHealth)
+            {
+                CurrentHealth = MaxHealth;
+            }
+
+            if (MaxMP < CurrentMP)
+            {
+                CurrentMP = MaxMP;
+            }
+        }
+
+        public void RemoveStat(StatData targetStat)
+        {
+            MaxHealth -= targetStat.MaxHealth;
+            MaxMP -= targetStat.MaxMP;
+            CurrentHealth -= targetStat.CurrentHealth;
+            CurrentMP -= targetStat.CurrentMP;
+            Attack -= targetStat.Attack;
+            Defense -= targetStat.Defense;
+        }
     }
 }

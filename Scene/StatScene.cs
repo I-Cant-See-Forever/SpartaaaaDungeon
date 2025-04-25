@@ -32,20 +32,15 @@ namespace SprtaaaaDungeon
             if (Console.KeyAvailable)
             {
                 ConsoleKeyInfo Keyinput = Console.ReadKey(true);
-                if (Keyinput.Key == ConsoleKey.Escape)
-                {
-                    controller.ChangeScene(controller.PreviousScene);
-                }
 
-                // 스탯 증가 감소 테스트용
-                if (Keyinput.Key == ConsoleKey.UpArrow)
+                switch(Keyinput.Key)
                 {
-                    playerdata.StatData.CurrentHealth++;
-                    playerdata.addExp(1);
-                }
-                if (Keyinput.Key == ConsoleKey.DownArrow)
-                {
-                    playerdata.StatData.CurrentHealth--;
+                    case ConsoleKey.Escape:
+                        controller.ChangeScene(controller.PreviousScene);
+                        break;
+                    case ConsoleKey.P:
+                        controller.ChangeScene(controller.PreviousScene);
+                        break;
                 }
             }
         }
@@ -126,15 +121,13 @@ namespace SprtaaaaDungeon
         {
             float bonusAtk = 0;
             float bonusDef = 0;
-            for (int i = 0; i < GameManager.Instance.InventoryItems.Count; i++)
+
+            var equipItems = GameManager.Instance.InventoryController.EquipItems;
+
+            for (int i = 0; i < equipItems.Count; i++)
             {
-                if (GameManager.Instance.InventoryItems[i].IsEquip)
-                {
-                    bonusAtk += GameManager.Instance.InventoryItems[i].ItemData.StatData.Attack;
-                    bonusDef += GameManager.Instance.InventoryItems[i].ItemData.StatData.Defense;
-                    playerdata.StatData.Attack += bonusAtk;
-                    playerdata.StatData.Defense += bonusDef;
-                }
+                bonusAtk += equipItems[i].StatData.Attack;
+                bonusDef += equipItems[i].StatData.Defense;
             }
             DrawBonusStats("공격력", playerdata.StatData.Attack, bonusAtk, 3);
             DrawBonusStats("방어력", playerdata.StatData.Defense, bonusDef, 4);
