@@ -18,7 +18,6 @@ namespace SprtaaaaDungeon
             sceneController.ChangeScene<TownScene>();
 
 
-
             while (true)
             {
                 sceneController.UpdateScene();

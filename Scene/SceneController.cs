@@ -38,7 +38,6 @@ namespace SprtaaaaDungeon
 
         public void UpdateScene() => currentScene.Update();
 
-
         public void ChangeScene<T>() where T : Scene
         {
             foreach (var item in sceneContainer)
