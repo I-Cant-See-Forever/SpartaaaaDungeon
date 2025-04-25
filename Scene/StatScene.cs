@@ -1,11 +1,14 @@
 ﻿
+using System.Reflection.Emit;
+
 namespace SprtaaaaDungeon
 {
     public class StatScene : Scene
     {
         PlayerData playerdata = GameManager.Instance.PlayerData;
         MenuInfoLayout layout = new();
-        int StatRange = 15;
+        int StatLayoutX = 5;
+        int StatLayoutY = 16;
 
         public StatScene(SceneController controller) : base(controller)
         {
@@ -18,32 +21,10 @@ namespace SprtaaaaDungeon
 
         public override void Start()
         {
-            string title = $"《x{layout.Left.X},y{layout.Right.Y},tyellow》" +
-                $"███████╗████████╗ █████╗ ████████╗\r\n" +
-                $"██╔════╝╚══██╔══╝██╔══██╗╚══██╔══╝\r\n" +
-                $"███████╗   ██║   ███████║   ██║   \r\n" +
-                $"╚════██║   ██║   ██╔══██║   ██║   \r\n" +
-                $"███████║   ██║   ██║  ██║   ██║   \r\n" +
-                $"╚══════╝   ╚═╝   ╚═╝  ╚═╝   ╚═╝   ";
-            string replaceTitle = title.Replace("\r\n", $"\n《x{layout.Left.X},tyellow》");
-
-            DrawString(replaceTitle);
-
-            DrawString($"《x{layout.Right.X},y{StatRange}》Lv. {playerdata.Level:D2}");
-            DrawString($"《x{layout.Right.X},y{StatRange+1},tDarkCyan》{playerdata.Name} 《tGray》( {playerdata.ClassType} )");
-
-            DrawAtkDef();
-
-            DrawString($"《x{layout.Right.X},y{StatRange + 6}》체  력 : ");
-            DrawStatBar(playerdata.StatData.MaxHealth, playerdata.StatData.CurrentHealth, "red", 6);
-            
-            DrawString($"《x{layout.Right.X},y{StatRange + 7}》마  력 : ");
-            DrawStatBar(100, 50, "blue", 7);
-            
-            DrawString($"《x{layout.Right.X},y{StatRange+8}》경험치 : ");
-            DrawStatBar(playerdata.MaxExp, playerdata.CurrentExp, "green", 8);
-
-            DrawString($"《x{layout.Right.X},y{StatRange+10}》Gold : {playerdata.Gold} G\n\n");
+            Frame();
+            DrawTitle();
+            DrawStats();
+            DrawHeroProfile();
         }
 
         public override void Update()
@@ -80,25 +61,94 @@ namespace SprtaaaaDungeon
             DrawString($"《x0,y{Console.WindowHeight - 1}》┗━《l{Console.WindowWidth - 5}》━《》━┛");
         }
 
-        void DrawAtkDef()
+        void DrawTitle()
+        {
+            string title = $"《x{layout.Left.X},y{layout.Right.Y},tgreen》" +
+                $"███████╗████████╗ █████╗ ████████╗\r\n" +
+                $"██╔════╝╚══██╔══╝██╔══██╗╚══██╔══╝\r\n" +
+                $"███████╗   ██║   ███████║   ██║   \r\n" +
+                $"╚════██║   ██║   ██╔══██║   ██║   \r\n" +
+                $"███████║   ██║   ██║  ██║   ██║   \r\n" +
+                $"╚══════╝   ╚═╝   ╚═╝  ╚═╝   ╚═╝   ";
+            string replaceTitle = title.Replace("\r\n", $"\n《x{layout.Left.X},tgreen》");
+
+            DrawString(replaceTitle);
+        }
+
+        void DrawHeroProfile()
+        {
+            string image = $"《x{layout.Right.X + 30},y{layout.Right.Y + 3},twhite》" +
+                            $"⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⡿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\r\n" +
+                            $"⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⢟⠫⡑⡑⡐⡐⢌⢐⢌⢊⢛⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\r\n" +
+                            $"⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢟⠫⡪⣊⠪⡢⡑⡔⡌⢆⢆⢢⢪⢢⢕⠰⣈⠫⡻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\r\n" +
+                            $"⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢟⠕⡕⢕⠕⡜⡜⡜⡜⢜⢜⢜⢜⢔⠱⡑⡕⢕⠜⡜⢔⢑⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\r\n" +
+                            $"⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃⠅⢕⢘⠌⡊⠢⡑⢌⢊⠢⢑⢐⢑⢘⠌⢆⢊⠢⢣⢣⢑⠄⢕⢝⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\r\n" +
+                            $"⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠌⡨⢐⠠⢁⢂⠑⢄⢑⠄⢕⢐⠐⡐⠡⡡⢑⠄⠅⠅⢕⢐⠅⢕⢔⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\r\n" +
+                            $"⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢌⢂⠂⠅⠌⡐⠄⢕⢅⢣⢡⢱⠠⡑⠌⢌⢌⢢⠡⡡⠡⢑⠠⠡⡑⡐⡑⢽⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\r\n" +
+                            $"⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢐⢄⢑⠨⢐⢄⢣⢣⢣⡣⣣⢣⠣⡣⡩⢢⢣⢣⢣⢣⢑⢐⠨⢐⠐⡐⠌⢾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\r\n" +
+                            $"⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡐⠔⡄⣑⢐⠱⡱⡱⡣⡫⡪⡢⡣⡕⣎⢮⢪⢪⢪⢪⢲⢰⢡⠂⡂⠌⢌⠺⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\r\n" +
+                            $"⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡧⡣⡣⡪⡪⡣⡣⡪⡪⣪⠪⣊⠪⢌⠢⠡⢱⢨⢐⠢⡱⣹⢸⡐⡐⡨⡢⣑⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\r\n" +
+                            $"⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⡛⡹⣱⢱⡸⡐⡕⢌⠌⢪⣪⣗⢱⢱⢹⡰⡱⡹⡸⡪⣣⢯⡻⡮⣳⡱⡐⡐⢕⢼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\r\n" +
+                            $"⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⣎⣗⣗⢵⢱⢱⢱⡹⡔⣗⣿⢸⢕⢧⡳⣹⣪⡳⡽⣵⡫⣏⢯⢺⢜⡜⡌⡎⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\r\n" +
+                            $"⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣳⣣⡳⣕⢗⡵⣳⢝⣯⢷⡳⣝⢮⠺⣕⢗⡯⡿⡵⡝⡮⣪⢳⢕⢧⡣⣣⣯⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\r\n" +
+                            $"⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣾⣺⡪⡯⣚⢕⢝⢎⢇⢏⠪⡪⢣⡪⡪⡎⡧⡳⡹⡜⡮⣪⢳⢳⢭⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\r\n" +
+                            $"⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣪⢪⢢⢣⢣⢪⢢⢣⢣⢪⡪⡺⡵⡹⡜⡎⡞⣜⢮⢪⢳⡹⡜⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\r\n" +
+                            $"⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⢱⢱⢹⢸⢘⠜⡌⠎⢎⠎⠇⡇⡇⡗⡝⡜⣎⢎⢧⢣⢣⢣⠂⠠⠉⢋⠛⡛⠻⡻⠿⣿⣿⣿⣿⣿⣿⣿\r\n" +
+                            $"⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡵⡱⡱⡑⡔⡐⢌⢊⢆⢅⢇⢎⢎⢎⢎⢇⢇⢗⢕⢕⢕⢕⠅⢀⠈⠄⠂⠄⡁⠂⠅⡂⢍⢙⠻⣿⣿⣿\r\n" +
+                            $"⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⢛⠋⠅⠳⡱⡱⡱⡱⡑⡅⡇⡇⡇⡇⡧⡣⡳⡱⡱⡱⡱⡱⡱⡑⡁⠀⠠⠈⠄⠡⠀⠅⡁⡂⡂⠔⡐⠠⢑⢙\r\n" +
+                            $"⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢟⢉⠂⠅⡂⠌⢀⠁⠕⢕⢕⢕⢕⢕⢕⢵⡱⡣⡣⡣⡣⡣⡱⡸⡸⡸⡸⡈⠀⠀⠂⡈⠄⡁⠨⠐⡀⡂⡂⠅⡂⠅⢂⠐\r\n" +
+                            $"⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⢑⠐⠠⠨⠐⡐⢈⠀⠄⢑⠀⠑⢕⢕⢝⢜⢕⢕⠝⡜⢜⢌⢎⢎⢎⢎⢎⠂⠀⡀⠈⡀⠄⠂⠠⢈⠐⡀⡂⠄⠅⡂⠡⢐⠨\r\n" +
+                            $"⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃⠅⠌⠄⡁⢂⠐⡀⠄⠂⡰⠀⠀⠀⠈⠈⠈⢘⢔⢕⢕⢕⢕⢕⢕⠕⠅⠁⠀⠀⠠⠀⠄⠂⠁⢐⠀⡂⠄⠂⠅⡂⠂⠨⢐⠐\r\n" +
+                            $"⣿⣿⣿⣿⣿⣿⣿⣿⡇⠌⠄⡁⢂⠐⡀⠂⠄⠂⠠⡫⠀⠀⠐⠀⠀⠀⡀⠀⠈⠂⠡⠁⠁⠂⠀⠠⠀⠀⠁⢀⠐⠀⡁⢈⠀⡂⢐⠈⠨⢐⢀⠁⠌⡐⠈\r\n" +
+                            $"⣿⣿⣿⣿⣿⣿⣿⡿⠐⡈⠄⢂⠐⡀⢂⠡⠀⡁⢸⠅⠀⠠⠀⠀⢀⠀⢀⠀⠂⠀⡀⠠⠀⠀⠂⠀⢀⠀⠁⢀⠀⡁⠄⠀⡂⢐⠠⢈⠐⡀⠂⡀⠂⠄⠁\r\n" +
+                            $"⣿⣿⣿⣿⣿⣿⢛⠨⢐⠠⠈⠄⠂⠄⢂⠠⠁⡀⢝⠀⠄⠀⠄⠀⠀⠀⠀⢀⠠⠀⠀⠀⡀⠐⠀⠠⠀⠀⠄⠠⠀⠄⠂⡁⠄⢐⠀⡂⢐⠀⡁⠄⠡⠈⠠\r\n";
+
+            string replaceImage = image.Replace("\r\n", $"\n《x{layout.Right.X + 30},twhite》");
+
+            DrawString(replaceImage);
+        }
+
+        void DrawStats()
+        {
+            DrawString($"《x{layout.Left.X + StatLayoutX},y{StatLayoutY}》Lv. 《tGreen》{playerdata.Level:D2}");
+            DrawString($"《x{layout.Left.X + StatLayoutX},y{StatLayoutY + 1},tDarkCyan》{playerdata.Name} 《tGray》( 《tYellow》{playerdata.ClassType} 《》)");
+
+            DrawAtkDefStats();
+
+            DrawStatBar("체  력", playerdata.Stat.MaxHealth, playerdata.Stat.CurrentHealth, "red", 6);
+            DrawStatBar("마  력", 100, 50, "blue", 7);
+            DrawStatBar("경험치", playerdata.MaxExp, playerdata.CurrentExp, "green", 8);
+
+            DrawString($"《x{layout.Left.X + StatLayoutX},y{StatLayoutY + 10}》Gold : 《tGreen》{playerdata.Gold} 《tYellow》G\n\n");
+        }
+
+        void DrawAtkDefStats()
         {
             float bonusAtk = 0;
             float bonusDef = 0;
-
             for (int i = 0; i < GameManager.Instance.InventoryItems.Count; i++)
             {
-                bonusAtk += GameManager.Instance.InventoryItems[i].ItemData.StatData.Attack;
-                bonusDef += GameManager.Instance.InventoryItems[i].ItemData.StatData.Defense;
+                if (GameManager.Instance.InventoryItems[i].IsEquip)
+                {
+                    bonusAtk += GameManager.Instance.InventoryItems[i].ItemData.StatData.Attack;
+                    bonusDef += GameManager.Instance.InventoryItems[i].ItemData.StatData.Defense;
+                    playerdata.Stat.Attack += bonusAtk;
+                    playerdata.Stat.Defense += bonusDef;
+                }
             }
-
-            string bonusAtkStr = bonusAtk == 0 ? "" : $"(+{bonusAtk})";
-            string bonusDefStr = bonusDef == 0 ? "" : $"(+{bonusDef})";
-
-            DrawString($"《x{layout.Right.X},y{StatRange + 3}》공격력 : {playerdata.StatData.Attack} {bonusAtkStr}");
-            DrawString($"《x{layout.Right.X},y{StatRange + 4}》방어력 : {playerdata.StatData.Defense} {bonusDefStr}");
+            DrawBonusStats("공격력", playerdata.Stat.Attack, bonusAtk, 3);
+            DrawBonusStats("방어력", playerdata.Stat.Defense, bonusDef, 4);
         }
 
-        void DrawStatBar(float maxData, float curData, string color, int yNum)
+        void DrawBonusStats(string label, float value, float bonusValue, int yNum)
+        {
+            string bonusStr = bonusValue == 0 ? "" : $"(《tGreen》+{bonusValue}《》)";
+
+            DrawString($"《x{layout.Left.X + StatLayoutX},y{StatLayoutY + yNum}》{label} : 《tGreen》{value}《》");
+            DrawString($" {bonusStr}");
+        }
+
+        void DrawStatBar(string label, float maxData, float curData, string color, int yNum)
         {
             int maxBar = 30;
             int currentBar = (int)(MathF.Ceiling(curData * (maxBar / maxData)));
@@ -107,8 +157,10 @@ namespace SprtaaaaDungeon
             {
                 currentBar = maxBar;
             }
-            DrawString($"《x{layout.Right.X+9},y{StatRange + yNum}》《bWhite,l{maxBar}》 《》 {curData}/{maxData}\n");
-            DrawString($"《x{layout.Right.X+9},y{StatRange + yNum}》《b{color},l{currentBar}》 ");
+
+            DrawString($"《x{layout.Left.X + StatLayoutX},y{StatLayoutY + yNum}》{label} : ");
+            DrawString($"《x{layout.Left.X + StatLayoutX + 7},y{StatLayoutY + yNum}》《bWhite,l{maxBar}》 《tGreen》 {curData}《》/《tGreen》{maxData}\n");
+            DrawString($"《x{layout.Left.X + StatLayoutX + 7},y{StatLayoutY + yNum}》《b{color},l{currentBar}》 ");
         }
     }
 }
