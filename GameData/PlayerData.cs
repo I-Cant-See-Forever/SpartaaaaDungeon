@@ -7,28 +7,14 @@ using System.Threading.Tasks;
 
 namespace SprtaaaaDungeon
 {
-    public class PlayerData
+    public class PlayerData : CharacterData
     {
-        public string Name { get; set; }
         public GameEnum.ClassType ClassType { get; set; }
-        public int Level { get; set; }
         public float Gold { get; set; }
 
         public float CurrentExp { get; set; }
         public float MaxExp { get; set; }
 
-        public StatData Stat { get; set; }
-
-        public PlayerData(string name, GameEnum.ClassType classType, int level, float gold, StatData statData)
-        {
-            Name = name;
-            ClassType = classType;
-            Level = level; 
-            Gold = gold; 
-            Stat = statData;
-
-            MaxExp = level * 10;
-        }
 
         public void addExp(float exp)
         {

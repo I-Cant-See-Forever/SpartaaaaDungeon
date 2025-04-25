@@ -16,23 +16,17 @@ namespace SprtaaaaDungeon
             sceneContainer = new Scene[]
             {
                 new TemplateScene(this),
-                new DungeonStartScene(this),
-                new DungeonBattleScene(this),
-                new DungeonAttackScene(this),
-                new DungeonAttackResultScene(this),
-                new DungeonTakeHitScene(this),
                 new TownScene(this),
                 new StatScene(this),
                 new QuestMainScene(this),
                 new QuestListScene(this),
-                new QuestInfoScene(this),
                 new NameScene(this),
                 new ClassScene(this),
                 new InventoryScene(this),
                 new ShopScene(this),
-                new DungeonWinResultScene(this),
-                new DungeonLoseResultScene(this),
-                new TitleScene(this)
+                new DungeonMainScene(this),
+                new DungeonBattleScene(this),
+                new GameEndScene(this)
             };
         }
 

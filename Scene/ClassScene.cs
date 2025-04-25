@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -64,13 +65,10 @@ namespace SprtaaaaDungeon
 
         void Draw(int currentIndex)
         {
-            DrawString($"《x2,y{Console.WindowHeight / 3 + 4},l{Console.WindowWidth - 4}》 ");
-
-            string[] spotLight = new string[classTypes.Length];
             string[] selectSign = new string[classTypes.Length];
+            string[] spotLight = new string[classTypes.Length];
 
             spotLight[currentIndex] = ",tmagenta";
-            selectSign[currentIndex] = "▶ ";
 
             DrawString($"《x{Console.WindowWidth / 2 - 10},y{Console.WindowHeight / 3 + 2},tGray》직업을 선택해주세요.");
             
@@ -85,10 +83,8 @@ namespace SprtaaaaDungeon
                 int posX = (totalWidth / (classTypes.Length + 1)) * (i + 1) - (stringLenght / 2) + padding;
                 int posY = Console.WindowHeight / 3 + 4;
 
-                DrawString($"《x{posX},y{posY}{spotLight[i]}》{selectSign[i]}{i + 1}.{classTypes[i]}");
+                DrawString($"《x{posX},y{posY}{spotLight[i]}》{i + 1}.{classTypes[i]}");
             }
-
-
         }
     }
 }

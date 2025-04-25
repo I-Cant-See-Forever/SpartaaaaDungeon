@@ -19,4 +19,10 @@ public static class GameEnum
         Armor,
         Consumable
     }
+
+    public enum SkillType
+    { 
+        Attack,
+        Heal
+    }
 }

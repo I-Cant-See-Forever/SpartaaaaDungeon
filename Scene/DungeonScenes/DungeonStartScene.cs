@@ -8,10 +8,10 @@ namespace SprtaaaaDungeon
 {
     public class DungeonStartScene : DungeonScene
     {
+        int currentSelectNum = 0;
 
         public DungeonStartScene(SceneController controller) : base(controller)
         {
-            
         }
 
         public override void Start()
@@ -23,6 +23,8 @@ namespace SprtaaaaDungeon
             show();
             int input = int.Parse(Console.ReadLine());
             HandleInput(input);
+
+            
         }
         public override void End()
         {

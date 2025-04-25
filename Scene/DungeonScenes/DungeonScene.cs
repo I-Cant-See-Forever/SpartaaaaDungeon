@@ -9,7 +9,7 @@ namespace SprtaaaaDungeon
     public abstract class DungeonScene : Scene
     {
         protected DungeonController dungeonController => GameManager.Instance.DungeonController;
-        protected DungeonPlayer dungeonPlayer => dungeonController.DungeonPlayerInstance;
+        protected DungeonPlayer dungeonPlayer;
 
        
 
