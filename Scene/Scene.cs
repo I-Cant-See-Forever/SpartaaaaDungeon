@@ -12,12 +12,10 @@ namespace SprtaaaaDungeon
     {
         protected SceneController controller;
 
-
         public Scene(SceneController controller)
         {
             this.controller = controller;
         }
-
 
         public abstract void Start();
         public abstract void Update();
@@ -46,6 +44,7 @@ namespace SprtaaaaDungeon
         protected void DrawString(string input)
         {
             int inputIndex = 0;
+
 
             while (inputIndex < input.Length)
             {
@@ -155,6 +154,41 @@ namespace SprtaaaaDungeon
             }
 
             return targetIndex;
+        }
+
+        protected void DrawFrame()
+        {
+            DrawString($"《x0,y0》┏━《l{Console.WindowWidth - 4}》━《》━┓");
+
+            for (int y = 1; y < Console.WindowHeight - 1; y++)
+            {
+                DrawString($"《x0,y{y}》┃《x{Console.WindowWidth - 1}》┃");
+            }
+
+            DrawString($"《x0,y{Console.WindowHeight - 1}》┗━《l{Console.WindowWidth - 4}》━《》━┛");
+        }
+
+
+        protected void DrawDirectImage(string target, int posX, int posY, ConsoleColor textColor)
+        {
+            string replace = target.Replace("\r\n", $"\n《x{posX},t{textColor.ToString()}》");
+
+            string title = $"《x{posX},y{posY},t{textColor.ToString()}》" + replace;
+
+            DrawString(title);
+        }
+
+        protected void DrawStatBar(float maxData, float curData, string color, int posX, int posY)
+        {
+            int maxBar = 10;
+            int currentBar = (int)MathF.Ceiling(curData * (maxBar / maxData));
+
+            if (maxBar < currentBar)
+            {
+                currentBar = maxBar;
+            }
+            DrawString($"《x{posX},y{posY}》《bdarkgray,l{maxBar}》 《》 {curData}/{maxData}\n");
+            DrawString($"《x{posX},y{posY}》《b{color},l{currentBar}》 ");
         }
     }
 }

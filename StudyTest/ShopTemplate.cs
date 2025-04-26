@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SprtaaaaDungeon
+namespace SprtaaaaDungeon.StudyTest
 {
     public class ShopTemplate
     {
@@ -18,7 +18,7 @@ namespace SprtaaaaDungeon
 
             //저장된, 혹은 초기화된 상점아이템 불러오고 순회
 
-            foreach (var shopItem in shopItems) 
+            foreach (var shopItem in shopItems)
             {
                 GameEnum.ItemType type = shopItem.ItemData.Type;
 

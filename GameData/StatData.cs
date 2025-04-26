@@ -15,6 +15,8 @@ namespace SprtaaaaDungeon
         public float Attack { get; set; }
         public float Defense { get; set; }
 
+
+
         public void AddStat(StatData targetStat)
         {
             MaxHealth += targetStat.MaxHealth;
@@ -35,6 +37,7 @@ namespace SprtaaaaDungeon
                 CurrentMP = MaxMP;
             }
         }
+
 
         public void RemoveStat(StatData targetStat)
         {

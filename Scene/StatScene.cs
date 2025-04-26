@@ -5,26 +5,33 @@ namespace SprtaaaaDungeon
 {
     public class StatScene : Scene
     {
-        PlayerData playerdata = GameManager.Instance.PlayerData;
-        MenuInfoLayout layout = new();
         int StatLayoutX = 5;
         int StatLayoutY = 16;
+
+        PlayerData playerdata = GameManager.Instance.PlayerData;
+
+        MenuInfoLayout layout = new();
+
 
         public StatScene(SceneController controller) : base(controller)
         {
         }
 
-        public override void End()
-        {
-
-        }
 
         public override void Start()
         {
-            Frame();
-            DrawTitle();
+            DrawFrame();
+
+            DrawDirectImage(TextContainer.statTitle, layout.Left.X, layout.Left.Y, ConsoleColor.Green);
+
             DrawStats();
+
             DrawHeroProfile();
+        }
+
+        public override void End()
+        {
+
         }
 
         public override void Update()
@@ -44,31 +51,8 @@ namespace SprtaaaaDungeon
                 }
             }
         }
-        void Frame() // 테두리 그리는 함수!
-        {
-            DrawString($"《x0,y0》┏━《l{Console.WindowWidth - 5}》━《》━┓");
 
-            for (int y = 1; y < Console.WindowHeight - 1; y++)
-            {
-                DrawString($"《x0,y{y}》┃《x{Console.WindowWidth - 2}》┃");
-            }
 
-            DrawString($"《x0,y{Console.WindowHeight - 1}》┗━《l{Console.WindowWidth - 5}》━《》━┛");
-        }
-
-        void DrawTitle()
-        {
-            string title = $"《x{layout.Left.X},y{layout.Right.Y},tgreen》" +
-                $"███████╗████████╗ █████╗ ████████╗\r\n" +
-                $"██╔════╝╚══██╔══╝██╔══██╗╚══██╔══╝\r\n" +
-                $"███████╗   ██║   ███████║   ██║   \r\n" +
-                $"╚════██║   ██║   ██╔══██║   ██║   \r\n" +
-                $"███████║   ██║   ██║  ██║   ██║   \r\n" +
-                $"╚══════╝   ╚═╝   ╚═╝  ╚═╝   ╚═╝   ";
-            string replaceTitle = title.Replace("\r\n", $"\n《x{layout.Left.X},tgreen》");
-
-            DrawString(replaceTitle);
-        }
 
         void DrawHeroProfile()
         {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace SprtaaaaDungeon
+namespace SprtaaaaDungeon.StudyTest.Dungeon
 {
     class DungeonTakeHitScene : DungeonScene
     {
@@ -16,7 +16,7 @@ namespace SprtaaaaDungeon
         private DungeonData monstser;
         public override void Start()
         {
-           dungeonController.IsGameOver();
+            //dungeonController.IsGameOver();
         }
         public override void Update()
         {
@@ -74,7 +74,7 @@ namespace SprtaaaaDungeon
             {
                 case 0:
                     controller.ChangeScene<DungeonBattleScene>();
-                        break;
+                    break;
             }
             return this;
         }

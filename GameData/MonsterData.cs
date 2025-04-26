@@ -9,7 +9,5 @@ namespace SprtaaaaDungeon
 {
     public class MonsterData : CharacterData
     {
-        [JsonIgnore]
-        public string ImageString { get; set; }
     }
 }
