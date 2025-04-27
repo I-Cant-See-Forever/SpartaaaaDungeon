@@ -25,4 +25,11 @@ public static class GameEnum
         Attack,
         Heal
     }
+
+    public enum ProfileType
+    {
+        Light,
+        Hero,
+        Clown,
+    }
 }

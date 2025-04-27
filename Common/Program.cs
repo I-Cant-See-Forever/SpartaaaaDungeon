@@ -15,7 +15,7 @@ namespace SprtaaaaDungeon
             var sceneController = GameManager.Instance.SceneController;
 
             //test
-            sceneController.ChangeScene<TownScene>();
+            sceneController.ChangeScene<ClassScene>();
 
             while (true)
             {
