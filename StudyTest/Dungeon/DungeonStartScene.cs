@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SprtaaaaDungeon
+namespace SprtaaaaDungeon.StudyTest.Dungeon
 {
     public class DungeonStartScene : DungeonScene
     {
@@ -16,7 +16,7 @@ namespace SprtaaaaDungeon
 
         public override void Start()
         {
-            dungeonController.IsPlayerAliveCheck(); // 체력 0 되면 false로 바꿈
+            //dungeonController.IsPlayerAliveCheck(); // 체력 0 되면 false로 바꿈
         }
         public override void Update()
         {
@@ -24,7 +24,7 @@ namespace SprtaaaaDungeon
             int input = int.Parse(Console.ReadLine());
             HandleInput(input);
 
-            
+
         }
         public override void End()
         {
@@ -32,7 +32,7 @@ namespace SprtaaaaDungeon
         }
         public override void show()
         {
-            Console.Clear();           
+            Console.Clear();
             Console.WriteLine("[던전입구]");
             Console.WriteLine();
             Console.WriteLine("던전을 고르시오");
@@ -50,9 +50,7 @@ namespace SprtaaaaDungeon
         }
         public override DungeonScene HandleInput(int input)
         {
-
-
-            switch (input)
+          /*  switch (input)
             {
                 case 1:
                     if (dungeonController.isPlayerAlive)
@@ -103,7 +101,7 @@ namespace SprtaaaaDungeon
 
             }
 
-
+*/
 
             return this;
         }

@@ -19,7 +19,6 @@ namespace SprtaaaaDungeon
         {
             sceneContainer = new Scene[]
             {
-                new TemplateScene(this),
                 new TownScene(this),
                 new StatScene(this),
                 new QuestMainScene(this),
@@ -44,6 +43,8 @@ namespace SprtaaaaDungeon
             {
                 if (item is T changedScene)
                 {
+                    GameManager.Instance.SaveGame();
+
                     previousScene = currentScene;
 
                     previousScene?.End();
@@ -65,6 +66,8 @@ namespace SprtaaaaDungeon
             {
                 if (item is T)
                 {
+                    GameManager.Instance.SaveGame();
+
                     previousScene = currentScene;
 
                     previousScene?.End();

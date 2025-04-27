@@ -12,13 +12,12 @@ namespace SprtaaaaDungeon
     {
         (string, Rectangle)[] menuTextRect;
 
-        int animIndex = 0;
 
         QuestController questController;
 
         TitleLayout layout = new();
 
-        Stopwatch animWatch = new();
+
 
         Rectangle rect = new Rectangle(40, 2, 70, 24);
 
@@ -37,7 +36,7 @@ namespace SprtaaaaDungeon
             {
                 menuTextRect[i].Item2 =
                     new Rectangle(
-                        layout.Menu.X + 9,
+                        layout.Menu.X + 6,
                         layout.Menu.Y + 4 + i * 2,
                         layout.Menu.Width,
                         1);
@@ -47,9 +46,10 @@ namespace SprtaaaaDungeon
         public override void Start()
         {
             questController.SelectQuestIndex = 0;
-            DrawTitle();
-            DrawImages();
 
+            DrawDirectImage(TextContainer.questTitle, layout.Title.X, layout.Title.Y, ConsoleColor.Yellow);
+            DrawMenuText(questController.SelectTypeIndex);
+            DrawImages();
         }
 
         public override void Update()
@@ -183,21 +183,6 @@ namespace SprtaaaaDungeon
 
 
 
-        void DrawTitle()
-        {
-            string title = $"《x{layout.Title.X},y{layout.Title.Y},tyellow》" +
-            $" ██████╗ ██╗   ██╗███████╗███████╗████████╗\r\n" +
-            $"██╔═══██╗██║   ██║██╔════╝██╔════╝╚══██╔══╝\r\n" +
-            $"██║   ██║██║   ██║█████╗  ███████╗   ██║   \r\n" +
-            $"██║▄▄ ██║██║   ██║██╔══╝  ╚════██║   ██║   \r\n" +
-            $"╚██████╔╝╚██████╔╝███████╗███████║   ██║   \r\n" +
-            $" ╚══▀▀═╝  ╚═════╝ ╚══════╝╚══════╝   ╚═╝  ";
-            string replaceTitle = title.Replace("\r\n", $"\n《x{layout.Title.X},tyellow》");
-
-            DrawString(replaceTitle);
-
-            DrawMenuText(questController.SelectTypeIndex);
-        }
 
         void DrawMenuText(int spotLightIndex)
         {
