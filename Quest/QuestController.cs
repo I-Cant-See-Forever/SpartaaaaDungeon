@@ -65,28 +65,28 @@ namespace SprtaaaaDungeon
                 return;
 
             dummyQuestDatas.Add(new QuestData(
-                title: "고요한 숲의 위협, 상엽 제거",
+                title: "고요한 숲의 위협",
                 description: "숲의 평화를 깨뜨린 상엽을 제거하라.",
                 condition: new HuntQuestCondition("임상엽", 3),
                 reward: new QuestReward(new Dictionary<string, int>(), 500, 50)
             ));
 
             dummyQuestDatas.Add(new QuestData(
-                title: "늪의 지배자, 민혁 토벌",
+                title: "늪의 지배자",
                 description: "짙은 늪지의 지배자 민혁을 찾아 쓰러뜨려라.",
                 condition: new HuntQuestCondition("이민혁", 2),
                 reward: new QuestReward(new Dictionary<string, int>(), 800, 70)
             ));
 
             dummyQuestDatas.Add(new QuestData(
-                title: "동굴의 심연, 진안 처단",
+                title: "동굴의 심연",
                 description: "어둠을 뒤흔드는 진안의 기운을 끊어 동굴을 해방하라.",
                 condition: new HuntQuestCondition("최진안", 1),
                 reward: new QuestReward(new Dictionary<string, int>(), 1000, 100)
             ));
 
             dummyQuestDatas.Add(new QuestData(
-                title: "정유현의 저주받은 눈",
+                title: "저주받은 눈",
                 description: "정유현을 처단하고, 그의 저주받은 눈 3개를 수집하라",
                 condition: new CollectionQuestCondition("정유현의 눈", 3),
                 reward: new QuestReward(new Dictionary<string, int>(), 600, 60)
