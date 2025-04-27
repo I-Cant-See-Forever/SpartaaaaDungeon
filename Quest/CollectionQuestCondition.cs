@@ -6,9 +6,15 @@ using System.Threading.Tasks;
 
 public class CollectionQuestCondition : QuestCondition
 {
-    public string CollectName { get; private set; }
-    public int NeedCount { get; private set; }
+    public string CollectName { get; }
+    public int NeedCount { get; }
     public int CurrentCount { get; set; }
+
+    public CollectionQuestCondition(string collectName, int needCount)
+    {
+        CollectName = collectName;
+        NeedCount = needCount;
+    }
 
     public override bool IsAchive() => NeedCount <= CurrentCount;
     public override string ProgressText() => $"({CurrentCount} / {NeedCount})";

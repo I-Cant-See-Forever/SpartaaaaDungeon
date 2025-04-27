@@ -49,6 +49,11 @@ public class DungeonController
     {
         var gameManager = GameManager.Instance;
 
+        if (gameManager.DungeonDatas == null)
+        {
+            gameManager.DungeonDatas = new List<DungeonData>(); // null이면 새로 만들기
+        }
+
         playerData = gameManager.PlayerData; //플레이어데이터 캐싱
 
         dungeonDatas = GameManager.Instance.DungeonDatas;
@@ -231,6 +236,20 @@ public class DungeonController
             {
                 if (monsters[i] is MonsterData monsterData)
                 {
+                    string monsterName = monsterData.Name;
+                    var questController = GameManager.Instance.QuestController;
+
+                    Random random = new Random();
+
+                    if (monsterName == "정유현")
+                    {
+                        int chance = random.Next(0, 100);
+                        if (chance < 50)
+                        {
+                            questController.UpdateCollectionQuest("정유현의 눈");
+                        }
+                    }
+
                     CurrentDungeon.Monsters.Remove(monsterData);
                 }
             }

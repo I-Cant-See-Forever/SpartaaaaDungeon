@@ -16,7 +16,7 @@ namespace SprtaaaaDungeon
 
         List<Rectangle> menuListRects = new();
 
-        List<QuestData> targetList;
+        List<QuestData> targetList = new();
 
 
         public QuestListScene(SceneController controller) : base(controller)

@@ -9,7 +9,13 @@ public class HuntQuestCondition : QuestCondition
     public string EnemyName { get; private set; }
     public int NeedCount { get; private set; }
     public int CurrentCount { get; set; }
-   
+
+    public HuntQuestCondition(string enemyName, int needCount)
+    {
+        EnemyName = enemyName;
+        NeedCount = needCount;
+        CurrentCount = 0; // 기본값
+    }
 
     public override bool IsAchive() => NeedCount <= CurrentCount;
 
