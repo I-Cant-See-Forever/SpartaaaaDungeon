@@ -87,8 +87,6 @@ public class Shop
             }
 
 
-
-
             playerData.Gold -= targetItem.ItemData.Price;
             targetItem.Count -= 1;
 
@@ -116,6 +114,28 @@ public class Shop
         {
             inventoryItemDatas.Remove(targetItem);
         }
+
+        if (shopItems.Count > 0)
+        {
+            for (int i = 0; i < shopItems.Count; i++)
+            {
+                if (shopItems[i].ItemData == targetItem.Data)
+                {
+                    shopItems[i].Count += 1;
+                    break;
+                }
+
+                if (i == shopItems.Count - 1)
+                {
+                    shopItems.Add(new ShopItemData(targetItem.Data, 1));
+                }
+            }
+        }
+        else
+        {
+            shopItems.Add(new ShopItemData(targetItem.Data, 1));
+        }
+
     }
 
 }

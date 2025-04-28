@@ -87,10 +87,10 @@ namespace SprtaaaaDungeon
         public void AddReward(QuestReward reward)
         {
             var gameManager = GameManager.Instance;
-
+/*
             foreach (var item in reward.ItemCountDict)
             {
-            }
+            }*/
 
             if (reward.Gold > 0)
             {

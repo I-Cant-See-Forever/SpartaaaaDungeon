@@ -42,7 +42,7 @@ namespace SprtaaaaDungeon
 
         public override void Start()
         {
-            questController.SelectTypeIndex = 0;
+            questController.SelectQuestIndex = 0;
 
             DrawFrame();
             DrawDirectImage(titles[questController.SelectTypeIndex], layout.Title.X, layout.Title.Y, ConsoleColor.Yellow);
@@ -109,7 +109,6 @@ namespace SprtaaaaDungeon
 
                 if (isCorretInput)
                 {
-
                     var rect = new Rectangle(1, layout.Left.Y, layout.Left.Width -5, layout.Left.Height);
                     DrawRemoveRect(rect);
 
