@@ -12,6 +12,13 @@ namespace SprtaaaaDungeon
         int currentIndex = 0;
         GameEnum.ClassType[] classTypes;
 
+        string[] images = new string[]
+        {
+            TextContainer.warrior,
+            TextContainer.archer,
+            TextContainer.mage,
+            TextContainer.assasin
+        };
 
         public ClassScene(SceneController controller) : base(controller) { }
 
@@ -30,6 +37,7 @@ namespace SprtaaaaDungeon
                 GameEnum.ClassType.Assassin
             };
             Draw(currentIndex);
+            Frame();
 
         }
 
@@ -57,6 +65,7 @@ namespace SprtaaaaDungeon
                         break;
                     case ConsoleKey.Enter:
                         GameManager.Instance.PlayerData.ClassType = classTypes[currentIndex];
+                        GameManager.Instance.IsCreatedPlayer = true;
                         controller.ChangeScene<TownScene>();
                         break;
                 }
@@ -65,25 +74,46 @@ namespace SprtaaaaDungeon
 
         void Draw(int currentIndex)
         {
-            string[] selectSign = new string[classTypes.Length];
-            string[] spotLight = new string[classTypes.Length];
+            DrawString($"《x{Console.WindowWidth / 2 - 10},y6,tGray》직업을 선택해주세요.");
 
-            spotLight[currentIndex] = ",tmagenta";
-
-            DrawString($"《x{Console.WindowWidth / 2 - 10},y{Console.WindowHeight / 3 + 2},tGray》직업을 선택해주세요.");
-            
             // 직업 선택
-            int totalWidth = 70;
-            int padding = (Console.WindowWidth - totalWidth) / 2; //양쪽 여백
+            
+            int padding = 5;
+            int totalWidth = Console.WindowWidth - padding * 2;
+            int slotWidth = totalWidth / classTypes.Length;
 
             for (int i = 0; i < classTypes.Length; i++)
             {
-                int stringLenght = classTypes[i].ToString().Length + 2;
+                int imageXLength = 23;
 
-                int posX = (totalWidth / (classTypes.Length + 1)) * (i + 1) - (stringLenght / 2) + padding;
-                int posY = Console.WindowHeight / 3 + 4;
+                int posX = i * slotWidth + padding + slotWidth / 2 - imageXLength / 2;
+                int posY = Console.WindowHeight / 3;
 
-                DrawString($"《x{posX},y{posY}{spotLight[i]}》{i + 1}.{classTypes[i]}");
+                DrawProfileImagesTest(posX, posY, i, currentIndex);
+            }
+        }
+
+        void Frame() // 테두리 그리는 함수!
+        {
+            DrawString($"《x0,y0》┏━《l{Console.WindowWidth - 5}》━《》━┓");
+
+            for (int y = 1; y < Console.WindowHeight - 1; y++)
+            {
+                DrawString($"《x0,y{y}》┃《x{Console.WindowWidth - 2}》┃");
+            }
+
+            DrawString($"《x0,y{Console.WindowHeight - 1}》┗━《l{Console.WindowWidth - 5}》━《》━┛");
+        }
+
+        void DrawProfileImagesTest(int x, int y, int num, int selectIndex)
+        {
+            if(selectIndex == num)
+            {
+                DrawDirectImage(images[num], x, y, ConsoleColor.Magenta);
+            }
+            else
+            {
+                DrawDirectImage(images[num], x, y, ConsoleColor.Gray);
             }
         }
     }

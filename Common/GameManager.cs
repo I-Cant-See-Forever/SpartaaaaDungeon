@@ -20,8 +20,9 @@ public class GameManager
             return _instance;
         }
     }
- 
 
+
+    public bool IsCreatedPlayer { get; set; }
 
     //Component
     public QuestController QuestController { get; private set; }
@@ -49,24 +50,31 @@ public class GameManager
     {
         InitGameData();
 
-        if (SaveManager.Instance.HasSaveFile(GamePath.SaveRoot))
-        {
-            LoadGame();
-        }
-        else
+        bool isNewGame = !SaveManager.Instance.HasSaveFile(GamePath.SaveRoot);
+
+        if (isNewGame)
         {
             NewGame();
         }
+        else
+        {
+            LoadGame();
+            IsCreatedPlayer = true;
+        }
+
+
 
         InitComponents();
 
+        if (isNewGame)
+        {
+            SceneController.ChangeScene<TitleScene>();
 
-        //InitGameData(); // 게임 시작할때마다 초기화
-
-        //// 저장파일이 있어도 무시하고 NewGame으로 덮어쓰기
-        //NewGame();
-
-        //InitComponents();
+        }
+        else
+        {
+            SceneController.ChangeScene<TownScene>();
+        }
     }
 
     public ItemData GetItemData(string findName) => GameItems.FirstOrDefault(item => item.Name == findName);
@@ -78,7 +86,7 @@ public class GameManager
     {
         SaveManager.Instance.DeleteSaveFile(GamePath.SaveRoot);
 
-        SceneController.ChangeScene<GameEndScene>();
+        Environment.Exit(0);
     }
 
 
@@ -101,11 +109,10 @@ public class GameManager
             }
         };
 
-        InventoryItems = new()
-        {
-        };
+        InventoryItems = new();
 
         ShopItems = new();
+
     }
 
     void InitGameData()
@@ -135,20 +142,6 @@ public class GameManager
         var saveManager = SaveManager.Instance;
 
         PlayerData = saveManager.LoadGameData<PlayerData>(GamePath.PlayerDataPath);
-
-        //if (PlayerData.StatData == null) // 스탯 데이터 못불러올때씀
-        //{
-        //    PlayerData.StatData = new StatData
-        //    {
-        //        MaxHealth = 100,
-        //        CurrentHealth = 100,
-        //        MaxMP = 50,
-        //        CurrentMP = 15,
-        //        Attack = 10,
-        //        Defense = 5
-        //    };
-        //}
-
         InventoryItems = saveManager.LoadGameData<List<InventoryItemData>>(GamePath.InventoryItemDataPath);
         ShopItems = saveManager.LoadGameData<List<ShopItemData>>(GamePath.ShopItemDataPath);
         PlayerQuestDatas = saveManager.LoadGameData<List<PlayerQuestData>>(GamePath.PlayerQuestDataPath);
@@ -156,10 +149,8 @@ public class GameManager
 
     
 
-
     void InitComponents()
     {
-
         DungeonController = new();
 
         QuestController = new();
@@ -170,7 +161,4 @@ public class GameManager
 
         SceneController = new(); //마지막 초기화
     }
-
-
-
 }

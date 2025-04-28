@@ -37,7 +37,7 @@ namespace SprtaaaaDungeon
                 GameManager.Instance.PlayerData.Name = input;
                 DrawString($"《x{(Console.WindowWidth) / 2 - input.Length/2 -12},y{(Console.WindowHeight) / 3 + 6},tRed》system : 《tDarkCyan》{GameManager.Instance.PlayerData.Name}《tRed》님 반갑습니다.");
                 Thread.Sleep(1000);
-                controller.ChangeScene<ClassScene>();
+                controller.ChangeScene<ProfileScene>();
                 
             }
             else

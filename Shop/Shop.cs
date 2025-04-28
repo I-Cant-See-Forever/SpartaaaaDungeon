@@ -7,25 +7,24 @@ public class Shop
 
     List<InventoryItemData> inventoryItemDatas;
 
-    List<ShopItemData> shopItems;
+    List<ItemData> gameItemDatas;
+
+    List<ShopItemData> shopItems = new();
 
 
     public Shop()
     {
-        shopItems = GameManager.Instance.ShopItems;
-        inventoryItemDatas = GameManager.Instance.InventoryItems;
-        playerData = GameManager.Instance.PlayerData;
+        var gameManager = GameManager.Instance;
 
-        shopItems = new()
-        {
-            new(GameManager.Instance.GetItemData("테스트무기0"), 1)
-        };
+        shopItems = gameManager.ShopItems;
+        inventoryItemDatas = gameManager.InventoryItems;
+        playerData = gameManager.PlayerData;
+        gameItemDatas = gameManager.GameItems;
 
-        inventoryItemDatas = new()
+        for (int i = 0; i < gameItemDatas.Count; i++)
         {
-            new(GameManager.Instance.GetItemData("테스트무기0"), 1, true),
-            new(GameManager.Instance.GetItemData("테스트무기0"), 2, false)
-        };
+            shopItems.Add(new(gameManager.GetItemData(gameItemDatas[i].Name), 1));
+        }
     }
 
 

@@ -188,7 +188,7 @@ public class DungeonController
 
     public void GetReward()
     {
-        if(playerData.DungeonClearedLevel < dungeonIndex)
+        if(playerData.DungeonClearedLevel <= dungeonIndex)
         {
             playerData.DungeonClearedLevel++;
         }

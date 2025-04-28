@@ -30,7 +30,8 @@ namespace SprtaaaaDungeon
                 new DungeonMainScene(this),
                 new DungeonBattleScene(this),
                 new GameEndScene(this),
-                new TitleScene(this)
+                new TitleScene(this),
+                new ProfileScene(this)
             };
         }
 
@@ -43,7 +44,10 @@ namespace SprtaaaaDungeon
             {
                 if (item is T changedScene)
                 {
-                    GameManager.Instance.SaveGame();
+                    if (GameManager.Instance.IsCreatedPlayer)
+                    {
+                        GameManager.Instance.SaveGame();
+                    }
 
                     previousScene = currentScene;
 
@@ -66,7 +70,10 @@ namespace SprtaaaaDungeon
             {
                 if (item is T)
                 {
-                    GameManager.Instance.SaveGame();
+                    if(GameManager.Instance.IsCreatedPlayer)
+                    {
+                        GameManager.Instance.SaveGame();
+                    }
 
                     previousScene = currentScene;
 

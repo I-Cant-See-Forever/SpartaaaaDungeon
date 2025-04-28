@@ -12,6 +12,8 @@ namespace SprtaaaaDungeon
         public GameEnum.ClassType ClassType { get; set; }
         public float Gold { get; set; }
 
+        public GameEnum.ProfileType ProfileType { get; set; }
+
         public float CurrentExp { get; set; }
         public float MaxExp { get; set; }
 
