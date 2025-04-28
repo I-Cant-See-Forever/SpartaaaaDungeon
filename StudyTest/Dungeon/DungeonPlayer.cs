@@ -5,11 +5,11 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SprtaaaaDungeon
+namespace SprtaaaaDungeon.StudyTest.Dungeon
 {
     public class DungeonPlayer
     {
-        
+
         private readonly PlayerData originalPlayer;
         private StatData dungeonStatData;
         private PlayerData dungeonPlayer;
@@ -36,13 +36,13 @@ namespace SprtaaaaDungeon
 
         public void SetDungeonPlayer()
         {
-           /* dungeonStatData = new StatData(
+            /* dungeonStatData = new StatData(
 
-                originalPlayer.StatData.MaxHealth,
-                originalPlayer.StatData.CurrentHealth,
-                originalPlayer.StatData.Attack,
-                originalPlayer.StatData.Defense
-                );*/
+                 originalPlayer.StatData.MaxHealth,
+                 originalPlayer.StatData.CurrentHealth,
+                 originalPlayer.StatData.Attack,
+                 originalPlayer.StatData.Defense
+                 );*/
 
             /*dungeonPlayer = new PlayerData(
 
@@ -64,12 +64,12 @@ namespace SprtaaaaDungeon
         public void ApplyResult() // 던전플레이어 스탯을 원래 플레이어에게 돌려주기
         {
 
-            dungeonPlayer.Level = this.Level;
-            dungeonPlayer.Gold = this.Gold;
-            dungeonPlayer.StatData.Attack = this.Attack;
-            dungeonPlayer.StatData.Defense = this.Defense;
-            dungeonPlayer.StatData.MaxHealth = this.MaxHealth;
-            dungeonPlayer.StatData.CurrentHealth = this.CurrentHealth;
+            dungeonPlayer.Level = Level;
+            dungeonPlayer.Gold = Gold;
+            dungeonPlayer.StatData.Attack = Attack;
+            dungeonPlayer.StatData.Defense = Defense;
+            dungeonPlayer.StatData.MaxHealth = MaxHealth;
+            dungeonPlayer.StatData.CurrentHealth = CurrentHealth;
 
             originalPlayer.Name = dungeonPlayer.Name;
             originalPlayer.ClassType = dungeonPlayer.ClassType;

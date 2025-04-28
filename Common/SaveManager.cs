@@ -27,7 +27,6 @@ public class SaveManager
         {
             TypeNameHandling = TypeNameHandling.Auto
         };
-
     }
 
     public bool HasSaveFile(string path)

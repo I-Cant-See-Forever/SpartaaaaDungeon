@@ -29,6 +29,8 @@ public class GameManager
     public DungeonController DungeonController { get; private set; }
     public InventoryController InventoryController { get; private set; }
 
+    public Shop Shop { get; private set; }
+
 
     //data
     public List<ItemData> GameItems {get; private set;}
@@ -135,15 +137,18 @@ public class GameManager
 
     void InitComponents()
     {
+
         DungeonController = new();
 
         QuestController = new();
 
-        SceneController = new();
-
         InventoryController = new();
+
+        Shop = new();
+
+        SceneController = new(); //마지막 초기화
     }
 
-  
+
 
 }

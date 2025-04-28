@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "테스트무기0", 
+    "Type": 0, // 0: 무기, 1: 방어구, 2: 포션
+    "Price": 1.0, 
+    "StatData": {
+      "MaxHealth": 0.0, // 0 인 스탯은 지워도됨.
+      "CurrentHealth": 0.0,
+      "Attack": 1.0,
+      "Defense": 0.0,
+      "CurrentMP": 0.0,
+      "MaxMP": 0.0
+    }
+  }
+]

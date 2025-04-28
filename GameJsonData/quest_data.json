@@ -1,0 +1,36 @@
+[
+  {
+    "Title": "사냥 퀘스트", //퀘스트 이름
+    "Description": "테스트 설명", // 퀘스트 설명문구
+    "Reward": {
+      "ItemCountDict": {
+        "테스트무기0": 1 //보상 아이템 이름 : 수량
+      },
+      "Gold": 100.0, // 보상 골드
+      "Exp": 10.0 // 보상 경험치
+    },
+    "Condition": {
+      "$type": "HuntQuestCondition, SprtaaaaDungeon", // 신경쓰지말고 복붇하세요. 퀘스트 조건임
+      "EnemyName": "", //"" 이렇게 치면 아무 몬스터, "적이름" 이러면 해당 몬스터
+      "NeedCount": 3, // 퀘스트 조건 마리수
+      "CurrentCount": 0, // 현재 퀘스트 조건
+      "Description": "아무 몬스터 처치" // 퀘스트 조건 설명문구
+    }
+  },
+  {
+    "Title": "수집 퀘스트", 
+    "Description": "테스트 설명", 
+    "Reward": {
+      "ItemCountDict": {
+        "HP포션": 1 
+      }
+    },
+    "Condition": {
+      "$type": "CollectionQuestCondition, SprtaaaaDungeon",
+      "CollectName": "HP포션",
+      "NeedCount": 1,
+      "CurrentCount": 0,
+      "Description": "포션 구매하기"
+    }
+  }
+]

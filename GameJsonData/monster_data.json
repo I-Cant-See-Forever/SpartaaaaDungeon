@@ -1,0 +1,62 @@
+[
+  {
+    "Name": "임상엽",
+    "Level": 1,
+    "StatData": {
+      "MaxHealth": 20.0,
+      "MaxMP": 0.0,
+      "CurrentHealth": 20.0,
+      "CurrentMP": 0.0,
+      "Attack": 5.0,
+      "Defense": 0.0
+    }
+  },
+  {
+    "Name": "장유현",
+    "Level": 3,
+    "StatData": {
+      "MaxHealth": 40.0,
+      "MaxMP": 0.0,
+      "CurrentHealth": 40.0,
+      "CurrentMP": 0.0,
+      "Attack": 10.0,
+      "Defense": 0.0
+    }
+  },
+  {
+    "Name": "이수민",
+    "Level": 6,
+    "StatData": {
+      "MaxHealth": 60.0,
+      "MaxMP": 0.0,
+      "CurrentHealth": 60.0,
+      "CurrentMP": 0.0,
+      "Attack": 15.0,
+      "Defense": 0.0
+    }
+  },
+  {
+    "Name": "이민혁",
+    "Level": 8,
+    "StatData": {
+      "MaxHealth": 80.0,
+      "MaxMP": 0.0,
+      "CurrentHealth": 80.0,
+      "CurrentMP": 0.0,
+      "Attack": 20.0,
+      "Defense": 0.0
+    }
+  },
+  {
+    "Name": "최진안",
+    "Level": 10,
+    "StatData": {
+      "MaxHealth": 100.0,
+      "MaxMP": 0.0,
+      "CurrentHealth": 100.0,
+      "CurrentMP": 0.0,
+      "Attack": 25.0,
+      "Defense": 0.0
+    }
+  }
+]

@@ -4,15 +4,15 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace SprtaaaaDungeon
 {
-    public class TitleLayout
+    public struct TitleLayout
     {
         public Rectangle Title { get; private set; }
         public Rectangle Image { get; private set; }
         public Rectangle Menu { get; private set; }
+
         public TitleLayout()
         {
             Title = new(0, 0, 120, 8);
@@ -23,7 +23,7 @@ namespace SprtaaaaDungeon
         }
     }
 
-    public class MenuInfoLayout
+    public struct MenuInfoLayout
     {
         public Rectangle Left { get; private set; }
         public Rectangle Right { get; private set; }
@@ -34,7 +34,7 @@ namespace SprtaaaaDungeon
         }
     }
 
-    public class DungeonLayout
+    public struct DungeonLayout
     {
         public Rectangle PlayerInfo { get; private set; }
         public Rectangle MonsterImage { get; private set; }
@@ -47,7 +47,7 @@ namespace SprtaaaaDungeon
         }
     }
 
-    public class ItemLayout
+    public struct ItemLayout
     {
         public Rectangle Top { get; private set; }
         public Rectangle Center { get; private set; }
@@ -63,7 +63,7 @@ namespace SprtaaaaDungeon
         }
     }
 
-    public class QuestMenuInfoLayout
+    public struct QuestMenuInfoLayout
     {
         public Rectangle Title { get; private set; }
         public Rectangle Left { get; private set; }

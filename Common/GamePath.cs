@@ -14,7 +14,7 @@ namespace SprtaaaaDungeon
         public const string ShopItemDataPath = SaveRoot + "/shop_data.json";
         public const string PlayerQuestDataPath = SaveRoot + "/player_quest_data.json";
 
-        public const string GameRoot = "GameData";
+        public const string GameRoot = "GameJsonData";
         public const string ItemDataPath = GameRoot + "/item_data.json";
         public const string QuestDataPath = GameRoot + "/quest_data.json";
         public const string MonsterDataPath = GameRoot + "/monster_data.json";

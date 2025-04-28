@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace SprtaaaaDungeon
 {
@@ -12,6 +11,7 @@ namespace SprtaaaaDungeon
     {
         int currentIndex = 0;
         GameEnum.ClassType[] classTypes;
+
 
         public ClassScene(SceneController controller) : base(controller) { }
 
