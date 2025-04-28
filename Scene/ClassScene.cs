@@ -37,8 +37,6 @@ namespace SprtaaaaDungeon
                 GameEnum.ClassType.Assassin
             };
             Draw(currentIndex);
-            Frame();
-
         }
 
         public override void Update()
@@ -91,18 +89,6 @@ namespace SprtaaaaDungeon
 
                 DrawProfileImagesTest(posX, posY, i, currentIndex);
             }
-        }
-
-        void Frame() // 테두리 그리는 함수!
-        {
-            DrawString($"《x0,y0》┏━《l{Console.WindowWidth - 5}》━《》━┓");
-
-            for (int y = 1; y < Console.WindowHeight - 1; y++)
-            {
-                DrawString($"《x0,y{y}》┃《x{Console.WindowWidth - 2}》┃");
-            }
-
-            DrawString($"《x0,y{Console.WindowHeight - 1}》┗━《l{Console.WindowWidth - 5}》━《》━┛");
         }
 
         void DrawProfileImagesTest(int x, int y, int num, int selectIndex)
