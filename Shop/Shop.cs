@@ -63,27 +63,24 @@ public class Shop
     {
         var targetItem = targetList[itemIndex];
 
+        bool hasItem = false;
+
         if (targetItem.Count > 0 && targetItem.ItemData.Price  <= playerData.Gold)
         {
-            if (inventoryItemDatas.Count > 0)
+            for (int i = 0; i < inventoryItemDatas.Count; i++)
             {
-                for (int i = 0; i < inventoryItemDatas.Count; i++)
+                if (inventoryItemDatas[i].Data == targetItem.ItemData)
                 {
-                    if (inventoryItemDatas[i].Data == targetItem.ItemData)
-                    {
-                        inventoryItemDatas[i].Count += 1;
-                        break;
-                    }
-
-                    if (i == inventoryItemDatas.Count - 1)
-                    {
-                        inventoryItemDatas.Add(new InventoryItemData(targetItem.ItemData, 1, false));
-                    }
+                    inventoryItemDatas[i].Count += 1;
+                    hasItem = true;
+                    break;
                 }
             }
-            else
+
+            if(!hasItem)
             {
                 inventoryItemDatas.Add(new InventoryItemData(targetItem.ItemData, 1, false));
+
             }
 
 
@@ -105,35 +102,32 @@ public class Shop
 
     public void SellItem(List<InventoryItemData> targetList, int itemIndex)
     {
+        bool hasItem = false;
+
         var targetItem = targetList[itemIndex];
 
         playerData.Gold += (int)(targetItem.Data.Price * 0.8f);
         targetItem.Count -= 1;
+      
+
+        for (int i = 0; i < shopItems.Count; i++)
+        {
+            if (shopItems[i].ItemData == targetItem.Data)
+            {
+                shopItems[i].Count += 1;
+                hasItem = true;
+                break;
+            }
+        }
+
+        if (!hasItem)
+        {
+            shopItems.Add(new ShopItemData(targetItem.Data, 1));
+        }
 
         if (targetItem.Count == 0)
         {
             inventoryItemDatas.Remove(targetItem);
-        }
-
-        if (shopItems.Count > 0)
-        {
-            for (int i = 0; i < shopItems.Count; i++)
-            {
-                if (shopItems[i].ItemData == targetItem.Data)
-                {
-                    shopItems[i].Count += 1;
-                    break;
-                }
-
-                if (i == shopItems.Count - 1)
-                {
-                    shopItems.Add(new ShopItemData(targetItem.Data, 1));
-                }
-            }
-        }
-        else
-        {
-            shopItems.Add(new ShopItemData(targetItem.Data, 1));
         }
 
     }
