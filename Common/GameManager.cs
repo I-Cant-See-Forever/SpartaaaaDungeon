@@ -20,8 +20,9 @@ public class GameManager
             return _instance;
         }
     }
- 
 
+
+    public bool IsCreatedPlayer { get; set; }
 
     //Component
     public QuestController QuestController { get; private set; }
@@ -58,6 +59,7 @@ public class GameManager
         else
         {
             LoadGame();
+            IsCreatedPlayer = true;
         }
 
 
@@ -85,8 +87,6 @@ public class GameManager
         SaveManager.Instance.DeleteSaveFile(GamePath.SaveRoot);
 
         Environment.Exit(0);
-
-
     }
 
 

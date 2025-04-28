@@ -65,6 +65,7 @@ namespace SprtaaaaDungeon
                         break;
                     case ConsoleKey.Enter:
                         GameManager.Instance.PlayerData.ClassType = classTypes[currentIndex];
+                        GameManager.Instance.IsCreatedPlayer = true;
                         controller.ChangeScene<TownScene>();
                         break;
                 }
