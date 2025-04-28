@@ -54,10 +54,10 @@
     },
     "Condition": {
       "$type": "CollectionQuestCondition, SprtaaaaDungeon",
-      "CollectName": "HP포션",
+      "CollectName": "체력 회복약",
       "NeedCount": 1,
       "CurrentCount": 0,
-      "Description": "포션 구매하기"
+      "Description": "체력 회복약 구매하기"
     }
   }
 ]

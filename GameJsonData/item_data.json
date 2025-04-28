@@ -130,7 +130,7 @@
     "Type": 2, // 0: 무기, 1: 방어구, 2: 포션
     "Price": 200.0,
     "StatData": {
-      "CurrentHealth": 20.0
+      "CurrentMP": 20.0
     }
   }
 ]

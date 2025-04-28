@@ -5,7 +5,7 @@
     "Reward": {
       "Gold": 200,
       "ItemsNameDict": {
-        "테스트 무기0": 1
+        "수련용 검": 1
       }
     }
   },
@@ -15,7 +15,7 @@
     "Reward": {
       "Gold": 400,
       "ItemsNameDict": {
-        "테스트 무기0": 1
+        "은장검": 1
       }
     }
   },
@@ -25,7 +25,7 @@
     "Reward": {
       "Gold": 600,
       "ItemsNameDict": {
-        "테스트 무기0": 1
+        "주문 마법서": 1
       }
     }
   }
