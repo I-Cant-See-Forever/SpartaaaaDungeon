@@ -19,6 +19,14 @@ namespace SprtaaaaDungeon
         {
             inveontroyItemList = GameManager.Instance.InventoryItems;
             playerData = GameManager.Instance.PlayerData;
+
+            for (int i = 0; i < inveontroyItemList.Count; i++)
+            {
+                if (inveontroyItemList[i].IsEquip)
+                {
+                    EquipItems.Add(inveontroyItemList[i].Data);
+                }
+            }
         }
 
 
