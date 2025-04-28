@@ -215,6 +215,8 @@ public class DungeonController
                     string monsterName = monsterData.Name;
                     var questController = GameManager.Instance.QuestController;
 
+                    questController.UpdateHuntQuest(monsterName);
+
                     Random random = new Random();
 
                     if (monsterName == "정유현")
