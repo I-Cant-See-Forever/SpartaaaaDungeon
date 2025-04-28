@@ -113,6 +113,13 @@ public class GameManager
 
         ShopItems = new();
 
+        for (int i = 0; i < GameItems.Count; i++)
+        {
+            ShopItems.Add(new(GetItemData(GameItems[i].Name), 1));
+        }
+
+        PlayerQuestDatas = new();
+
     }
 
     void InitGameData()

@@ -42,6 +42,8 @@ namespace SprtaaaaDungeon
 
         public override void Start()
         {
+            questController.SelectTypeIndex = 0;
+
             DrawFrame();
             DrawDirectImage(titles[questController.SelectTypeIndex], layout.Title.X, layout.Title.Y, ConsoleColor.Yellow);
 
@@ -107,7 +109,9 @@ namespace SprtaaaaDungeon
 
                 if (isCorretInput)
                 {
-                    DrawRemoveRect(menuListRects[tempSelectNum]);
+
+                    var rect = new Rectangle(1, layout.Left.Y, layout.Left.Width -5, layout.Left.Height);
+                    DrawRemoveRect(rect);
 
                     if (targetList.Count > 0)
                     {
@@ -181,13 +185,18 @@ namespace SprtaaaaDungeon
                 rewardDeltaY++;
             }
 
-            int itemIndex = 0;
-            foreach (var item in reward.ItemCountDict)
+            if(reward.ItemCountDict != null)
             {
-                DrawString($"《x{posX + 7},y{posY + 14 + itemIndex + rewardDeltaY},tdarkgray》+ {item.Key} ({item.Value})");
+                int itemIndex = 0;
 
-                itemIndex++;
+                foreach (var item in reward.ItemCountDict)
+                {
+                    DrawString($"《x{posX + 7},y{posY + 14 + itemIndex + rewardDeltaY},tdarkgray》+ {item.Key} ({item.Value})");
+
+                    itemIndex++;
+                }
             }
+           
 
             switch (questController.SelectTypeIndex)
             {

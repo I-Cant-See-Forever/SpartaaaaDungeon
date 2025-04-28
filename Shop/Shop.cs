@@ -1,5 +1,6 @@
 ﻿using SprtaaaaDungeon;
 using System;
+using System.Linq;
 
 public class Shop
 {
@@ -21,10 +22,7 @@ public class Shop
         playerData = gameManager.PlayerData;
         gameItemDatas = gameManager.GameItems;
 
-        for (int i = 0; i < gameItemDatas.Count; i++)
-        {
-            shopItems.Add(new(gameManager.GetItemData(gameItemDatas[i].Name), 1));
-        }
+  
     }
 
 
@@ -67,6 +65,30 @@ public class Shop
 
         if (targetItem.Count > 0 && targetItem.ItemData.Price  <= playerData.Gold)
         {
+            if (inventoryItemDatas.Count > 0)
+            {
+                for (int i = 0; i < inventoryItemDatas.Count; i++)
+                {
+                    if (inventoryItemDatas[i].Data == targetItem.ItemData)
+                    {
+                        inventoryItemDatas[i].Count += 1;
+                        break;
+                    }
+
+                    if (i == inventoryItemDatas.Count - 1)
+                    {
+                        inventoryItemDatas.Add(new InventoryItemData(targetItem.ItemData, 1, false));
+                    }
+                }
+            }
+            else
+            {
+                inventoryItemDatas.Add(new InventoryItemData(targetItem.ItemData, 1, false));
+            }
+
+
+
+
             playerData.Gold -= targetItem.ItemData.Price;
             targetItem.Count -= 1;
 
@@ -74,6 +96,8 @@ public class Shop
             {
                 shopItems.Remove(targetItem);
             }
+
+            GameManager.Instance.QuestController.UpdateCollectionQuest(targetItem.ItemData.Name);
 
             return true;
         }

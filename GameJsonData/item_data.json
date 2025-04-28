@@ -1,15 +1,136 @@
-[
+[// Type 0 : Weapon, Type 1 : Armor, Type 2 : Consumable(Potion)
   {
-    "Name": "테스트무기0", 
+    "Name": "수련용 검",
     "Type": 0, // 0: 무기, 1: 방어구, 2: 포션
-    "Price": 1.0, 
+    "Price": 500.0,
     "StatData": {
-      "MaxHealth": 0.0, // 0 인 스탯은 지워도됨.
-      "CurrentHealth": 0.0,
-      "Attack": 1.0,
-      "Defense": 0.0,
-      "CurrentMP": 0.0,
-      "MaxMP": 0.0
+      "Attack": 3.0,
+      "MaxMP": 5.0
+    }
+  },
+  {
+    "Name": "요술 마법봉",
+    "Type": 0, // 0: 무기, 1: 방어구, 2: 포션
+    "Price": 800.0,
+    "StatData": {
+      "Attack": 3.0,
+      "MaxMP": 10.0
+    }
+  },
+  {
+    "Name": "은장검",
+    "Type": 0, // 0: 무기, 1: 방어구, 2: 포션
+    "Price": 1000.0,
+    "StatData": {
+      "MaxHealth": 10.0,
+      "Attack": 5.0,
+      "MaxMP": 20.0
+    }
+  },
+  {
+    "Name": "주문 마법서",
+    "Type": 0, // 0: 무기, 1: 방어구, 2: 포션
+    "Price": 1200.0,
+    "StatData": {
+      "MaxHealth": 10.0,
+      "Attack": 5.0,
+      "MaxMP": 30.0
+    }
+  },
+  {
+    "Name": "금장검",
+    "Type": 0, // 0: 무기, 1: 방어구, 2: 포션
+    "Price": 2500.0,
+    "StatData": {
+      "MaxHealth": 30.0,
+      "Attack": 8.0,
+      "MaxMP": 30.0
+    }
+  },
+  {
+    "Name": "태초의 마법서",
+    "Type": 0, // 0: 무기, 1: 방어구, 2: 포션
+    "Price": 3000.0,
+    "StatData": {
+      "MaxHealth": 30.0,
+      "Attack": 8.0,
+      "MaxMP": 40.0
+    }
+  },
+  {
+    "Name": "허름한 갑옷",
+    "Type": 1, // 0: 무기, 1: 방어구, 2: 포션
+    "Price": 800.0,
+    "StatData": {
+      "MaxHealth": 30.0,
+      "MaxMP": 5.0
+    }
+  },
+  {
+    "Name": "마법 도복",
+    "Type": 1, // 0: 무기, 1: 방어구, 2: 포션
+    "Price": 2000.0,
+    "StatData": {
+      "MaxHealth": 20.0,
+      "MaxMP": 10.0
+    }
+  },
+  {
+    "Name": "은장 갑옷",
+    "Type": 1, // 0: 무기, 1: 방어구, 2: 포션
+    "Price": 1500.0,
+    "StatData": {
+      "MaxHealth": 50.0,
+      "Defense": 4.0,
+      "MaxMP": 10.0
+    }
+  },
+  {
+    "Name": "마법사의 갑옷",
+    "Type": 1, // 0: 무기, 1: 방어구, 2: 포션
+    "Price": 2000.0,
+    "StatData": {
+      "MaxHealth": 40.0,
+      "Defense": 4.0,
+      "MaxMP": 20.0
+    }
+  },
+  {
+    "Name": "금장갑옷",
+    "Type": 1, // 0: 무기, 1: 방어구, 2: 포션
+    "Price": 3000.0,
+    "StatData": {
+      "MaxHealth": 80.0,
+      "Attack": 3.0,
+      "Defense": 6.0,
+      "MaxMP": 20.0
+    }
+  },
+  {
+    "Name": "태초의 마법갑옷",
+    "Type": 1, // 0: 무기, 1: 방어구, 2: 포션
+    "Price": 3500.0,
+    "StatData": {
+      "MaxHealth": 70.0,
+      "Attack": 3.0,
+      "Defense": 6.0,
+      "MaxMP": 30.0
+    }
+  },
+  {
+    "Name": "체력 회복약",
+    "Type": 2, // 0: 무기, 1: 방어구, 2: 포션
+    "Price": 200.0,
+    "StatData": {
+      "CurrentHealth": 40.0
+    }
+  },
+  {
+    "Name": "마나 회복약",
+    "Type": 2, // 0: 무기, 1: 방어구, 2: 포션
+    "Price": 200.0,
+    "StatData": {
+      "CurrentHealth": 20.0
     }
   }
 ]
