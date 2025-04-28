@@ -133,6 +133,8 @@ namespace SprtaaaaDungeon
 
             for (int i = 0; i < targetList.Count; i++)
             {
+                if (i >= menuListRects.Count)
+                    break; // menuListRects
                 DrawString($"《x{layout.Left.X + 3},y{menuListRects[i].Y},{backSpotlight[i]}》{targetList[i].Title} \n");
             }
 
@@ -175,7 +177,7 @@ namespace SprtaaaaDungeon
 
             if (reward.Exp > 0)
             {
-                DrawString($"《x{posX + 7},y{posY + 14 + rewardDeltaY},tdarkgray》+ {reward.Exp} G");
+                DrawString($"《x{posX + 7},y{posY + 14 + rewardDeltaY},tdarkgray》+ {reward.Exp} Exp");
                 rewardDeltaY++;
             }
 

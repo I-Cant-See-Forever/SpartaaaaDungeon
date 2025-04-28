@@ -59,6 +59,14 @@ public class GameManager
         }
 
         InitComponents();
+
+
+        //InitGameData(); // 게임 시작할때마다 초기화
+
+        //// 저장파일이 있어도 무시하고 NewGame으로 덮어쓰기
+        //NewGame();
+
+        //InitComponents();
     }
 
     public ItemData GetItemData(string findName) => GameItems.FirstOrDefault(item => item.Name == findName);
@@ -127,6 +135,20 @@ public class GameManager
         var saveManager = SaveManager.Instance;
 
         PlayerData = saveManager.LoadGameData<PlayerData>(GamePath.PlayerDataPath);
+
+        //if (PlayerData.StatData == null) // 스탯 데이터 못불러올때씀
+        //{
+        //    PlayerData.StatData = new StatData
+        //    {
+        //        MaxHealth = 100,
+        //        CurrentHealth = 100,
+        //        MaxMP = 50,
+        //        CurrentMP = 15,
+        //        Attack = 10,
+        //        Defense = 5
+        //    };
+        //}
+
         InventoryItems = saveManager.LoadGameData<List<InventoryItemData>>(GamePath.InventoryItemDataPath);
         ShopItems = saveManager.LoadGameData<List<ShopItemData>>(GamePath.ShopItemDataPath);
         PlayerQuestDatas = saveManager.LoadGameData<List<PlayerQuestData>>(GamePath.PlayerQuestDataPath);
