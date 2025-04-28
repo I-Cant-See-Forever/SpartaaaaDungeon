@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SprtaaaaDungeon
+namespace SprtaaaaDungeon.StudyTest.Dungeon
 {
-    public class DungeonWinResultScene : DungeonScene
+    public class DungeonLoseResultScene : DungeonScene
     {
-        public DungeonWinResultScene(SceneController controller) : base(controller)
+        public DungeonLoseResultScene(SceneController controller) : base(controller)
         {
-         
+
         }
 
         public override void Start()
@@ -31,9 +31,11 @@ namespace SprtaaaaDungeon
         {
             Console.WriteLine("Battle!! - Result");
             Console.WriteLine();
-            Console.WriteLine("Victory");
+            Console.WriteLine("You Lose");
             Console.WriteLine();
-            Console.WriteLine("던전의 몬스터를 모두 잡았습니다.");
+            Console.WriteLine();
+            Console.WriteLine("Lv.1 Chad");
+            Console.WriteLine($"HP {dungeonPlayer.MaxHealth} -> 0");
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine("0. 다음");
@@ -55,3 +57,4 @@ namespace SprtaaaaDungeon
 
     }
 }
+

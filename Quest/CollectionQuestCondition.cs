@@ -1,24 +1,21 @@
-﻿using SprtaaaaDungeon;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-public class HuntQuestCondition : QuestCondition
+
+public class CollectionQuestCondition : QuestCondition
 {
-    public string EnemyName { get; private set; }
-    public int NeedCount { get; private set; }
+    public string CollectName { get; }
+    public int NeedCount { get; }
     public int CurrentCount { get; set; }
 
-    public HuntQuestCondition(string enemyName, int needCount)
+    public CollectionQuestCondition(string collectName, int needCount)
     {
-        EnemyName = enemyName;
+        CollectName = collectName;
         NeedCount = needCount;
-        CurrentCount = 0; // 기본값
     }
 
     public override bool IsAchive() => NeedCount <= CurrentCount;
-
     public override string ProgressText() => $"({CurrentCount} / {NeedCount})";
-
 }

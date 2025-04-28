@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace SprtaaaaDungeon
+namespace SprtaaaaDungeon.StudyTest.Dungeon
 {
     class DungeonAttackScene : DungeonScene
     {
@@ -32,7 +32,7 @@ namespace SprtaaaaDungeon
             Console.Clear();
             Console.WriteLine("Battle!");
             Console.WriteLine();
-            dungeonController.IsMobAliveCheck(1);
+            //dungeonController.IsMobAliveCheck(1);
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine();
@@ -52,8 +52,8 @@ namespace SprtaaaaDungeon
             if (input == 0)
                 controller.ChangeScene<DungeonBattleScene>();
             else
-            {                
-                dungeonController.Attack(input-1);
+            {
+                //dungeonController.Attack(input - 1);
             }
 
             return this;

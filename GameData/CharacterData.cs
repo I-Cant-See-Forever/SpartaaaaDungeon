@@ -12,5 +12,10 @@ namespace SprtaaaaDungeon
         public int Level { get; set; }
 
         public StatData StatData { get; set; }
+
+        public CharacterData()
+        {
+            StatData = new StatData();
+        }
     }
 }

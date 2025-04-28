@@ -23,7 +23,7 @@ namespace SprtaaaaDungeon
             {
                 Console.ReadKey(true);
 
-                controller.ChangeScene<TownScene>();
+                GameManager.Instance.GameOver();
             }
         }
 

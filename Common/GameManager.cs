@@ -20,14 +20,17 @@ public class GameManager
             return _instance;
         }
     }
- 
 
+
+    public bool IsCreatedPlayer { get; set; }
 
     //Component
     public QuestController QuestController { get; private set; }
     public SceneController SceneController { get; private set; }
     public DungeonController DungeonController { get; private set; }
     public InventoryController InventoryController { get; private set; }
+
+    public Shop Shop { get; private set; }
 
 
     //data
@@ -47,16 +50,31 @@ public class GameManager
     {
         InitGameData();
 
-        if (SaveManager.Instance.HasSaveFile(GamePath.SaveRoot))
-        {
-            LoadGame();
-        }
-        else
+        bool isNewGame = !SaveManager.Instance.HasSaveFile(GamePath.SaveRoot);
+
+        if (isNewGame)
         {
             NewGame();
         }
+        else
+        {
+            LoadGame();
+            IsCreatedPlayer = true;
+        }
+
+
 
         InitComponents();
+
+        if (isNewGame)
+        {
+            SceneController.ChangeScene<TitleScene>();
+
+        }
+        else
+        {
+            SceneController.ChangeScene<TownScene>();
+        }
     }
 
     public ItemData GetItemData(string findName) => GameItems.FirstOrDefault(item => item.Name == findName);
@@ -68,7 +86,7 @@ public class GameManager
     {
         SaveManager.Instance.DeleteSaveFile(GamePath.SaveRoot);
 
-        SceneController.ChangeScene<GameEndScene>();
+        Environment.Exit(0);
     }
 
 
@@ -79,6 +97,7 @@ public class GameManager
             Level = 1,
             Gold = 1500,
             MaxExp = 10,
+            DungeonClearedLevel = 0,
             StatData = new StatData
             {
                 MaxHealth = 100,
@@ -90,15 +109,17 @@ public class GameManager
             }
         };
 
-        InventoryItems = new()
-        {
-            new InventoryItemData(GetItemData("테스트무기0"), 1, false),
-            new InventoryItemData(GetItemData("테스트무기1"), 1, false),
-            new InventoryItemData(GetItemData("테스트방어구0"), 1, false),
-            new InventoryItemData(GetItemData("HP포션"), 3, false)
-        };
+        InventoryItems = new();
 
         ShopItems = new();
+
+        for (int i = 0; i < GameItems.Count; i++)
+        {
+            ShopItems.Add(new(GetItemData(GameItems[i].Name), 1));
+        }
+
+        PlayerQuestDatas = new();
+
     }
 
     void InitGameData()
@@ -135,18 +156,16 @@ public class GameManager
 
     
 
-
     void InitComponents()
     {
         DungeonController = new();
 
         QuestController = new();
 
-        SceneController = new();
-
         InventoryController = new();
+
+        Shop = new();
+
+        SceneController = new(); //마지막 초기화
     }
-
-  
-
 }

@@ -17,11 +17,11 @@ namespace SprtaaaaDungeon
 
         public QuestController()
         {
-            var gameManager = GameManager.Instance;
-            var questDatas = gameManager.GameQuestDatas;
-            var playerQuestDatas = gameManager.PlayerQuestDatas;
+            var playerQuestDatas = GameManager.Instance.PlayerQuestDatas;
 
-            foreach (var quest in questDatas)
+
+            //foreach (var quest in questDatas)
+            foreach (var quest in GameManager.Instance.GameQuestDatas)
             {
                 var playerQuest = playerQuestDatas.FirstOrDefault(data => data.Data.Title == quest.Title);
                 
@@ -49,6 +49,7 @@ namespace SprtaaaaDungeon
                 FinishDatas
             };
         }
+      
 
         public void Accept(QuestData targetQuest)
         {
@@ -86,10 +87,10 @@ namespace SprtaaaaDungeon
         public void AddReward(QuestReward reward)
         {
             var gameManager = GameManager.Instance;
-
+/*
             foreach (var item in reward.ItemCountDict)
             {
-            }
+            }*/
 
             if (reward.Gold > 0)
             {
@@ -98,21 +99,38 @@ namespace SprtaaaaDungeon
 
             if (reward.Exp > 0)
             {
+                gameManager.PlayerData.addExp(reward.Exp);
             }
         }
 
         public void UpdateHuntQuest(string enemyName)
         {
+            if (string.IsNullOrEmpty(enemyName)) return;
+
             foreach (var quest in ProgressDatas)
             {
                 if(quest.Condition is HuntQuestCondition huntConditon)
                 {
-                    if(enemyName == huntConditon.EnemyName || enemyName == "")
+                    if (enemyName == huntConditon.EnemyName)
                     {
                         if(huntConditon.CurrentCount < huntConditon.NeedCount)
                         {
                             huntConditon.CurrentCount++;
                         }
+                    }
+                }
+            }
+        }
+        public void UpdateCollectionQuest(string collectItemName)
+        {
+            foreach (var quest in ProgressDatas)
+            {
+                if (quest.Condition is CollectionQuestCondition collectionCondition)
+                {
+                    if (collectItemName == collectionCondition.CollectName)
+                    {
+                        if (collectionCondition.CurrentCount < collectionCondition.NeedCount)
+                            collectionCondition.CurrentCount++;
                     }
                 }
             }

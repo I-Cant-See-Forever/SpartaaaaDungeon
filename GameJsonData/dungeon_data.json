@@ -1,0 +1,32 @@
+[
+  {
+    "Name": "상엽유현의 숲",
+    "Level": 1,
+    "Reward": {
+      "Gold": 200,
+      "ItemsNameDict": {
+        "수련용 검": 1
+      }
+    }
+  },
+  {
+   "Name": "민혁수민의 늪",
+    "Level": 5,
+    "Reward": {
+      "Gold": 400,
+      "ItemsNameDict": {
+        "은장검": 1
+      }
+    }
+  },
+  {
+   "Name": "진안 동굴",
+    "Level": 10,
+    "Reward": {
+      "Gold": 600,
+      "ItemsNameDict": {
+        "주문 마법서": 1
+      }
+    }
+  }
+]

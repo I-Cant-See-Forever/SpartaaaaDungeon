@@ -1,0 +1,20 @@
+[
+  {
+    "$type": "SprtaaaaDungeon.AttackSkillData, SprtaaaaDungeon",
+    "Name": "영웅 스트라이크",
+    "Description": "공격력 * 2 로 하나의 적을 공격",
+    "CostHP": 0.0,
+    "CostMP": 10.0,
+    "Multiplier": 2.0,
+    "TargetCount": 1
+  },
+  {
+    "$type": "SprtaaaaDungeon.AttackSkillData, SprtaaaaDungeon",
+    "Name": "영웅 난사",
+    "Description": " 공격력 * 1.5 로 2명의 적을 랜덤으로 공격",
+    "CostHP": 0.0,
+    "CostMP": 15.0,
+    "Multiplier": 1.5,
+    "TargetCount": 2
+  }
+]

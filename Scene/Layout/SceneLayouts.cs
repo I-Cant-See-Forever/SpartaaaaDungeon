@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace SprtaaaaDungeon
 {
-    public class TitleLayout
+    public struct TitleLayout
     {
         public Rectangle Title { get; private set; }
         public Rectangle Image { get; private set; }
         public Rectangle Menu { get; private set; }
+
         public TitleLayout()
         {
             Title = new(0, 0, 120, 8);
@@ -22,7 +23,7 @@ namespace SprtaaaaDungeon
         }
     }
 
-    public class MenuInfoLayout
+    public struct MenuInfoLayout
     {
         public Rectangle Left { get; private set; }
         public Rectangle Right { get; private set; }
@@ -33,23 +34,20 @@ namespace SprtaaaaDungeon
         }
     }
 
-    public class DungeonLayout
+    public struct DungeonLayout
     {
-        public Rectangle MonsterInfo { get; private set; }
         public Rectangle PlayerInfo { get; private set; }
         public Rectangle MonsterImage { get; private set; }
         public Rectangle BattleInfo { get; private set; }
         public DungeonLayout()
         {
-            MonsterInfo = new(0, 0, 30, 20);
-            PlayerInfo = new(0, 20, 50, 10);
-
+            PlayerInfo = new(0, 0, 30, 20);
             MonsterImage = new(31, 0, 89, 20);
-            BattleInfo = new(50, 20, 69, 10);
+            BattleInfo = new(0, 20, 120, 10);
         }
     }
 
-    public class ItemLayout
+    public struct ItemLayout
     {
         public Rectangle Top { get; private set; }
         public Rectangle Center { get; private set; }
@@ -65,16 +63,18 @@ namespace SprtaaaaDungeon
         }
     }
 
-    public class QuestMenuInfoLayout
+    public struct QuestMenuInfoLayout
     {
         public Rectangle Title { get; private set; }
         public Rectangle Left { get; private set; }
         public Rectangle Right { get; private set; }
         public QuestMenuInfoLayout()
         {
-            Title = new(0, 0, Console.WindowWidth, 8);
-            Left = new(0, 8, 30, Console.WindowHeight);
-            Right = new(Left.Width + 1, 8, Console.WindowWidth - Left.Width, Console.WindowHeight);
+            Title = new(0, 0, 120, 8);
+
+            Left = new(0, 8, 30, 22);
+
+            Right = new(30, 8, 88, 22);
         }
     }
 

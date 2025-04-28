@@ -27,7 +27,6 @@ public class SaveManager
         {
             TypeNameHandling = TypeNameHandling.Auto
         };
-
     }
 
     public bool HasSaveFile(string path)
@@ -39,7 +38,7 @@ public class SaveManager
     {
         if (Directory.Exists(path))
         {
-            Directory.Delete(path);
+            Directory.Delete(path, true);
         }
     }
 

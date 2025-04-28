@@ -19,7 +19,6 @@ namespace SprtaaaaDungeon
         {
             sceneContainer = new Scene[]
             {
-                new TemplateScene(this),
                 new TownScene(this),
                 new StatScene(this),
                 new QuestMainScene(this),
@@ -31,13 +30,13 @@ namespace SprtaaaaDungeon
                 new DungeonMainScene(this),
                 new DungeonBattleScene(this),
                 new GameEndScene(this),
-                new TitleScene(this)
+                new TitleScene(this),
+                new ProfileScene(this)
             };
         }
 
 
         public void UpdateScene() => currentScene.Update();
-
 
         public void ChangeScene<T>() where T : Scene
         {
@@ -45,6 +44,11 @@ namespace SprtaaaaDungeon
             {
                 if (item is T changedScene)
                 {
+                    if (GameManager.Instance.IsCreatedPlayer)
+                    {
+                        GameManager.Instance.SaveGame();
+                    }
+
                     previousScene = currentScene;
 
                     previousScene?.End();
@@ -66,6 +70,11 @@ namespace SprtaaaaDungeon
             {
                 if (item is T)
                 {
+                    if(GameManager.Instance.IsCreatedPlayer)
+                    {
+                        GameManager.Instance.SaveGame();
+                    }
+
                     previousScene = currentScene;
 
                     previousScene?.End();

@@ -1,0 +1,63 @@
+[
+  {
+    "Title": "고요한 숲의 위협",
+    "Description": "숲의 평화를 깨뜨린 상엽을 제거하라.",
+    "Reward": {
+      "Gold": 200.0,
+      "Exp": 10.0
+    },
+    "Condition": {
+      "$type": "HuntQuestCondition, SprtaaaaDungeon",
+      "EnemyName": "임상엽",
+      "NeedCount": 3,
+      "CurrentCount": 0,
+      "Description": "임상엽 처치"
+    }
+  },
+  {
+    "Title": "늪의 지배자",
+    "Description": "짙은 늪지의 지배자 민혁을 찾아 쓰러뜨려라.",
+    "Reward": {
+      "Gold": 400.0,
+      "Exp": 30.0
+    },
+    "Condition": {
+      "$type": "HuntQuestCondition, SprtaaaaDungeon",
+      "EnemyName": "이민혁",
+      "NeedCount": 2,
+      "CurrentCount": 0,
+      "Description": "이민혁 처치"
+    }
+  },
+  {
+    "Title": "동굴의 심연",
+    "Description": "어둠을 뒤흔드는 진안의 기운을 끊어 동굴을 해방하라.",
+    "Reward": {
+      "Gold": 800.0,
+      "Exp": 40.0
+    },
+    "Condition": {
+      "$type": "HuntQuestCondition, SprtaaaaDungeon",
+      "EnemyName": "최진안",
+      "NeedCount": 3,
+      "CurrentCount": 0,
+      "Description": "최진안 처치"
+    }
+  },
+  {
+    "Title": "전투 준비!",
+    "Description": "전투에 돌입하기전 간단한 준비부터 해보자",
+    "Reward": {
+      "ItemCountDict": {
+        "HP포션": 1
+      }
+    },
+    "Condition": {
+      "$type": "CollectionQuestCondition, SprtaaaaDungeon",
+      "CollectName": "체력 회복약",
+      "NeedCount": 1,
+      "CurrentCount": 0,
+      "Description": "체력 회복약 구매하기"
+    }
+  }
+]
