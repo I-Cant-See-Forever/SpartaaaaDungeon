@@ -26,7 +26,7 @@ namespace SprtaaaaDungeon
 
             DrawStats();
 
-            DrawHeroProfile();
+            DrawProfileImage();
         }
 
         public override void End()
