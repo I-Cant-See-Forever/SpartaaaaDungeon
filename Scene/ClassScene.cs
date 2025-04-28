@@ -30,6 +30,7 @@ namespace SprtaaaaDungeon
                 GameEnum.ClassType.Assassin
             };
             Draw(currentIndex);
+            Frame();
 
         }
 
@@ -70,21 +71,111 @@ namespace SprtaaaaDungeon
 
             spotLight[currentIndex] = ",tmagenta";
 
-            DrawString($"《x{Console.WindowWidth / 2 - 10},y{Console.WindowHeight / 3 + 2},tGray》직업을 선택해주세요.");
-            
+            DrawString($"《x{Console.WindowWidth / 2 - 10},y6,tGray》직업을 선택해주세요.");
+
             // 직업 선택
-            int totalWidth = 70;
-            int padding = (Console.WindowWidth - totalWidth) / 2; //양쪽 여백
+            
+            int padding = 5;
+            int totalWidth = Console.WindowWidth - padding * 2;
+            int slotWidth = totalWidth / classTypes.Length;
 
             for (int i = 0; i < classTypes.Length; i++)
             {
-                int stringLenght = classTypes[i].ToString().Length + 2;
+                int imageXLength = 23;
+                int stringLenght = classTypes[i].ToString().Length;
 
-                int posX = (totalWidth / (classTypes.Length + 1)) * (i + 1) - (stringLenght / 2) + padding;
-                int posY = Console.WindowHeight / 3 + 4;
+                int posX = i * slotWidth + padding + slotWidth / 2 - imageXLength / 2;
+                int posY = Console.WindowHeight / 3;
 
-                DrawString($"《x{posX},y{posY}{spotLight[i]}》{i + 1}.{classTypes[i]}");
+                //int posStringX = posX + imageXLength / 2 - stringLenght / 2;
+                //DrawString($"《x{posStringX},y{posY+15}{spotLight[i]}》{classTypes[i]}");
+                DrawProfileImagesTest(posX, posY, i, spotLight[i]);
             }
+        }
+
+        void Frame() // 테두리 그리는 함수!
+        {
+            DrawString($"《x0,y0》┏━《l{Console.WindowWidth - 5}》━《》━┓");
+
+            for (int y = 1; y < Console.WindowHeight - 1; y++)
+            {
+                DrawString($"《x0,y{y}》┃《x{Console.WindowWidth - 2}》┃");
+            }
+
+            DrawString($"《x0,y{Console.WindowHeight - 1}》┗━《l{Console.WindowWidth - 5}》━《》━┛");
+        }
+
+        void DrawProfileImagesTest(int x, int y, int num, string spotlight)
+        {
+            string[] images = new string[]
+            {
+                $"《x{x},y{y},{spotlight}》" +
+                $"⠀⢀⣠⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣄⡀⠀\r\n" +
+                $"⠀⣾⠃⠀⠀⠀⡤⠀⠀⠀⠀⣤⣤⠀⠀⠀⠀⣠⠀⠀⠀⠙⣧⠀\r\n" +
+                $"⠀⣿⠀⠀⠀⠠⣿⣦⡀⡶⠛⢹⣟⠙⢧⣀⣔⣿⡂⠀⠀⠀⣿⠀\r\n" +
+                $"⠀⣿⠀⠀⠀⠀⠙⠿⣸⣧⣄⣸⣯⣠⣬⣧⠻⠋⠀⠀⠀⠀⣿⠀\r\n" +
+                $"⠀⣿⠀⠀⠀ ⠀⠀⢺⣭⡉⢹⣟⢉⣭⡟⠀⠀⠀  ⠀⣿⠀\r\n" +
+                $"⠀⣿⠀⠀⠀ ⠀⠀⢹⣿⡇⠈⠁⢸⣿⡏⠀⠀ ⠀⠀⠀⣿⠀\r\n" +
+                $"⠀⣿⠀⠀⣠⡶⠺⠚⠋⠉⠻⠶⠶⠛⠉⢙⣛⢖⠦⠄⠀⠀⣿⠀\r\n" +
+                $"⠀⣿⠀⢰⡏⠀⠀⡀⠀ ⠀⠀⢀⣰⡾⢛⣙⣙⣛⠿⣦⡄⣿⠀\r\n" +
+                $"⠀⣿⠀⣼⠃⠀⠈⣧⣀⠀⠀⠀⣾⢏⣴⣿⣿⣿⣿⣿⣎⢿⣿⠀\r\n" +
+                $"⠀⣿ ⡏⠀⠀⢠⣿⡝⠙⠋⢸⡟⢼⣿⣿⠋⠈⢹⣿⣿⠜⣿⠀\r\n" +
+                $"⠀⣿⠀⣿⣶⣶⣟⢀⣡⣴⣶⡌⣿⡸⣿⣿⣷⣴⣿⣟⡿⢸⣿⠀\r\n" +
+                $"⠀⣿ ⣿ ⠀⣿⡎⣭⣶⢶⠷⠙⢷⣜⡻⠽⠿⠷⣛⣵⠟⣿⠀\r\n" +
+                $"⠀⢻⣄⠛⠳⠓⠛⠷⠁⠀⠀⠀⠀⠀⠙⠛⠿⠾⠛⠋⠁⣠⡟⠀\r\n" +
+                $"⠀⠀⠙⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠉⠀⠀\r\n",
+
+                $"《x{x},y{y},{spotlight}》" +
+                $"⠀⢀⣠⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣀⡀⠀\r\n" +
+                $"⠀⣾ ⠀⠀⠀⣠⣴⣶⣦⣤⡀⠀⠀⠀⣦⠀⠀⠀⠀⠀⠹⣧⠀\r\n" +
+                $"⠀⣿⠀⠀⢀⣾⡿⣯⣿⣟⠿⢿⣆⠀⢀⣿⢷⣄⠀⠀⠀ ⣿⠀\r\n" +
+                $"⠀⣿⠀⠀⠀⣼⣿⣿⠟⣴⣿⣶⡹⡧⣼⠃⠀⠙⢷⡄⠀ ⣿⠀\r\n" +
+                $"⠀⣿⠀⠀⢸⣿⣿⠏⡞⠉⠿⢉⡷⣹⠃⠀⠀⠀⠈⣿⡀ ⣿⠀\r\n" +
+                $"⠀⣿⠀⠀⠸⣿⣿⡑⣷⣄⣀⡼⣱⠃⠀⠀⠀ ⠀⣻⡇ ⣿⠀\r\n" +
+                $"⠀⣿⠀⣴⣿⣿⣻⣿⣮⠟⠛⣷⠯⠿⠷⠦⠦⢦⣬⢿⡮⣷⣿⠀\r\n" +
+                $"⠀⣿⠀⢿⣿⣿⣻⡯⠗⣀⣀⡾⣿⣿⣿⢿⣿⣿⣁⣨⡇ ⣿⠀\r\n" +
+                $"⠀⣿⠀⠀⠉⢶⣶⣾⣿⣿⣿⣷⡹⡇⠛⠛⠉⠉⠉⣿⡇ ⣿⠀\r\n" +
+                $"⠀⣿⠀⠀⠀⠹⣿⣟⣯⣿⣯⣿⣷⡁⠀⠀⠀  ⣿⠀ ⣿⠀\r\n" +
+                $"⠀⣿⠀⠀⢀⣾⣶⣬⣬⣭⣬⣴⣦⢳⡄⠀⠀ ⣾⠋⠀ ⣿⠀\r\n" +
+                $"⠀⣿⠀⠀⣼⣿⡿⣿⣿⣿⣿⣿⣿⣇⢿⣄⡶⠛⠁⠀⠀ ⣿⠀\r\n" +
+                $"⠀⢻⣄⢰⣿⣿⣻⣿⣯⣿⣯⣷⣿⣿⠸⡏⠀⠀⠀⠀⢀⣸⡟⠀\r\n" +
+                $"⠀⠀⠉⠛⠙⠙⠙⠙⠙⠙⠙⠙⠙⠙⠓⠚⠛⠛⠛⠛⠋⠁⠀⠀\r\n",
+
+                $"《x{x},y{y},{spotlight}》" +
+                $"⠀⢀⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣄⡀⠀\r\n" +
+                $"⠀⣾ ⢀⣤⣄⡀⠀⠀⠀⠀⢀⣤⣶⣤⣄⠀⠀⠀⠀⠀⠘⣧⠀\r\n" +
+                $"⠀⣿⠀⣿⠋⠙⣿⠀⠀ ⢠⣿⣷⣿⡿⣿⠿⠄⠀⡠⠀⠀⣿⠀\r\n" +
+                $"⠀⣿⠀⠻⣷⣾⠟⠀⢀⢠⢿⣛⣛⣚⡻⢿⣆⠠⢼⡧⠄⠀⣿⠀\r\n" +
+                $"⠀⣿⠀⠈⢻⡟⠡⣴⣾⣿⡿⡿⡿⣿⢿⣿⣿⣷⣬⠁⠀⠀⣿⠀\r\n" +
+                $"⠀⣿⠀⠀⢸⣗⠀⠈⠙⢺⣇⠀⠀⠀⠀⣿⡞⠉⠈⠀⠀⠀⣿⠀\r\n" +
+                $"⠀⣿⠀⠀⢸⣗⠀⠀⢄⡜⣿⣆⡀⣡⣼⣿⢣⣷⡆⠀ ⠀⣿⠀\r\n" +
+                $"⠀⣿⠀⣰⠾⢷⡄⠀⣜⢷⣝⢿⣿⣿⣯⣿⢟⣫⣶⡄ ⠀⣿⠀\r\n" +
+                $"⠀⣿⠀⢽⣀⣸⡟⣿⣿⣷⣍⡻⠿⢓⣫⣵⣿⣟⣿⣿⡀⠀⣿⠀\r\n" +
+                $"⠀⣿⠀⠈⢹⣿⢨⣿⡿⣿⢿⣿⢿⣿⢿⣿⣻⣽⣿⣟⣇⠀⣿⠀\r\n" +
+                $"⠀⣿⠀⠀⢺⣿⢰⣿⢗⣿⣿⣿⢿⣿⢿⣿⢿⡸⣿⡿⣿⠀⣿⠀\r\n" +
+                $"⠀⣿⠀⠀⢺⡟⠟⠋⢸⣿⣿⢿⣿⢿⣿⢿⣿⡪⣿⣿⣿⡆⣿⠀\r\n" +
+                $"⠀⢿⣀⠀⢺⣏⠀⠀⢽⣿⣿⢿⣿⢿⣿⡿⣿⡆⣿⣿⣷⣧⡟⠀\r\n" +
+                $"⠀⠀⠙⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠙⠉⠀⠀\r\n",
+
+                $"《x{x},y{y},{spotlight}》" +
+                $"⠀⢀⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣄⡀⠀\r\n" +
+                $"⠀⣾⠁⠀⠀⠀⠀⠀⠀⠀⣀⣤⣤⡀⠀⠀⠀⠀⠀⠀⠀⠙⣧⠀\r\n" +
+                $"⠀⣿⠀⠀⠀⠀⠀⠀⢀⣾⣿⣻⣿⣿⣦⡀⠀⠀⠀⠀⠀⠀⣿⠀\r\n" +
+                $"⠀⣿⠀⠀⠀⠀⠀⢠⣿⣿⠿⢛⠻⢾⣿⣷⠀⠀⠀⠀ ⠀⣿⠀\r\n" +
+                $"⠀⣿⠀ ⠀⠀⠀⣺⡿⢩⣾⣿⣿⣶⡙⣿⡇⠀⠀  ⠀⣿⠀\r\n" +
+                $"⠀⣿⠀⣿⡄⠀⠠⣿⢱⣿⣬⣽⣯⣴⣿⡸⣯⠀⠀⣰⣿⠀⣿⠀\r\n" +
+                $"⠀⣿⠀⢿⣿⡄⢀⣿⣜⢿⣿⣯⣷⣿⠟⣰⣏⡀⣰⣿⡏⠀⣿⠀\r\n" +
+                $"⠀⣿⠀⠈⢿⣿⣌⢿⣿⣶⣕⡻⢋⣵⣾⣿⡟⣱⣿⡟⠀⠀⣿⠀\r\n" +
+                $"⠀⣿⠀⠀⣎⢿⡿⢎⣋⢻⣿⣿⣿⣿⣛⣙⠴⣿⡟⣤⠀⠀⣿⠀\r\n" +
+                $"⠀⣿⠀⣼⡟⣰⣼⣿⣯⡜⣿⣯⣿⣿⢢⣿⣿⣶⡌⣿⣆⠀⣿⠀\r\n" +
+                $"⠀⣿⢰⣿⣿⡆⣿⣿⣻⣧⡹⣿⡿⢆⣿⣿⣯⡷⣰⣿⣿⠀⣿⠀\r\n" +
+                $"⠀⣿⠀⠻⣿⣿⣦⣝⣙⣫⣼⣿⣿⣧⣛⣍⣭⡶⣿⡿⠏⠀⣿⠀\r\n" +
+                $"⠀⢿ ⠀⠈⠀⣾⣿⣿⣿⣿⣻⣾⣿⢿⣿⣟⡧⠁⠁⠀⣠⡟⠀\r\n" +
+                $"⠀⠈⠙⠛⠛⠛⠛⠛⠙⠓⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠉⠀⠀\r\n"
+
+            };
+            string replaceImage = images[num].Replace("\r\n", $"\n《x{x},{spotlight}》");
+            DrawString(replaceImage);
         }
     }
 }

@@ -30,7 +30,8 @@ namespace SprtaaaaDungeon
                 new DungeonMainScene(this),
                 new DungeonBattleScene(this),
                 new GameEndScene(this),
-                new TitleScene(this)
+                new TitleScene(this),
+                new ProfileScene(this)
             };
         }
 
