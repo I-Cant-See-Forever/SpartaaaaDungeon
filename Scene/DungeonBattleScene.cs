@@ -205,7 +205,8 @@ namespace SprtaaaaDungeon
 
                 if (dungeonController.IsPlayerDead())
                 {
-                    GameManager.Instance.GameOver();
+                    controller.ChangeScene<GameEndScene>();
+
                     return;
                 }
             }

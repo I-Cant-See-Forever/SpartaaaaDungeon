@@ -66,6 +66,8 @@ namespace SprtaaaaDungeon
             DrawMenuText(currentSelectNum);
 
             DrawStore(animIndex);
+
+            DrawHelp();
         }
 
         public override void Update()
@@ -125,6 +127,8 @@ namespace SprtaaaaDungeon
                     DrawRemoveRect(menuTextRect[tempSelectNum].Item2);
 
                     DrawMenuText(currentSelectNum);
+
+                    DrawHelp();
                 }
             }
         }
@@ -154,6 +158,11 @@ namespace SprtaaaaDungeon
         void DrawStore(int currentIndex)
         {
             DrawDirectImage(anims[currentIndex], layout.Image.X + 1, layout.Image.Y + 1, ConsoleColor.Gray);
+        }
+
+        void DrawHelp()
+        {
+            DrawString($"《x{layout.Menu.X + 1},y{layout.Menu.Height + 6},tYellow》[i] 《》인벤토리 《tyellow》[p] 《》상태창");
         }
     }
 }

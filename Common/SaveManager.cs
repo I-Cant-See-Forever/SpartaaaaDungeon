@@ -38,7 +38,7 @@ public class SaveManager
     {
         if (Directory.Exists(path))
         {
-            Directory.Delete(path);
+            Directory.Delete(path, true);
         }
     }
 

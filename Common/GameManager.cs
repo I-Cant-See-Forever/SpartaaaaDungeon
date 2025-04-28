@@ -49,16 +49,30 @@ public class GameManager
     {
         InitGameData();
 
-        if (SaveManager.Instance.HasSaveFile(GamePath.SaveRoot))
-        {
-            LoadGame();
-        }
-        else
+        bool isNewGame = !SaveManager.Instance.HasSaveFile(GamePath.SaveRoot);
+
+        if (isNewGame)
         {
             NewGame();
         }
+        else
+        {
+            LoadGame();
+        }
+
+
 
         InitComponents();
+
+        if (isNewGame)
+        {
+            SceneController.ChangeScene<TitleScene>();
+
+        }
+        else
+        {
+            SceneController.ChangeScene<TownScene>();
+        }
     }
 
     public ItemData GetItemData(string findName) => GameItems.FirstOrDefault(item => item.Name == findName);
@@ -70,7 +84,9 @@ public class GameManager
     {
         SaveManager.Instance.DeleteSaveFile(GamePath.SaveRoot);
 
-        SceneController.ChangeScene<GameEndScene>();
+        Environment.Exit(0);
+
+
     }
 
 
@@ -93,11 +109,10 @@ public class GameManager
             }
         };
 
-        InventoryItems = new()
-        {
-        };
+        InventoryItems = new();
 
         ShopItems = new();
+
     }
 
     void InitGameData()
@@ -134,10 +149,8 @@ public class GameManager
 
     
 
-
     void InitComponents()
     {
-
         DungeonController = new();
 
         QuestController = new();
@@ -148,7 +161,4 @@ public class GameManager
 
         SceneController = new(); //마지막 초기화
     }
-
-
-
 }

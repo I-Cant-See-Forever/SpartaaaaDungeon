@@ -12,6 +12,13 @@ namespace SprtaaaaDungeon
         int currentIndex = 0;
         GameEnum.ClassType[] classTypes;
 
+        string[] images = new string[]
+        {
+            TextContainer.warrior,
+            TextContainer.archer,
+            TextContainer.mage,
+            TextContainer.assasin
+        };
 
         public ClassScene(SceneController controller) : base(controller) { }
 
@@ -66,11 +73,6 @@ namespace SprtaaaaDungeon
 
         void Draw(int currentIndex)
         {
-            string[] selectSign = new string[classTypes.Length];
-            string[] spotLight = new string[classTypes.Length];
-
-            spotLight[currentIndex] = ",tmagenta";
-
             DrawString($"《x{Console.WindowWidth / 2 - 10},y6,tGray》직업을 선택해주세요.");
 
             // 직업 선택
@@ -82,14 +84,11 @@ namespace SprtaaaaDungeon
             for (int i = 0; i < classTypes.Length; i++)
             {
                 int imageXLength = 23;
-                int stringLenght = classTypes[i].ToString().Length;
 
                 int posX = i * slotWidth + padding + slotWidth / 2 - imageXLength / 2;
                 int posY = Console.WindowHeight / 3;
 
-                //int posStringX = posX + imageXLength / 2 - stringLenght / 2;
-                //DrawString($"《x{posStringX},y{posY+15}{spotLight[i]}》{classTypes[i]}");
-                DrawProfileImagesTest(posX, posY, i, spotLight[i]);
+                DrawProfileImagesTest(posX, posY, i, currentIndex);
             }
         }
 
@@ -105,77 +104,16 @@ namespace SprtaaaaDungeon
             DrawString($"《x0,y{Console.WindowHeight - 1}》┗━《l{Console.WindowWidth - 5}》━《》━┛");
         }
 
-        void DrawProfileImagesTest(int x, int y, int num, string spotlight)
+        void DrawProfileImagesTest(int x, int y, int num, int selectIndex)
         {
-            string[] images = new string[]
+            if(selectIndex == num)
             {
-                $"《x{x},y{y},{spotlight}》" +
-                $"⠀⢀⣠⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣄⡀⠀\r\n" +
-                $"⠀⣾⠃⠀⠀⠀⡤⠀⠀⠀⠀⣤⣤⠀⠀⠀⠀⣠⠀⠀⠀⠙⣧⠀\r\n" +
-                $"⠀⣿⠀⠀⠀⠠⣿⣦⡀⡶⠛⢹⣟⠙⢧⣀⣔⣿⡂⠀⠀⠀⣿⠀\r\n" +
-                $"⠀⣿⠀⠀⠀⠀⠙⠿⣸⣧⣄⣸⣯⣠⣬⣧⠻⠋⠀⠀⠀⠀⣿⠀\r\n" +
-                $"⠀⣿⠀⠀⠀ ⠀⠀⢺⣭⡉⢹⣟⢉⣭⡟⠀⠀⠀  ⠀⣿⠀\r\n" +
-                $"⠀⣿⠀⠀⠀ ⠀⠀⢹⣿⡇⠈⠁⢸⣿⡏⠀⠀ ⠀⠀⠀⣿⠀\r\n" +
-                $"⠀⣿⠀⠀⣠⡶⠺⠚⠋⠉⠻⠶⠶⠛⠉⢙⣛⢖⠦⠄⠀⠀⣿⠀\r\n" +
-                $"⠀⣿⠀⢰⡏⠀⠀⡀⠀ ⠀⠀⢀⣰⡾⢛⣙⣙⣛⠿⣦⡄⣿⠀\r\n" +
-                $"⠀⣿⠀⣼⠃⠀⠈⣧⣀⠀⠀⠀⣾⢏⣴⣿⣿⣿⣿⣿⣎⢿⣿⠀\r\n" +
-                $"⠀⣿ ⡏⠀⠀⢠⣿⡝⠙⠋⢸⡟⢼⣿⣿⠋⠈⢹⣿⣿⠜⣿⠀\r\n" +
-                $"⠀⣿⠀⣿⣶⣶⣟⢀⣡⣴⣶⡌⣿⡸⣿⣿⣷⣴⣿⣟⡿⢸⣿⠀\r\n" +
-                $"⠀⣿ ⣿ ⠀⣿⡎⣭⣶⢶⠷⠙⢷⣜⡻⠽⠿⠷⣛⣵⠟⣿⠀\r\n" +
-                $"⠀⢻⣄⠛⠳⠓⠛⠷⠁⠀⠀⠀⠀⠀⠙⠛⠿⠾⠛⠋⠁⣠⡟⠀\r\n" +
-                $"⠀⠀⠙⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠉⠀⠀\r\n",
-
-                $"《x{x},y{y},{spotlight}》" +
-                $"⠀⢀⣠⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣀⡀⠀\r\n" +
-                $"⠀⣾ ⠀⠀⠀⣠⣴⣶⣦⣤⡀⠀⠀⠀⣦⠀⠀⠀⠀⠀⠹⣧⠀\r\n" +
-                $"⠀⣿⠀⠀⢀⣾⡿⣯⣿⣟⠿⢿⣆⠀⢀⣿⢷⣄⠀⠀⠀ ⣿⠀\r\n" +
-                $"⠀⣿⠀⠀⠀⣼⣿⣿⠟⣴⣿⣶⡹⡧⣼⠃⠀⠙⢷⡄⠀ ⣿⠀\r\n" +
-                $"⠀⣿⠀⠀⢸⣿⣿⠏⡞⠉⠿⢉⡷⣹⠃⠀⠀⠀⠈⣿⡀ ⣿⠀\r\n" +
-                $"⠀⣿⠀⠀⠸⣿⣿⡑⣷⣄⣀⡼⣱⠃⠀⠀⠀ ⠀⣻⡇ ⣿⠀\r\n" +
-                $"⠀⣿⠀⣴⣿⣿⣻⣿⣮⠟⠛⣷⠯⠿⠷⠦⠦⢦⣬⢿⡮⣷⣿⠀\r\n" +
-                $"⠀⣿⠀⢿⣿⣿⣻⡯⠗⣀⣀⡾⣿⣿⣿⢿⣿⣿⣁⣨⡇ ⣿⠀\r\n" +
-                $"⠀⣿⠀⠀⠉⢶⣶⣾⣿⣿⣿⣷⡹⡇⠛⠛⠉⠉⠉⣿⡇ ⣿⠀\r\n" +
-                $"⠀⣿⠀⠀⠀⠹⣿⣟⣯⣿⣯⣿⣷⡁⠀⠀⠀  ⣿⠀ ⣿⠀\r\n" +
-                $"⠀⣿⠀⠀⢀⣾⣶⣬⣬⣭⣬⣴⣦⢳⡄⠀⠀ ⣾⠋⠀ ⣿⠀\r\n" +
-                $"⠀⣿⠀⠀⣼⣿⡿⣿⣿⣿⣿⣿⣿⣇⢿⣄⡶⠛⠁⠀⠀ ⣿⠀\r\n" +
-                $"⠀⢻⣄⢰⣿⣿⣻⣿⣯⣿⣯⣷⣿⣿⠸⡏⠀⠀⠀⠀⢀⣸⡟⠀\r\n" +
-                $"⠀⠀⠉⠛⠙⠙⠙⠙⠙⠙⠙⠙⠙⠙⠓⠚⠛⠛⠛⠛⠋⠁⠀⠀\r\n",
-
-                $"《x{x},y{y},{spotlight}》" +
-                $"⠀⢀⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣄⡀⠀\r\n" +
-                $"⠀⣾ ⢀⣤⣄⡀⠀⠀⠀⠀⢀⣤⣶⣤⣄⠀⠀⠀⠀⠀⠘⣧⠀\r\n" +
-                $"⠀⣿⠀⣿⠋⠙⣿⠀⠀ ⢠⣿⣷⣿⡿⣿⠿⠄⠀⡠⠀⠀⣿⠀\r\n" +
-                $"⠀⣿⠀⠻⣷⣾⠟⠀⢀⢠⢿⣛⣛⣚⡻⢿⣆⠠⢼⡧⠄⠀⣿⠀\r\n" +
-                $"⠀⣿⠀⠈⢻⡟⠡⣴⣾⣿⡿⡿⡿⣿⢿⣿⣿⣷⣬⠁⠀⠀⣿⠀\r\n" +
-                $"⠀⣿⠀⠀⢸⣗⠀⠈⠙⢺⣇⠀⠀⠀⠀⣿⡞⠉⠈⠀⠀⠀⣿⠀\r\n" +
-                $"⠀⣿⠀⠀⢸⣗⠀⠀⢄⡜⣿⣆⡀⣡⣼⣿⢣⣷⡆⠀ ⠀⣿⠀\r\n" +
-                $"⠀⣿⠀⣰⠾⢷⡄⠀⣜⢷⣝⢿⣿⣿⣯⣿⢟⣫⣶⡄ ⠀⣿⠀\r\n" +
-                $"⠀⣿⠀⢽⣀⣸⡟⣿⣿⣷⣍⡻⠿⢓⣫⣵⣿⣟⣿⣿⡀⠀⣿⠀\r\n" +
-                $"⠀⣿⠀⠈⢹⣿⢨⣿⡿⣿⢿⣿⢿⣿⢿⣿⣻⣽⣿⣟⣇⠀⣿⠀\r\n" +
-                $"⠀⣿⠀⠀⢺⣿⢰⣿⢗⣿⣿⣿⢿⣿⢿⣿⢿⡸⣿⡿⣿⠀⣿⠀\r\n" +
-                $"⠀⣿⠀⠀⢺⡟⠟⠋⢸⣿⣿⢿⣿⢿⣿⢿⣿⡪⣿⣿⣿⡆⣿⠀\r\n" +
-                $"⠀⢿⣀⠀⢺⣏⠀⠀⢽⣿⣿⢿⣿⢿⣿⡿⣿⡆⣿⣿⣷⣧⡟⠀\r\n" +
-                $"⠀⠀⠙⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠙⠉⠀⠀\r\n",
-
-                $"《x{x},y{y},{spotlight}》" +
-                $"⠀⢀⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣄⡀⠀\r\n" +
-                $"⠀⣾⠁⠀⠀⠀⠀⠀⠀⠀⣀⣤⣤⡀⠀⠀⠀⠀⠀⠀⠀⠙⣧⠀\r\n" +
-                $"⠀⣿⠀⠀⠀⠀⠀⠀⢀⣾⣿⣻⣿⣿⣦⡀⠀⠀⠀⠀⠀⠀⣿⠀\r\n" +
-                $"⠀⣿⠀⠀⠀⠀⠀⢠⣿⣿⠿⢛⠻⢾⣿⣷⠀⠀⠀⠀ ⠀⣿⠀\r\n" +
-                $"⠀⣿⠀ ⠀⠀⠀⣺⡿⢩⣾⣿⣿⣶⡙⣿⡇⠀⠀  ⠀⣿⠀\r\n" +
-                $"⠀⣿⠀⣿⡄⠀⠠⣿⢱⣿⣬⣽⣯⣴⣿⡸⣯⠀⠀⣰⣿⠀⣿⠀\r\n" +
-                $"⠀⣿⠀⢿⣿⡄⢀⣿⣜⢿⣿⣯⣷⣿⠟⣰⣏⡀⣰⣿⡏⠀⣿⠀\r\n" +
-                $"⠀⣿⠀⠈⢿⣿⣌⢿⣿⣶⣕⡻⢋⣵⣾⣿⡟⣱⣿⡟⠀⠀⣿⠀\r\n" +
-                $"⠀⣿⠀⠀⣎⢿⡿⢎⣋⢻⣿⣿⣿⣿⣛⣙⠴⣿⡟⣤⠀⠀⣿⠀\r\n" +
-                $"⠀⣿⠀⣼⡟⣰⣼⣿⣯⡜⣿⣯⣿⣿⢢⣿⣿⣶⡌⣿⣆⠀⣿⠀\r\n" +
-                $"⠀⣿⢰⣿⣿⡆⣿⣿⣻⣧⡹⣿⡿⢆⣿⣿⣯⡷⣰⣿⣿⠀⣿⠀\r\n" +
-                $"⠀⣿⠀⠻⣿⣿⣦⣝⣙⣫⣼⣿⣿⣧⣛⣍⣭⡶⣿⡿⠏⠀⣿⠀\r\n" +
-                $"⠀⢿ ⠀⠈⠀⣾⣿⣿⣿⣿⣻⣾⣿⢿⣿⣟⡧⠁⠁⠀⣠⡟⠀\r\n" +
-                $"⠀⠈⠙⠛⠛⠛⠛⠛⠙⠓⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠉⠀⠀\r\n"
-
-            };
-            string replaceImage = images[num].Replace("\r\n", $"\n《x{x},{spotlight}》");
-            DrawString(replaceImage);
+                DrawDirectImage(images[num], x, y, ConsoleColor.Magenta);
+            }
+            else
+            {
+                DrawDirectImage(images[num], x, y, ConsoleColor.Gray);
+            }
         }
     }
 }
