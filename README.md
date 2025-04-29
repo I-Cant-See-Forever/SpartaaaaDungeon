@@ -8,3 +8,5 @@
 GameJsonData 폴더를 
 bin/debug/net 6.0 폴더 안에
 넣어야합니다.
+
+https://github.com/user-attachments/assets/8c40f094-ed67-4b18-8789-4649408b7212
